@@ -14,6 +14,8 @@
 
 #include "MultiphaseSystem/MultiphaseSystem.hpp"
 
+#include "DebugComponentProperties.hpp"
+
 namespace PVTPackage
 {
 
@@ -27,6 +29,16 @@ void MultiphaseSystem::Update(double pressure, double temperature, std::vector<d
 
   //Multiphase Properties
   const bool res = m_Flash->ComputeEquilibriumAndDerivatives(m_MultiphaseProperties);
+
+  // Extracting inputs and outputs of the computation (CompositionalFlash for the moment).
+  // Do not forget pressure, temperature, feed.
+  if( CompositionalFlash * f = dynamic_cast<CompositionalFlash *>(m_Flash) )
+  {
+    const DebugComponentProperties dbgComp = DebugComponentProperties( f->getComponentProperties() );
+    dbgComp.print();
+    const DebugMultiphaseSystemProperties dbgProps = DebugMultiphaseSystemProperties( m_MultiphaseProperties );
+    dbgProps.print();
+  }
 
   m_StateIndicator = res ? State::SUCCESS : State::NOT_CONVERGED;
 }

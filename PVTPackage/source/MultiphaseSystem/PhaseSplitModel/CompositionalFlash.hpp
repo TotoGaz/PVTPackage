@@ -47,6 +47,14 @@ protected:
   std::vector<double> ComputeWilsonGasLiquidKvalue(double Pressure, double Temperature) const;
   std::vector<double> ComputeWaterGasKvalue(double Pressure, double Temperature) const;
   std::vector<double> ComputeWaterOilKvalue(double Pressure, double Temperature) const;
+public:
+  /**
+   * @brief Temporary access to component properties used for the computation.
+   * @return Reference to const.
+   *
+   * This member is added for debugging purpose. It should be remove.
+   */
+  const ComponentProperties & getComponentProperties() const { return this->m_ComponentsProperties;}
 };
 
 }
