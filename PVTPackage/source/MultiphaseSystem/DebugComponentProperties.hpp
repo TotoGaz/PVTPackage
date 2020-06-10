@@ -10,9 +10,11 @@
 namespace PVTPackage
 {
 
-
-
-void Dump(const Flash * flash, const MultiphaseSystemProperties & multiphaseProperties, double pressure, double temperature, std::vector<double> feed);
+void Dump( const Flash * flash,
+           const MultiphaseSystemProperties & multiphaseProperties,
+           double pressure,
+           double temperature,
+           std::vector< double > feed );
 
 } // end of namespace PVTPackage
 

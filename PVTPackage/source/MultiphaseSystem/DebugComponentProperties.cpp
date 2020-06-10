@@ -72,60 +72,7 @@ void to_json( json & j,
   ScalarVectorPropertyAndDerivativesHelper::to_json(j, v);
 }
 
-class DebugComponentProperties
-{
-private:
-  static const char * N_COMPONENTS;
-  static const char * LABELS;
-  static const char * MW;
-  static const char * TC;
-  static const char * PC;
-  static const char * OMEGA;
-
-  const std::size_t n_components;
-  const std::vector <std::string> labels;
-  const std::vector< double > mw;
-  const std::vector< double > tc;
-  const std::vector< double > pc;
-  const std::vector< double > omega;
-
-public:
-  DebugComponentProperties( const ComponentProperties & comp )
-    :
-    n_components( comp.NComponents ),
-    labels( comp.Label ),
-    mw( comp.Mw ),
-    tc( comp.Tc ),
-    pc( comp.Pc ),
-    omega( comp.Omega )
-  { }
-
-  void print() const
-  {
-    json output = {
-      { N_COMPONENTS, n_components },
-      { LABELS,       labels },
-      { MW,           mw },
-      { TC,           tc },
-      { PC,           pc },
-      { OMEGA,        omega },
-    };
-
-    std::cout << std::setprecision( std::numeric_limits< double >::max_digits10 )
-              << output << std::endl;
-  }
-};
-
-const char * DebugComponentProperties::N_COMPONENTS = "n_components";
-const char * DebugComponentProperties::LABELS = "labels";
-const char * DebugComponentProperties::MW = "mw";
-const char * DebugComponentProperties::TC = "tc";
-const char * DebugComponentProperties::PC = "pc";
-const char * DebugComponentProperties::OMEGA = "omega";
-
-// FIXME Do functions instead.
-class DebugMultiphaseSystemProperties
-{
+class MultiphaseSystemPropertiesHelper {
 private:
   static const char * PHASE_MOLE_FRACTION;
   static const char * PHASE_MODELS;
@@ -134,14 +81,8 @@ private:
   static const char * MOLE_COMPOSITION;
   static const char * MOLECULAR_WEIGHT;
 
-  const MultiphaseSystemProperties & props;
 public:
-  DebugMultiphaseSystemProperties(const MultiphaseSystemProperties & properties):
-    props(properties){}
-
-  void print() const
-  {
-    json output;
+  static void to_json( json & output, const MultiphaseSystemProperties & props ){
     output[PHASE_MOLE_FRACTION] = { { "OIL", props.PhaseMoleFraction.at( PHASE_TYPE::OIL ) },
                                     { "GAS", props.PhaseMoleFraction.at( PHASE_TYPE::GAS ) } };
     output[MOLE_COMPOSITION] = { { "OIL", props.PhasesProperties.at( PHASE_TYPE::OIL ).MoleComposition },
@@ -160,24 +101,28 @@ public:
         const auto phaseModel = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( props.PhaseModels.at( phaseType ) );
         if( phaseModel )
         {
+          // FIXME the phaseType is not reproduced in the json.
           output[PHASE_MODELS][int( phaseType )] = { { "EOS",        phaseModel->getEosType() },
                                                      { "PHASE_TYPE", phaseModel->getPhaseType() },
                                                      { "PROPS",      phaseModel->get_ComponentsProperties() } };
         }
       }
     }
-
-    std::cout << std::setprecision( std::numeric_limits< double >::max_digits10 )
-              << output << std::endl;
   }
 };
 
-const char * DebugMultiphaseSystemProperties::PHASE_MOLE_FRACTION = "PHASE_MOLE_FRACTION";
-const char * DebugMultiphaseSystemProperties::PHASE_MODELS = "PHASE_MODELS";
-const char * DebugMultiphaseSystemProperties::MASS_DENSITY = "MASS_DENSITY";
-const char * DebugMultiphaseSystemProperties::MOLE_DENSITY = "MOLE_DENSITY";
-const char * DebugMultiphaseSystemProperties::MOLE_COMPOSITION = "MOLE_COMPOSITION";
-const char * DebugMultiphaseSystemProperties::MOLECULAR_WEIGHT = "MOLECULAR_WEIGHT";
+const char * MultiphaseSystemPropertiesHelper::PHASE_MOLE_FRACTION = "PHASE_MOLE_FRACTION";
+const char * MultiphaseSystemPropertiesHelper::PHASE_MODELS = "PHASE_MODELS";
+const char * MultiphaseSystemPropertiesHelper::MASS_DENSITY = "MASS_DENSITY";
+const char * MultiphaseSystemPropertiesHelper::MOLE_DENSITY = "MOLE_DENSITY";
+const char * MultiphaseSystemPropertiesHelper::MOLE_COMPOSITION = "MOLE_COMPOSITION";
+const char * MultiphaseSystemPropertiesHelper::MOLECULAR_WEIGHT = "MOLECULAR_WEIGHT";
+
+void to_json( json & j,
+              const MultiphaseSystemProperties & props )
+{
+  MultiphaseSystemPropertiesHelper::to_json(j, props);
+}
 
 void Dump( const Flash * flash,
            const MultiphaseSystemProperties & multiphaseProperties,
@@ -187,10 +132,16 @@ void Dump( const Flash * flash,
 {
   if( const CompositionalFlash * f = dynamic_cast<const CompositionalFlash *>( flash ) )
   {
-    const DebugComponentProperties dbgComp = DebugComponentProperties( f->getComponentProperties() );
-    dbgComp.print();
-    const DebugMultiphaseSystemProperties dbgProps = DebugMultiphaseSystemProperties( multiphaseProperties );
-    dbgProps.print();
+    json compJson{ { "COMP", f->getComponentProperties() } };
+
+    std::cout << std::setprecision( std::numeric_limits< double >::max_digits10 )
+              << compJson << std::endl;
+
+    json propsJson{ { "PROPERTIES", multiphaseProperties } };
+
+    std::cout << std::setprecision( std::numeric_limits< double >::max_digits10 )
+              << propsJson << std::endl;
+
     json output{ { "pressure", pressure },
                  { "temperature", temperature },
                  { "feed", feed } };
