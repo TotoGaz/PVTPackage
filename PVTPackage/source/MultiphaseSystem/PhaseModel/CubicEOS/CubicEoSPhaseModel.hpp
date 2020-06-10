@@ -39,7 +39,7 @@ public:
 
   ~CubicEoSPhaseModel() override = default;
 
-  const ComponentProperties& get_ComponentsProperties()
+  const ComponentProperties& get_ComponentsProperties() const
   {
     return m_ComponentsProperties;
   }
@@ -49,17 +49,17 @@ public:
 protected:
 
   //Component Properties
-  ComponentProperties m_ComponentsProperties;
+  const ComponentProperties m_ComponentsProperties;
 
   //Constants
   const double R = 8.3144621;
   const double PI = std::acos(-1);
 
   //Phase Type
-  PHASE_TYPE m_PhaseType;
+  const PHASE_TYPE m_PhaseType;
 
   //EOS parameters
-  EOS_TYPE m_EOSType;
+  const EOS_TYPE m_EOSType;
   double m_OmegaA;
   double m_OmegaB;
   double m_Delta1, m_Delta2;
@@ -99,6 +99,14 @@ protected:
   double m_function_PR(double omega);
   double m_function_SRK(double omega);
 
+public:
+  PHASE_TYPE getPhaseType() const {
+    return m_PhaseType;
+  }
+
+  EOS_TYPE getEosType() const {
+    return m_EOSType;
+  }
 };
 
 }

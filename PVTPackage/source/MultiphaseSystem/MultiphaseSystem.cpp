@@ -32,13 +32,7 @@ void MultiphaseSystem::Update(double pressure, double temperature, std::vector<d
 
   // Extracting inputs and outputs of the computation (CompositionalFlash for the moment).
   // Do not forget pressure, temperature, feed.
-  if( CompositionalFlash * f = dynamic_cast<CompositionalFlash *>(m_Flash) )
-  {
-    const DebugComponentProperties dbgComp = DebugComponentProperties( f->getComponentProperties() );
-    dbgComp.print();
-    const DebugMultiphaseSystemProperties dbgProps = DebugMultiphaseSystemProperties( m_MultiphaseProperties );
-    dbgProps.print();
-  }
+  Dump(m_Flash, m_MultiphaseProperties, pressure, temperature, feed);
 
   m_StateIndicator = res ? State::SUCCESS : State::NOT_CONVERGED;
 }

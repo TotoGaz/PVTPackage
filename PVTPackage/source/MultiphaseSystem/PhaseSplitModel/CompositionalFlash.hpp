@@ -41,7 +41,7 @@ public:
 
 protected:
 
-  ComponentProperties m_ComponentsProperties;
+  const ComponentProperties m_ComponentsProperties;
 
   //Wilson K-values
   std::vector<double> ComputeWilsonGasLiquidKvalue(double Pressure, double Temperature) const;
