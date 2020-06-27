@@ -14,12 +14,12 @@ using json = nlohmann::json;
 void to_json( json & j,
               const ComponentProperties & properties )
 {
-  const char * N_COMPONENTS = "n_components";
-  const char * LABELS = "labels";
-  const char * MW = "mw";
-  const char * TC = "tc";
-  const char * PC = "pc";
-  const char * OMEGA = "omega";
+  static constexpr auto N_COMPONENTS = "n_components";
+  static constexpr auto LABELS = "labels";
+  static constexpr auto MW = "mw";
+  static constexpr auto TC = "tc";
+  static constexpr auto PC = "pc";
+  static constexpr auto OMEGA = "omega";
 
   j = json{ { N_COMPONENTS, properties.NComponents },
             { LABELS,       properties.Label },
@@ -34,10 +34,10 @@ namespace PVTPackage
 
 class ScalarVectorPropertyAndDerivativesHelper {
 private:
-  static const char * VALUE;
-  static const char * DP;
-  static const char * DT;
-  static const char * DZ;
+  static constexpr auto VALUE = "value";
+  static constexpr auto DP = "dP";
+  static constexpr auto DT = "dT";
+  static constexpr auto DZ = "dz";
 public:
   static void to_json( json & j,
                        const ScalarPropertyAndDerivatives< double > & s ) {
@@ -55,10 +55,10 @@ public:
   }
 };
 
-const char * ScalarVectorPropertyAndDerivativesHelper::VALUE = "value";
-const char * ScalarVectorPropertyAndDerivativesHelper::DP = "dP";
-const char * ScalarVectorPropertyAndDerivativesHelper::DT = "dT";
-const char * ScalarVectorPropertyAndDerivativesHelper::DZ = "dz";
+decltype( ScalarVectorPropertyAndDerivativesHelper::VALUE ) ScalarVectorPropertyAndDerivativesHelper::VALUE;
+decltype( ScalarVectorPropertyAndDerivativesHelper::DP ) ScalarVectorPropertyAndDerivativesHelper::DP;
+decltype( ScalarVectorPropertyAndDerivativesHelper::DT ) ScalarVectorPropertyAndDerivativesHelper::DT;
+decltype( ScalarVectorPropertyAndDerivativesHelper::DZ ) ScalarVectorPropertyAndDerivativesHelper::DZ;
 
 void to_json( json & j,
               const ScalarPropertyAndDerivatives< double > & s )
@@ -74,12 +74,12 @@ void to_json( json & j,
 
 class MultiphaseSystemPropertiesHelper {
 private:
-  static const char * PHASE_MOLE_FRACTION;
-  static const char * PHASE_MODELS;
-  static const char * MASS_DENSITY;
-  static const char * MOLE_DENSITY;
-  static const char * MOLE_COMPOSITION;
-  static const char * MOLECULAR_WEIGHT;
+  static constexpr auto PHASE_MOLE_FRACTION = "PHASE_MOLE_FRACTION";
+  static constexpr auto PHASE_MODELS = "PHASE_MODELS";
+  static constexpr auto MASS_DENSITY = "MASS_DENSITY";
+  static constexpr auto MOLE_DENSITY = "MOLE_DENSITY";
+  static constexpr auto MOLE_COMPOSITION = "MOLE_COMPOSITION";
+  static constexpr auto MOLECULAR_WEIGHT = "MOLECULAR_WEIGHT";
 
 public:
   static void to_json( json & output, const MultiphaseSystemProperties & props ){
@@ -111,12 +111,12 @@ public:
   }
 };
 
-const char * MultiphaseSystemPropertiesHelper::PHASE_MOLE_FRACTION = "PHASE_MOLE_FRACTION";
-const char * MultiphaseSystemPropertiesHelper::PHASE_MODELS = "PHASE_MODELS";
-const char * MultiphaseSystemPropertiesHelper::MASS_DENSITY = "MASS_DENSITY";
-const char * MultiphaseSystemPropertiesHelper::MOLE_DENSITY = "MOLE_DENSITY";
-const char * MultiphaseSystemPropertiesHelper::MOLE_COMPOSITION = "MOLE_COMPOSITION";
-const char * MultiphaseSystemPropertiesHelper::MOLECULAR_WEIGHT = "MOLECULAR_WEIGHT";
+decltype( MultiphaseSystemPropertiesHelper::PHASE_MOLE_FRACTION ) MultiphaseSystemPropertiesHelper::PHASE_MOLE_FRACTION;
+decltype( MultiphaseSystemPropertiesHelper::PHASE_MODELS ) MultiphaseSystemPropertiesHelper::PHASE_MODELS;
+decltype( MultiphaseSystemPropertiesHelper::MASS_DENSITY) MultiphaseSystemPropertiesHelper::MASS_DENSITY;
+decltype( MultiphaseSystemPropertiesHelper::MOLE_DENSITY ) MultiphaseSystemPropertiesHelper::MOLE_DENSITY;
+decltype( MultiphaseSystemPropertiesHelper::MOLE_COMPOSITION ) MultiphaseSystemPropertiesHelper::MOLE_COMPOSITION;
+decltype( MultiphaseSystemPropertiesHelper::MOLECULAR_WEIGHT ) MultiphaseSystemPropertiesHelper::MOLECULAR_WEIGHT;
 
 void to_json( json & j,
               const MultiphaseSystemProperties & props )
