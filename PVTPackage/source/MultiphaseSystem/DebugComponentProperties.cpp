@@ -6,9 +6,31 @@
 
 #include <iostream>
 #include <limits>
+#include <map>
 
 // for convenience
 using json = nlohmann::json;
+
+namespace nlohmann
+{
+
+template< typename T >
+struct adl_serializer< std::shared_ptr< T > >
+{
+  static void to_json( json & j, const std::shared_ptr< T > & opt )
+  {
+    if( opt.get() )
+    {
+      j = *opt;
+    }
+    else
+    {
+      j = nullptr;
+    }
+  }
+};
+
+}
 
 // FIXME ComponentProperties is not part of PVTPackage namespace...
 void to_json( json & j,
@@ -31,6 +53,18 @@ void to_json( json & j,
 
 namespace PVTPackage
 {
+
+std::string phaseType2string( const PHASE_TYPE & phaseType )
+{
+  const std::map<PHASE_TYPE, std::string> value2string{
+    {PHASE_TYPE::LIQUID_WATER_RICH, "LIQUID_WATER_RICH"},
+    {PHASE_TYPE::OIL, "OIL"},
+    {PHASE_TYPE::GAS, "GAS"},
+    {PHASE_TYPE::UNKNOWN, "UNKNOWN"}
+    };
+
+  return value2string.at( phaseType );
+}
 
 class ScalarVectorPropertyAndDerivativesHelper {
 private:
@@ -72,6 +106,12 @@ void to_json( json & j,
   ScalarVectorPropertyAndDerivativesHelper::to_json(j, v);
 }
 
+void to_json( json & j, const CubicEoSPhaseModel & model ){
+  j = json{ { "EOS", model.getEosType() },
+            { "PHASE_TYPE", model.getPhaseType() },
+            { "PROPS",      model.get_ComponentsProperties() } };
+}
+
 class MultiphaseSystemPropertiesHelper {
 private:
   static constexpr auto PHASE_MOLE_FRACTION = "PHASE_MOLE_FRACTION";
@@ -83,30 +123,27 @@ private:
 
 public:
   static void to_json( json & output, const MultiphaseSystemProperties & props ){
-    output[PHASE_MOLE_FRACTION] = { { "OIL", props.PhaseMoleFraction.at( PHASE_TYPE::OIL ) },
-                                    { "GAS", props.PhaseMoleFraction.at( PHASE_TYPE::GAS ) } };
-    output[MOLE_COMPOSITION] = { { "OIL", props.PhasesProperties.at( PHASE_TYPE::OIL ).MoleComposition },
-                                 { "GAS", props.PhasesProperties.at( PHASE_TYPE::GAS ).MoleComposition } };
-    output[MASS_DENSITY] = { { "OIL", props.PhasesProperties.at( PHASE_TYPE::OIL ).MassDensity },
-                             { "GAS", props.PhasesProperties.at( PHASE_TYPE::GAS ).MassDensity } };
-    output[MOLE_DENSITY] = { { "OIL", props.PhasesProperties.at( PHASE_TYPE::OIL ).MoleDensity },
-                             { "GAS", props.PhasesProperties.at( PHASE_TYPE::GAS ).MoleDensity } };
-    output[MOLECULAR_WEIGHT] = { { "OIL", props.PhasesProperties.at( PHASE_TYPE::OIL ).MolecularWeight },
-                                 { "GAS", props.PhasesProperties.at( PHASE_TYPE::GAS ).MolecularWeight } };
 
-    for (const PHASE_TYPE phaseType: { PHASE_TYPE::OIL, PHASE_TYPE::GAS, PHASE_TYPE::LIQUID_WATER_RICH})
+    for (const PHASE_TYPE & pt: props.PhaseTypes)
     {
-      if ( props.PhaseModels.count( phaseType ) > 0 )
-      {
-        const auto phaseModel = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( props.PhaseModels.at( phaseType ) );
-        if( phaseModel )
-        {
-          // FIXME the phaseType is not reproduced in the json.
-          output[PHASE_MODELS][int( phaseType )] = { { "EOS",        phaseModel->getEosType() },
-                                                     { "PHASE_TYPE", phaseModel->getPhaseType() },
-                                                     { "PROPS",      phaseModel->get_ComponentsProperties() } };
-        }
-      }
+      const std::string phaseType = phaseType2string( pt );
+      const PhaseProperties & phaseProperties = props.PhasesProperties.at( pt );
+      const auto phaseModel = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( props.PhaseModels.at( pt ) );
+
+      output[MOLE_COMPOSITION][phaseType] = phaseProperties.MoleComposition;
+      output[MASS_DENSITY][phaseType] = phaseProperties.MassDensity;
+      output[MOLE_DENSITY][phaseType] = phaseProperties.MoleDensity;
+      output[MOLECULAR_WEIGHT][phaseType] = phaseProperties.MolecularWeight;
+      output[PHASE_MOLE_FRACTION][phaseType] = props.PhaseMoleFraction.at( pt );
+      output[PHASE_MODELS][phaseType] = phaseModel;
+//      output[phaseType] = {
+//        {MOLE_COMPOSITION, phaseProperties.MoleComposition},
+//        {MASS_DENSITY, phaseProperties.MassDensity},
+//        {MOLE_DENSITY, phaseProperties.MoleDensity},
+//        {MOLECULAR_WEIGHT, phaseProperties.MolecularWeight},
+//        {PHASE_MOLE_FRACTION, props.PhaseMoleFraction.at( pt )},
+//        {PHASE_MODELS, phaseModel}
+//      };
     }
   }
 };
