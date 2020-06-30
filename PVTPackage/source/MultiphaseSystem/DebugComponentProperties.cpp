@@ -56,12 +56,12 @@ namespace PVTPackage
 
 std::string phaseType2string( const PHASE_TYPE & phaseType )
 {
-  const std::map<PHASE_TYPE, std::string> value2string{
-    {PHASE_TYPE::LIQUID_WATER_RICH, "LIQUID_WATER_RICH"},
-    {PHASE_TYPE::OIL, "OIL"},
-    {PHASE_TYPE::GAS, "GAS"},
-    {PHASE_TYPE::UNKNOWN, "UNKNOWN"}
-    };
+  const std::map< PHASE_TYPE, std::string > value2string{
+    { PHASE_TYPE::LIQUID_WATER_RICH, "LIQUID_WATER_RICH" },
+    { PHASE_TYPE::OIL,               "OIL" },
+    { PHASE_TYPE::GAS,               "GAS" },
+    { PHASE_TYPE::UNKNOWN,           "UNKNOWN" }
+  };
 
   return value2string.at( phaseType );
 }
@@ -130,20 +130,12 @@ public:
       const PhaseProperties & phaseProperties = props.PhasesProperties.at( pt );
       const auto phaseModel = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( props.PhaseModels.at( pt ) );
 
-      output[MOLE_COMPOSITION][phaseType] = phaseProperties.MoleComposition;
-      output[MASS_DENSITY][phaseType] = phaseProperties.MassDensity;
-      output[MOLE_DENSITY][phaseType] = phaseProperties.MoleDensity;
-      output[MOLECULAR_WEIGHT][phaseType] = phaseProperties.MolecularWeight;
+      output[phaseType][MOLE_COMPOSITION] = phaseProperties.MoleComposition;
+      output[phaseType][MASS_DENSITY] = phaseProperties.MassDensity;
+      output[phaseType][MOLE_DENSITY] = phaseProperties.MoleDensity;
+      output[phaseType][MOLECULAR_WEIGHT] = phaseProperties.MolecularWeight;
       output[PHASE_MOLE_FRACTION][phaseType] = props.PhaseMoleFraction.at( pt );
       output[PHASE_MODELS][phaseType] = phaseModel;
-//      output[phaseType] = {
-//        {MOLE_COMPOSITION, phaseProperties.MoleComposition},
-//        {MASS_DENSITY, phaseProperties.MassDensity},
-//        {MOLE_DENSITY, phaseProperties.MoleDensity},
-//        {MOLECULAR_WEIGHT, phaseProperties.MolecularWeight},
-//        {PHASE_MOLE_FRACTION, props.PhaseMoleFraction.at( pt )},
-//        {PHASE_MODELS, phaseModel}
-//      };
     }
   }
 };
