@@ -114,6 +114,10 @@ void to_json( json & j, const CubicEoSPhaseModel & model ){
 
 class MultiphaseSystemPropertiesHelper {
 private:
+  static constexpr auto PRESSURE = "PRESSURE";
+  static constexpr auto TEMPERATURE = "TEMPERATURE";
+  static constexpr auto FEED = "FEED";
+
   static constexpr auto PHASE_MOLE_FRACTION = "PHASE_MOLE_FRACTION";
   static constexpr auto PHASE_MODELS = "PHASE_MODELS";
   static constexpr auto MASS_DENSITY = "MASS_DENSITY";
@@ -122,9 +126,14 @@ private:
   static constexpr auto MOLECULAR_WEIGHT = "MOLECULAR_WEIGHT";
 
 public:
-  static void to_json( json & output, const MultiphaseSystemProperties & props ){
+  static void to_json( json & output,
+                       const MultiphaseSystemProperties & props )
+  {
+    output[PRESSURE] = props.Pressure;
+    output[TEMPERATURE] = props.Temperature;
+    output[FEED] = props.Feed;
 
-    for (const PHASE_TYPE & pt: props.PhaseTypes)
+    for( const PHASE_TYPE & pt: props.PhaseTypes )
     {
       const std::string phaseType = phaseType2string( pt );
       const PhaseProperties & phaseProperties = props.PhasesProperties.at( pt );
@@ -140,6 +149,9 @@ public:
   }
 };
 
+decltype( MultiphaseSystemPropertiesHelper::PRESSURE ) MultiphaseSystemPropertiesHelper::PRESSURE;
+decltype( MultiphaseSystemPropertiesHelper::TEMPERATURE ) MultiphaseSystemPropertiesHelper::TEMPERATURE;
+decltype( MultiphaseSystemPropertiesHelper::FEED ) MultiphaseSystemPropertiesHelper::FEED;
 decltype( MultiphaseSystemPropertiesHelper::PHASE_MOLE_FRACTION ) MultiphaseSystemPropertiesHelper::PHASE_MOLE_FRACTION;
 decltype( MultiphaseSystemPropertiesHelper::PHASE_MODELS ) MultiphaseSystemPropertiesHelper::PHASE_MODELS;
 decltype( MultiphaseSystemPropertiesHelper::MASS_DENSITY) MultiphaseSystemPropertiesHelper::MASS_DENSITY;
@@ -154,10 +166,7 @@ void to_json( json & j,
 }
 
 void Dump( const Flash * flash,
-           const MultiphaseSystemProperties & multiphaseProperties,
-           double pressure,
-           double temperature,
-           std::vector< double > feed )
+           const MultiphaseSystemProperties & multiphaseProperties )
 {
   if( const CompositionalFlash * f = dynamic_cast<const CompositionalFlash *>( flash ) )
   {
@@ -170,11 +179,6 @@ void Dump( const Flash * flash,
 
     std::cout << std::setprecision( std::numeric_limits< double >::max_digits10 )
               << propsJson << std::endl;
-
-    json output{ { "pressure", pressure },
-                 { "temperature", temperature },
-                 { "feed", feed } };
-    std::cout << output << std::endl ;
   }
 }
 

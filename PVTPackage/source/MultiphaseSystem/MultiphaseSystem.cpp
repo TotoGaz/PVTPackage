@@ -31,8 +31,7 @@ void MultiphaseSystem::Update(double pressure, double temperature, std::vector<d
   const bool res = m_Flash->ComputeEquilibriumAndDerivatives(m_MultiphaseProperties);
 
   // Extracting inputs and outputs of the computation (CompositionalFlash for the moment).
-  // Do not forget pressure, temperature, feed.
-  Dump(m_Flash, m_MultiphaseProperties, pressure, temperature, feed);
+  Dump( m_Flash, m_MultiphaseProperties );
 
   m_StateIndicator = res ? State::SUCCESS : State::NOT_CONVERGED;
 }
