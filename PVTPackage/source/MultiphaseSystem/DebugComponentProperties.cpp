@@ -66,6 +66,17 @@ std::string phaseType2string( const PHASE_TYPE & phaseType )
   return value2string.at( phaseType );
 }
 
+std::string eos2string( const EOS_TYPE & eos )
+{
+  const std::map< EOS_TYPE, std::string > value2string{
+    { EOS_TYPE::REDLICH_KWONG_SOAVE, "REDLICH_KWONG_SOAVE" },
+    { EOS_TYPE::PENG_ROBINSON,       "PENG_ROBINSON" },
+    { EOS_TYPE::UNKNOWN,             "UNKNOWN" }
+  };
+
+  return value2string.at( eos );
+}
+
 class ScalarVectorPropertyAndDerivativesHelper {
 private:
   static constexpr auto VALUE = "value";
@@ -106,10 +117,12 @@ void to_json( json & j,
   ScalarVectorPropertyAndDerivativesHelper::to_json(j, v);
 }
 
-void to_json( json & j, const CubicEoSPhaseModel & model ){
-  j = json{ { "EOS", model.getEosType() },
-            { "PHASE_TYPE", model.getPhaseType() },
-            { "PROPS",      model.get_ComponentsProperties() } };
+void to_json( json & j,
+              const CubicEoSPhaseModel & model )
+{
+  j = json{ { "EOS",                  eos2string( model.getEosType() ) },
+            { "PHASE_TYPE",           phaseType2string( model.getPhaseType() ) },
+            { "COMPONENT_PROPERTIES", model.get_ComponentsProperties() } };
 }
 
 class MultiphaseSystemPropertiesHelper {
@@ -170,6 +183,7 @@ void Dump( const Flash * flash,
 {
   if( const CompositionalFlash * f = dynamic_cast<const CompositionalFlash *>( flash ) )
   {
+    // FIXME the phase models already hold component properties: is it mandatory?
     json compJson{ { "COMP", f->getComponentProperties() } };
 
     std::cout << std::setprecision( std::numeric_limits< double >::max_digits10 )
