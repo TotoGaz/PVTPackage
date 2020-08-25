@@ -14,7 +14,7 @@
 
 #include "MultiphaseSystem/MultiphaseSystem.hpp"
 
-#include "DebugComponentProperties.hpp"
+#include "refactor/DebugComponentProperties.hpp"
 
 namespace PVTPackage
 {

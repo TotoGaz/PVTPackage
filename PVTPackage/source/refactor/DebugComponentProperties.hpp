@@ -1,8 +1,8 @@
 #ifndef GEOSX_DEBUGCOMPONENTPROPERTIES_HPP
 #define GEOSX_DEBUGCOMPONENTPROPERTIES_HPP
 
-#include "ComponentProperties.hpp"
-#include "MultiphaseSystemProperties.hpp"
+#include "MultiphaseSystem/ComponentProperties.hpp"
+#include "MultiphaseSystem/MultiphaseSystemProperties.hpp"
 
 #include <vector>
 #include <string>
