@@ -1,11 +1,8 @@
-#ifndef GEOSX_DEBUGCOMPONENTPROPERTIES_HPP
-#define GEOSX_DEBUGCOMPONENTPROPERTIES_HPP
+#ifndef GEOSX_PVTPACKAGE_DEBUGCOMPONENTPROPERTIES_HPP
+#define GEOSX_PVTPACKAGE_DEBUGCOMPONENTPROPERTIES_HPP
 
-#include "MultiphaseSystem/ComponentProperties.hpp"
 #include "MultiphaseSystem/MultiphaseSystemProperties.hpp"
-
-#include <vector>
-#include <string>
+#include "MultiphaseSystem/PhaseSplitModel/Flash.hpp"
 
 namespace PVTPackage
 {
@@ -15,4 +12,4 @@ void Dump( const Flash * flash,
 
 } // end of namespace PVTPackage
 
-#endif //GEOSX_DEBUGCOMPONENTPROPERTIES_HPP
+#endif //GEOSX_PVTPACKAGE_DEBUGCOMPONENTPROPERTIES_HPP

@@ -13,10 +13,12 @@ endif()
 #set(PVTPackage_dump_INCLUDE_DIRS ${PROJECT_INC_DIR} CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
 
 set( PVTPackage_dump_headers
+     SerializersDeserializers.hpp
      DebugComponentProperties.hpp
 )
 
 set( PVTPackage_dump_sources
+     SerializersDeserializers.cpp
      DebugComponentProperties.cpp
 )
 
@@ -29,6 +31,7 @@ blt_add_library(NAME       ${PVTPackage_dump_target}
                 HEADERS    ${PVTPackage_dump_headers}
                 DEPENDS_ON ${PVTPackage_dump_dependencies})
 
+# Tests (poor cmake impl)
 set( PVTPackage_dump_test_sources
      testFirst.cpp
 )
