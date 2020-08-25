@@ -28,3 +28,22 @@ blt_add_library(NAME       ${PVTPackage_dump_target}
                 SOURCES    ${PVTPackage_dump_sources}
                 HEADERS    ${PVTPackage_dump_headers}
                 DEPENDS_ON ${PVTPackage_dump_dependencies})
+
+set( PVTPackage_dump_test_sources
+     testFirst.cpp
+)
+
+#
+# Add gtest C++ based tests
+#
+foreach(test ${PVTPackage_dump_test_sources})
+  get_filename_component( test_name ${test} NAME_WE )
+  blt_add_executable( NAME ${test_name}
+                      SOURCES ${test}
+                      OUTPUT_DIR ${TEST_OUTPUT_DIRECTORY}
+                      DEPENDS_ON gtest PVTPackageDump )
+
+  blt_add_test( NAME ${test_name}
+                COMMAND ${test_name} )
+
+endforeach()
