@@ -57,6 +57,15 @@ public:
               { DZ,    s.dz } };
   }
 
+  static void from_json( const json & j,
+                         ScalarPropertyAndDerivatives< double > & s )
+  {
+    s.value = j[VALUE];
+    s.dP = j[DP];
+    s.dT = j[DT];
+    s.dz = j[DZ].get<std::vector<double>>();
+  }
+
   static void to_json( json & j,
                        const VectorPropertyAndDerivatives< double > & s )
   {
@@ -65,6 +74,16 @@ public:
               { DT,    s.dT },
               { DZ,    s.dz } };
   }
+
+  static void from_json( const json & j,
+                         VectorPropertyAndDerivatives< double > & s )
+  {
+    s.value = j[VALUE].get<std::vector<double>>();
+    s.dP = j[DP].get<std::vector<double>>();
+    s.dT = j[DT].get<std::vector<double>>();
+    s.dz = j[DZ].get<std::vector<std::vector<double>>>();
+  }
+
 private:
   static constexpr auto VALUE = "value";
   static constexpr auto DP = "dP";
@@ -83,10 +102,22 @@ void to_json( json & j,
   ScalarVectorPropertyAndDerivativesHelper::to_json( j, s );
 }
 
+void from_json( const nlohmann::json & j,
+                ScalarPropertyAndDerivatives< double > & s )
+{
+  ScalarVectorPropertyAndDerivativesHelper::from_json( j, s );
+}
+
 void to_json( json & j,
               const VectorPropertyAndDerivatives< double > & v )
 {
   ScalarVectorPropertyAndDerivativesHelper::to_json( j, v );
+}
+
+void from_json( const nlohmann::json & j,
+                VectorPropertyAndDerivatives< double > & s )
+{
+  ScalarVectorPropertyAndDerivativesHelper::from_json( j, s );
 }
 
 void to_json( json & j,
@@ -97,27 +128,73 @@ void to_json( json & j,
             { "COMPONENT_PROPERTIES", model.get_ComponentsProperties() } };
 }
 
+class PhasePropertiesHelper
+{
+public:
+  static void to_json( json & j,
+                       const PhaseProperties & phaseProperties )
+  {
+    j = json{
+      { MOLECULAR_WEIGHT,         phaseProperties.MolecularWeight },
+      { COMPRESSIBILITY_FACTOR,   phaseProperties.CompressibilityFactor },
+      { MOLE_COMPOSITION,         phaseProperties.MoleComposition },
+      { LN_FUGACITY_COEFFICIENTS, phaseProperties.LnFugacityCoefficients },
+      { MOLE_DENSITY,             phaseProperties.MoleDensity },
+      { MASS_DENSITY,             phaseProperties.MassDensity },
+      { VISCOSITY,                phaseProperties.Viscosity },
+      { MASS_ENTHALPY,            phaseProperties.MassEnthalpy },
+      { COMPRESSIBILITY,          phaseProperties.Compressibility }
+    };
+  }
+private:
+  static constexpr auto MOLECULAR_WEIGHT = "MOLECULAR_WEIGHT";
+
+  static constexpr auto COMPRESSIBILITY_FACTOR = "COMPRESSIBILITY_FACTOR";
+  static constexpr auto MOLE_COMPOSITION = "MOLE_COMPOSITION";
+  static constexpr auto LN_FUGACITY_COEFFICIENTS = "LN_FUGACITY_COEFFICIENTS";
+
+  static constexpr auto MOLE_DENSITY = "MOLE_DENSITY";
+  static constexpr auto MASS_DENSITY = "MASS_DENSITY";
+
+  static constexpr auto VISCOSITY = "VISCOSITY";
+  static constexpr auto MASS_ENTHALPY = "MASS_ENTHALPY";
+  static constexpr auto COMPRESSIBILITY = "COMPRESSIBILITY";
+};
+
+decltype( PhasePropertiesHelper::MOLECULAR_WEIGHT ) PhasePropertiesHelper::MOLECULAR_WEIGHT;
+decltype( PhasePropertiesHelper::COMPRESSIBILITY_FACTOR ) PhasePropertiesHelper::COMPRESSIBILITY_FACTOR;
+decltype( PhasePropertiesHelper::MOLE_COMPOSITION ) PhasePropertiesHelper::MOLE_COMPOSITION;
+decltype( PhasePropertiesHelper::LN_FUGACITY_COEFFICIENTS ) PhasePropertiesHelper::LN_FUGACITY_COEFFICIENTS;
+decltype( PhasePropertiesHelper::MOLE_DENSITY ) PhasePropertiesHelper::MOLE_DENSITY;
+decltype( PhasePropertiesHelper::MASS_DENSITY) PhasePropertiesHelper::MASS_DENSITY;
+decltype( PhasePropertiesHelper::VISCOSITY ) PhasePropertiesHelper::VISCOSITY;
+decltype( PhasePropertiesHelper::MASS_ENTHALPY ) PhasePropertiesHelper::MASS_ENTHALPY;
+decltype( PhasePropertiesHelper::COMPRESSIBILITY ) PhasePropertiesHelper::COMPRESSIBILITY;
+
+void to_json( json & j,
+              const PhaseProperties & phaseProperties )
+{
+  PhasePropertiesHelper::to_json( j, phaseProperties );
+}
+
 class MultiphaseSystemPropertiesHelper {
 public:
   static void to_json( json & output,
                        const MultiphaseSystemProperties & props )
  {
-    output[PRESSURE] = props.Pressure;
     output[TEMPERATURE] = props.Temperature;
+    output[PRESSURE] = props.Pressure;
     output[FEED] = props.Feed;
 
     for( const PHASE_TYPE & pt: props.PhaseTypes )
     {
       const std::string phaseType = phaseType2string( pt );
-      const PhaseProperties & phaseProperties = props.PhasesProperties.at( pt );
-      const auto phaseModel = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( props.PhaseModels.at( pt ) );
 
-      output[phaseType][MOLE_COMPOSITION] = phaseProperties.MoleComposition;
-      output[phaseType][MASS_DENSITY] = phaseProperties.MassDensity;
-      output[phaseType][MOLE_DENSITY] = phaseProperties.MoleDensity;
-      output[phaseType][MOLECULAR_WEIGHT] = phaseProperties.MolecularWeight;
-      output[PHASE_MOLE_FRACTION][phaseType] = props.PhaseMoleFraction.at( pt );
+      const auto phaseModel = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( props.PhaseModels.at( pt ) );
       output[PHASE_MODELS][phaseType] = phaseModel;
+
+      output[PHASE_MOLE_FRACTION][phaseType] = props.PhaseMoleFraction.at( pt );
+      output[PHASE_PROPERTIES][phaseType] = props.PhasesProperties.at( pt );
     }
   }
 private:
@@ -125,12 +202,9 @@ private:
   static constexpr auto TEMPERATURE = "TEMPERATURE";
   static constexpr auto FEED = "FEED";
 
-  static constexpr auto PHASE_MOLE_FRACTION = "PHASE_MOLE_FRACTION";
   static constexpr auto PHASE_MODELS = "PHASE_MODELS";
-  static constexpr auto MASS_DENSITY = "MASS_DENSITY";
-  static constexpr auto MOLE_DENSITY = "MOLE_DENSITY";
-  static constexpr auto MOLE_COMPOSITION = "MOLE_COMPOSITION";
-  static constexpr auto MOLECULAR_WEIGHT = "MOLECULAR_WEIGHT";
+  static constexpr auto PHASE_MOLE_FRACTION = "PHASE_MOLE_FRACTION";
+  static constexpr auto PHASE_PROPERTIES = "PHASE_PROPERTIES";
 };
 
 decltype( MultiphaseSystemPropertiesHelper::PRESSURE ) MultiphaseSystemPropertiesHelper::PRESSURE;
@@ -138,10 +212,6 @@ decltype( MultiphaseSystemPropertiesHelper::TEMPERATURE ) MultiphaseSystemProper
 decltype( MultiphaseSystemPropertiesHelper::FEED ) MultiphaseSystemPropertiesHelper::FEED;
 decltype( MultiphaseSystemPropertiesHelper::PHASE_MOLE_FRACTION ) MultiphaseSystemPropertiesHelper::PHASE_MOLE_FRACTION;
 decltype( MultiphaseSystemPropertiesHelper::PHASE_MODELS ) MultiphaseSystemPropertiesHelper::PHASE_MODELS;
-decltype( MultiphaseSystemPropertiesHelper::MASS_DENSITY) MultiphaseSystemPropertiesHelper::MASS_DENSITY;
-decltype( MultiphaseSystemPropertiesHelper::MOLE_DENSITY ) MultiphaseSystemPropertiesHelper::MOLE_DENSITY;
-decltype( MultiphaseSystemPropertiesHelper::MOLE_COMPOSITION ) MultiphaseSystemPropertiesHelper::MOLE_COMPOSITION;
-decltype( MultiphaseSystemPropertiesHelper::MOLECULAR_WEIGHT ) MultiphaseSystemPropertiesHelper::MOLECULAR_WEIGHT;
 
 void to_json( json & j,
               const MultiphaseSystemProperties & props )

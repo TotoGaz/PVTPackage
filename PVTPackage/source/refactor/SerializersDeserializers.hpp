@@ -44,7 +44,11 @@ std::string eos2string( const EOS_TYPE & eos );
 void to_json( nlohmann::json & j, const ScalarPropertyAndDerivatives< double > & s );
 void to_json( nlohmann::json & j, const VectorPropertyAndDerivatives< double > & v );
 void to_json( nlohmann::json & j, const CubicEoSPhaseModel & model );
+void to_json( nlohmann::json & j, const PhaseProperties & phaseProperties );
 void to_json( nlohmann::json & j, const MultiphaseSystemProperties & props );
+
+void from_json( const nlohmann::json & j, ScalarPropertyAndDerivatives< double > & s );
+void from_json( const nlohmann::json & j, VectorPropertyAndDerivatives< double > & s );
 
 }
 
