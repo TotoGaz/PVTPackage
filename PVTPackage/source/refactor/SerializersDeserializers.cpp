@@ -23,27 +23,98 @@ void to_json( json & j,
 
 namespace PVTPackage {
 
+class PhaseType2StringHelper
+{
+public:
+  static std::string phaseType2string( const PHASE_TYPE & phaseType )
+  {
+    const std::map< PHASE_TYPE, std::string > value2string{
+      { PHASE_TYPE::LIQUID_WATER_RICH, LIQUID_WATER_RICH },
+      { PHASE_TYPE::OIL,               OIL },
+      { PHASE_TYPE::GAS,               GAS },
+      { PHASE_TYPE::UNKNOWN,           UNKNOWN }
+    };
+
+    return value2string.at( phaseType );
+  }
+
+  static PHASE_TYPE string2phaseType( const std::string & s )
+  {
+    const std::map< std::string, PHASE_TYPE > string2value{
+      { LIQUID_WATER_RICH, PHASE_TYPE::LIQUID_WATER_RICH },
+      { OIL,               PHASE_TYPE::OIL },
+      { GAS,               PHASE_TYPE::GAS },
+      { UNKNOWN,           PHASE_TYPE::UNKNOWN }
+    };
+
+    return string2value.at( s );
+  }
+
+private:
+  static constexpr auto LIQUID_WATER_RICH = "LIQUID_WATER_RICH";
+  static constexpr auto OIL = "OIL";
+  static constexpr auto GAS = "GAS";
+  static constexpr auto UNKNOWN = "UNKNOWN";
+};
+
+decltype( PhaseType2StringHelper::LIQUID_WATER_RICH ) PhaseType2StringHelper::LIQUID_WATER_RICH;
+decltype( PhaseType2StringHelper::OIL ) PhaseType2StringHelper::OIL;
+decltype( PhaseType2StringHelper::GAS ) PhaseType2StringHelper::GAS;
+decltype( PhaseType2StringHelper::UNKNOWN ) PhaseType2StringHelper::UNKNOWN;
+
 std::string phaseType2string( const PHASE_TYPE & phaseType )
 {
-  const std::map< PHASE_TYPE, std::string > value2string{
-    { PHASE_TYPE::LIQUID_WATER_RICH, "LIQUID_WATER_RICH" },
-    { PHASE_TYPE::OIL,               "OIL" },
-    { PHASE_TYPE::GAS,               "GAS" },
-    { PHASE_TYPE::UNKNOWN,           "UNKNOWN" }
-  };
-
-  return value2string.at( phaseType );
+  return PhaseType2StringHelper::phaseType2string( phaseType );
 }
+
+PHASE_TYPE string2phaseType( const std::string & s )
+{
+  return PhaseType2StringHelper::string2phaseType( s );
+}
+
+class EoS2StringHelper
+{
+public:
+  static std::string eos2string( const EOS_TYPE & eos )
+  {
+    const std::map< EOS_TYPE, std::string > value2string{
+      { EOS_TYPE::REDLICH_KWONG_SOAVE, REDLICH_KWONG_SOAVE },
+      { EOS_TYPE::PENG_ROBINSON,       PENG_ROBINSON },
+      { EOS_TYPE::UNKNOWN,             UNKNOWN }
+    };
+
+    return value2string.at( eos );
+  }
+
+  static EOS_TYPE string2eos( const std::string & s )
+  {
+    const std::map< std::string, EOS_TYPE > string2value{
+      { REDLICH_KWONG_SOAVE, EOS_TYPE::REDLICH_KWONG_SOAVE },
+      { PENG_ROBINSON,       EOS_TYPE::PENG_ROBINSON },
+      { UNKNOWN,             EOS_TYPE::UNKNOWN }
+    };
+
+    return string2value.at( s );
+  }
+
+private:
+  static constexpr auto REDLICH_KWONG_SOAVE = "REDLICH_KWONG_SOAVE";
+  static constexpr auto PENG_ROBINSON = "PENG_ROBINSON";
+  static constexpr auto UNKNOWN = "UNKNOWN";
+};
+
+decltype( EoS2StringHelper::REDLICH_KWONG_SOAVE ) EoS2StringHelper::REDLICH_KWONG_SOAVE;
+decltype( EoS2StringHelper::PENG_ROBINSON ) EoS2StringHelper::PENG_ROBINSON;
+decltype( EoS2StringHelper::UNKNOWN ) EoS2StringHelper::UNKNOWN;
 
 std::string eos2string( const EOS_TYPE & eos )
 {
-  const std::map< EOS_TYPE, std::string > value2string{
-    { EOS_TYPE::REDLICH_KWONG_SOAVE, "REDLICH_KWONG_SOAVE" },
-    { EOS_TYPE::PENG_ROBINSON,       "PENG_ROBINSON" },
-    { EOS_TYPE::UNKNOWN,             "UNKNOWN" }
-  };
+  return EoS2StringHelper::eos2string( eos ) ;
+}
 
-  return value2string.at( eos );
+EOS_TYPE string2eos( const std::string & s )
+{
+  return EoS2StringHelper::string2eos( s );
 }
 
 class ScalarVectorPropertyAndDerivativesHelper {
@@ -63,7 +134,7 @@ public:
     s.value = j[VALUE];
     s.dP = j[DP];
     s.dT = j[DT];
-    s.dz = j[DZ].get<std::vector<double>>();
+    s.dz = j[DZ].get< std::vector< double > >();
   }
 
   static void to_json( json & j,
@@ -78,10 +149,10 @@ public:
   static void from_json( const json & j,
                          VectorPropertyAndDerivatives< double > & s )
   {
-    s.value = j[VALUE].get<std::vector<double>>();
-    s.dP = j[DP].get<std::vector<double>>();
-    s.dT = j[DT].get<std::vector<double>>();
-    s.dz = j[DZ].get<std::vector<std::vector<double>>>();
+    s.value = j[VALUE].get< std::vector< double > >();
+    s.dP = j[DP].get< std::vector< double> >();
+    s.dT = j[DT].get< std::vector< double> >();
+    s.dz = j[DZ].get< std::vector< std::vector< double > > >();
   }
 
 private:
