@@ -23,99 +23,29 @@ void to_json( json & j,
 
 namespace PVTPackage {
 
-class PhaseType2StringHelper
-{
-public:
-  static std::string phaseType2string( const PHASE_TYPE & phaseType )
-  {
-    const std::map< PHASE_TYPE, std::string > value2string{
-      { PHASE_TYPE::LIQUID_WATER_RICH, LIQUID_WATER_RICH },
-      { PHASE_TYPE::OIL,               OIL },
-      { PHASE_TYPE::GAS,               GAS },
-      { PHASE_TYPE::UNKNOWN,           UNKNOWN }
-    };
+NLOHMANN_JSON_SERIALIZE_ENUM( PHASE_STATE, {
+  { PHASE_STATE::GAS, "GAS" },
+  { PHASE_STATE::OIL, "OIL" },
+  { PHASE_STATE::WATER, "WATER" },
+  { PHASE_STATE::OIL_GAS, "OIL_GAS" },
+  { PHASE_STATE::GAS_WATER, "GAS_WATER" },
+  { PHASE_STATE::OIL_WATER, "OIL_WATER" },
+  { PHASE_STATE::OIL_GAS_WATER, "OIL_GAS_WATER" },
+  { PHASE_STATE::UNKNOWN, "UNKNOWN" }
+} )
 
-    return value2string.at( phaseType );
-  }
+NLOHMANN_JSON_SERIALIZE_ENUM( PHASE_TYPE, {
+  { PHASE_TYPE::LIQUID_WATER_RICH, "LIQUID_WATER_RICH" },
+  { PHASE_TYPE::OIL, "OIL" },
+  { PHASE_TYPE::GAS, "GAS" },
+  { PHASE_TYPE::UNKNOWN, "UNKNOWN" }
+} )
 
-  static PHASE_TYPE string2phaseType( const std::string & s )
-  {
-    const std::map< std::string, PHASE_TYPE > string2value{
-      { LIQUID_WATER_RICH, PHASE_TYPE::LIQUID_WATER_RICH },
-      { OIL,               PHASE_TYPE::OIL },
-      { GAS,               PHASE_TYPE::GAS },
-      { UNKNOWN,           PHASE_TYPE::UNKNOWN }
-    };
-
-    return string2value.at( s );
-  }
-
-private:
-  static constexpr auto LIQUID_WATER_RICH = "LIQUID_WATER_RICH";
-  static constexpr auto OIL = "OIL";
-  static constexpr auto GAS = "GAS";
-  static constexpr auto UNKNOWN = "UNKNOWN";
-};
-
-decltype( PhaseType2StringHelper::LIQUID_WATER_RICH ) PhaseType2StringHelper::LIQUID_WATER_RICH;
-decltype( PhaseType2StringHelper::OIL ) PhaseType2StringHelper::OIL;
-decltype( PhaseType2StringHelper::GAS ) PhaseType2StringHelper::GAS;
-decltype( PhaseType2StringHelper::UNKNOWN ) PhaseType2StringHelper::UNKNOWN;
-
-std::string phaseType2string( const PHASE_TYPE & phaseType )
-{
-  return PhaseType2StringHelper::phaseType2string( phaseType );
-}
-
-PHASE_TYPE string2phaseType( const std::string & s )
-{
-  return PhaseType2StringHelper::string2phaseType( s );
-}
-
-class EoS2StringHelper
-{
-public:
-  static std::string eos2string( const EOS_TYPE & eos )
-  {
-    const std::map< EOS_TYPE, std::string > value2string{
-      { EOS_TYPE::REDLICH_KWONG_SOAVE, REDLICH_KWONG_SOAVE },
-      { EOS_TYPE::PENG_ROBINSON,       PENG_ROBINSON },
-      { EOS_TYPE::UNKNOWN,             UNKNOWN }
-    };
-
-    return value2string.at( eos );
-  }
-
-  static EOS_TYPE string2eos( const std::string & s )
-  {
-    const std::map< std::string, EOS_TYPE > string2value{
-      { REDLICH_KWONG_SOAVE, EOS_TYPE::REDLICH_KWONG_SOAVE },
-      { PENG_ROBINSON,       EOS_TYPE::PENG_ROBINSON },
-      { UNKNOWN,             EOS_TYPE::UNKNOWN }
-    };
-
-    return string2value.at( s );
-  }
-
-private:
-  static constexpr auto REDLICH_KWONG_SOAVE = "REDLICH_KWONG_SOAVE";
-  static constexpr auto PENG_ROBINSON = "PENG_ROBINSON";
-  static constexpr auto UNKNOWN = "UNKNOWN";
-};
-
-decltype( EoS2StringHelper::REDLICH_KWONG_SOAVE ) EoS2StringHelper::REDLICH_KWONG_SOAVE;
-decltype( EoS2StringHelper::PENG_ROBINSON ) EoS2StringHelper::PENG_ROBINSON;
-decltype( EoS2StringHelper::UNKNOWN ) EoS2StringHelper::UNKNOWN;
-
-std::string eos2string( const EOS_TYPE & eos )
-{
-  return EoS2StringHelper::eos2string( eos ) ;
-}
-
-EOS_TYPE string2eos( const std::string & s )
-{
-  return EoS2StringHelper::string2eos( s );
-}
+NLOHMANN_JSON_SERIALIZE_ENUM( EOS_TYPE, {
+  { EOS_TYPE::REDLICH_KWONG_SOAVE, "REDLICH_KWONG_SOAVE" },
+  { EOS_TYPE::PENG_ROBINSON, "PENG_ROBINSON" },
+  { EOS_TYPE::UNKNOWN, "UNKNOWN" }
+} )
 
 class ScalarVectorPropertyAndDerivativesHelper {
 public:
@@ -131,9 +61,9 @@ public:
   static void from_json( const json & j,
                          ScalarPropertyAndDerivatives< double > & s )
   {
-    s.value = j[VALUE];
-    s.dP = j[DP];
-    s.dT = j[DT];
+    s.value = j[VALUE].get< double >();
+    s.dP = j[DP].get< double >();
+    s.dT = j[DT].get< double >();
     s.dz = j[DZ].get< std::vector< double > >();
   }
 
@@ -194,8 +124,8 @@ void from_json( const nlohmann::json & j,
 void to_json( json & j,
               const CubicEoSPhaseModel & model )
 {
-  j = json{ { "EOS",                  eos2string( model.getEosType() ) },
-            { "PHASE_TYPE",           phaseType2string( model.getPhaseType() ) },
+  j = json{ { "EOS",                  model.getEosType() },
+            { "PHASE_TYPE",           model.getPhaseType() },
             { "COMPONENT_PROPERTIES", model.get_ComponentsProperties() } };
 }
 
@@ -216,6 +146,20 @@ public:
       { MASS_ENTHALPY,            phaseProperties.MassEnthalpy },
       { COMPRESSIBILITY,          phaseProperties.Compressibility }
     };
+  }
+
+  static void from_json( const json & j,
+                         PhaseProperties & phaseProperties )
+  {
+    j.at(MOLECULAR_WEIGHT).get_to(phaseProperties.MolecularWeight);
+    j.at(COMPRESSIBILITY_FACTOR).get_to(phaseProperties.CompressibilityFactor);
+    j.at(MOLE_COMPOSITION).get_to(phaseProperties.MoleComposition);
+    j.at(LN_FUGACITY_COEFFICIENTS).get_to(phaseProperties.LnFugacityCoefficients);
+    j.at(MOLE_DENSITY).get_to(phaseProperties.MoleDensity);
+    j.at(MASS_DENSITY).get_to(phaseProperties.MassDensity);
+    j.at(VISCOSITY).get_to(phaseProperties.Viscosity);
+    j.at(MASS_ENTHALPY).get_to(phaseProperties.MassEnthalpy);
+    j.at(COMPRESSIBILITY).get_to(phaseProperties.Compressibility);
   }
 private:
   static constexpr auto MOLECULAR_WEIGHT = "MOLECULAR_WEIGHT";
@@ -248,6 +192,12 @@ void to_json( json & j,
   PhasePropertiesHelper::to_json( j, phaseProperties );
 }
 
+void from_json( const json & j,
+                PhaseProperties & phaseProperties )
+{
+  PhasePropertiesHelper::from_json( j, phaseProperties );
+}
+
 class MultiphaseSystemPropertiesHelper {
 public:
   static void to_json( json & output,
@@ -257,21 +207,54 @@ public:
     output[PRESSURE] = props.Pressure;
     output[FEED] = props.Feed;
 
+    output[PHASE_STATE] = props.PhaseState;
+    output[PHASE_TYPES] = props.PhaseTypes;
+
     for( const PHASE_TYPE & pt: props.PhaseTypes )
     {
-      const std::string phaseType = phaseType2string( pt );
+      // Small hack to put the enum as a key
+      std::string const & ptKey = json( pt ).get< std::string >();
 
-      const auto phaseModel = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( props.PhaseModels.at( pt ) );
-      output[PHASE_MODELS][phaseType] = phaseModel;
-
-      output[PHASE_MOLE_FRACTION][phaseType] = props.PhaseMoleFraction.at( pt );
-      output[PHASE_PROPERTIES][phaseType] = props.PhasesProperties.at( pt );
+      const auto phaseModelAtPt = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( props.PhaseModels.at( pt ) );
+      output[PHASE_MODELS][ptKey] = phaseModelAtPt ;
+      output[PHASE_MOLE_FRACTION][ptKey] = props.PhaseMoleFraction.at( pt ) ;
+      output[PHASE_PROPERTIES][ptKey] = props.PhasesProperties.at( pt ) ;
     }
   }
+
+  static void from_json( const json & j,
+                         MultiphaseSystemProperties & props )
+  {
+    j.at(TEMPERATURE).get_to(props.Temperature);
+    j.at(PRESSURE).get_to(props.Pressure);
+    j.at(FEED).get_to(props.Feed);
+
+    j.at(PHASE_STATE).get_to(props.PhaseState);
+    j.at(PHASE_TYPES).get_to(props.PhaseTypes);
+
+    for( const PHASE_TYPE & pt: props.PhaseTypes )
+    {
+
+      // Small hack to put the enum as a key
+      std::string const & ptKey = json( pt ).get< std::string >();
+
+//      const auto phaseModelAtPt = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( props.PhaseModels.at( pt ) );
+//      output[PHASE_MODELS][ptKey] = phaseModelAtPt ;
+//      props.PhaseMoleFraction[ pt ] = j[PHASE_MOLE_FRACTION][ptKey].get< ScalarPropertyAndDerivatives< double > >();
+      props.PhaseMoleFraction[ pt ] = j[PHASE_MOLE_FRACTION][ptKey];
+      props.PhasesProperties[ pt ] = j[PHASE_PROPERTIES][ptKey];
+//      output[PHASE_PROPERTIES][ptKey] = props.PhasesProperties.at( pt ) ;
+    }
+
+  }
+
 private:
-  static constexpr auto PRESSURE = "PRESSURE";
   static constexpr auto TEMPERATURE = "TEMPERATURE";
+  static constexpr auto PRESSURE = "PRESSURE";
   static constexpr auto FEED = "FEED";
+
+  static constexpr auto PHASE_STATE = "PHASE_STATE";
+  static constexpr auto PHASE_TYPES = "PHASE_TYPES";
 
   static constexpr auto PHASE_MODELS = "PHASE_MODELS";
   static constexpr auto PHASE_MOLE_FRACTION = "PHASE_MOLE_FRACTION";
@@ -288,6 +271,12 @@ void to_json( json & j,
               const MultiphaseSystemProperties & props )
 {
   MultiphaseSystemPropertiesHelper::to_json( j, props );
+}
+
+void from_json( const json & j,
+                MultiphaseSystemProperties & props )
+{
+  MultiphaseSystemPropertiesHelper::from_json( j, props );
 }
 
 } // end of namespace PVTPackage
