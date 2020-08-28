@@ -3,25 +3,8 @@
 // for convenience
 using json = nlohmann::json;
 
-void to_json( json & j,
-              const ComponentProperties & properties )
+namespace PVTPackage
 {
-  static constexpr auto N_COMPONENTS = "n_components";
-  static constexpr auto LABELS = "labels";
-  static constexpr auto MW = "mw";
-  static constexpr auto TC = "tc";
-  static constexpr auto PC = "pc";
-  static constexpr auto OMEGA = "omega";
-
-  j = json{ { N_COMPONENTS, properties.NComponents },
-            { LABELS,       properties.Label },
-            { MW,           properties.Mw },
-            { TC,           properties.Tc },
-            { PC,           properties.Pc },
-            { OMEGA,        properties.Omega } };
-}
-
-namespace PVTPackage {
 
 NLOHMANN_JSON_SERIALIZE_ENUM( PHASE_STATE, {
   { PHASE_STATE::UNKNOWN, "UNKNOWN" },
@@ -47,7 +30,8 @@ NLOHMANN_JSON_SERIALIZE_ENUM( EOS_TYPE, {
   { EOS_TYPE::PENG_ROBINSON, "PENG_ROBINSON" }
 } )
 
-class ScalarVectorPropertyAndDerivativesHelper {
+class ScalarVectorPropertyAndDerivativesHelper
+{
 public:
   static void to_json( json & j,
                        const ScalarPropertyAndDerivatives< double > & s )
@@ -80,8 +64,8 @@ public:
                          VectorPropertyAndDerivatives< double > & s )
   {
     s.value = j[VALUE].get< std::vector< double > >();
-    s.dP = j[DP].get< std::vector< double> >();
-    s.dT = j[DT].get< std::vector< double> >();
+    s.dP = j[DP].get< std::vector< double > >();
+    s.dT = j[DT].get< std::vector< double > >();
     s.dz = j[DZ].get< std::vector< std::vector< double > > >();
   }
 
@@ -121,14 +105,137 @@ void from_json( const nlohmann::json & j,
   ScalarVectorPropertyAndDerivativesHelper::from_json( j, s );
 }
 
-void to_json( json & j,
-              const CubicEoSPhaseModel & model )
+class ComponentPropertiesHelper
 {
-  j = json{ { "EOS",                  model.getEosType() },
-            { "PHASE_TYPE",           model.getPhaseType() },
-            { "COMPONENT_PROPERTIES", model.get_ComponentsProperties() } };
+public:
+  static void to_json( json & j,
+                       const ComponentProperties & properties )
+  {
+    j = json{ { N_COMPONENTS, properties.NComponents },
+              { LABELS,       properties.Label },
+              { MW,           properties.Mw },
+              { TC,           properties.Tc },
+              { PC,           properties.Pc },
+              { OMEGA,        properties.Omega },
+              { WATER_INDEX,  properties.WaterIndex } };
+  }
+
+//  static void from_json( const json & j,
+//                         ComponentProperties & properties )
+  static ComponentProperties from_json( const json & j )
+  {
+    const size_t NComponents = j.at( N_COMPONENTS );
+    const std::vector< std::string > Label = j.at( LABELS ).get< std::vector< std::string > >();
+    const std::vector< double > Mw = j.at( MW ).get< std::vector< double > >();
+    const std::vector< double > Pc = j.at( PC ).get< std::vector< double > >();
+    const std::vector< double > Tc = j.at( TC ).get< std::vector< double > >();
+    const std::vector< double > Omega = j.at( OMEGA ).get< std::vector< double > >();
+    const size_t WaterIndex = j.at( WATER_INDEX );
+
+    ComponentProperties p( NComponents, Label, Mw, Tc, Pc, Omega );
+    p.WaterIndex = WaterIndex;
+    return p;
+  }
+
+private:
+  static constexpr auto N_COMPONENTS = "n_components";
+  static constexpr auto LABELS = "labels";
+  static constexpr auto MW = "mw";
+  static constexpr auto TC = "tc";
+  static constexpr auto PC = "pc";
+  static constexpr auto OMEGA = "omega";
+  static constexpr auto WATER_INDEX = "WATER_INDEX";
+};
+
+decltype( ComponentPropertiesHelper::N_COMPONENTS ) ComponentPropertiesHelper::N_COMPONENTS;
+decltype( ComponentPropertiesHelper::LABELS ) ComponentPropertiesHelper::LABELS;
+decltype( ComponentPropertiesHelper::MW ) ComponentPropertiesHelper::MW;
+decltype( ComponentPropertiesHelper::TC ) ComponentPropertiesHelper::TC;
+decltype( ComponentPropertiesHelper::PC ) ComponentPropertiesHelper::PC;
+decltype( ComponentPropertiesHelper::OMEGA ) ComponentPropertiesHelper::OMEGA;
+decltype( ComponentPropertiesHelper::WATER_INDEX ) ComponentPropertiesHelper::WATER_INDEX;
+
+} // namespace PVTPackage
+
+namespace nlohmann
+{
+
+template<>
+struct adl_serializer< PVTPackage::ComponentProperties >
+{
+  static PVTPackage::ComponentProperties from_json( const json & j )
+  {
+    return PVTPackage::ComponentPropertiesHelper::from_json( j );
+  }
+
+  static void to_json( json & j,
+                       const PVTPackage::ComponentProperties & p )
+  {
+    PVTPackage::ComponentPropertiesHelper::to_json( j, p );
+  }
+};
+
 }
 
+namespace PVTPackage
+{
+
+class CubicEoSPhaseModelHelper
+{
+public:
+  static void to_json( json & j,
+                       const CubicEoSPhaseModel & model )
+  {
+    j = json{ { EOS,                  model.getEosType() },
+              { PHASE_TYPE_,           model.getPhaseType() },
+              { COMPONENT_PROPERTIES, model.get_ComponentsProperties() } };
+  }
+
+  static CubicEoSPhaseModel from_json( const json & j )
+  {
+    const ComponentProperties componentProperties = j.at(COMPONENT_PROPERTIES).get< ComponentProperties >();
+    const EOS_TYPE eos = j.at( EOS ).get< EOS_TYPE >();
+    const PHASE_TYPE phaseType = j.at( PHASE_TYPE_ ).get< PHASE_TYPE >();
+
+    const CubicEoSPhaseModel model( componentProperties, eos, phaseType );
+    return model;
+  }
+
+private:
+  static constexpr auto EOS = "EOS";
+  static constexpr auto PHASE_TYPE_ = "PHASE_TYPE";
+  static constexpr auto COMPONENT_PROPERTIES = "COMPONENT_PROPERTIES";
+
+};
+
+decltype( CubicEoSPhaseModelHelper::EOS ) CubicEoSPhaseModelHelper::EOS;
+decltype( CubicEoSPhaseModelHelper::PHASE_TYPE_ ) CubicEoSPhaseModelHelper::PHASE_TYPE_;
+decltype( CubicEoSPhaseModelHelper::COMPONENT_PROPERTIES ) CubicEoSPhaseModelHelper::COMPONENT_PROPERTIES;
+
+} // namespace PVTPackage
+
+namespace nlohmann
+{
+
+template<>
+struct adl_serializer< PVTPackage::CubicEoSPhaseModel >
+{
+  static PVTPackage::CubicEoSPhaseModel from_json( const json & j )
+  {
+    return PVTPackage::CubicEoSPhaseModelHelper::from_json( j );
+  }
+
+  static void to_json( json & j,
+                       const PVTPackage::CubicEoSPhaseModel & p )
+  {
+    PVTPackage::CubicEoSPhaseModelHelper::to_json( j, p );
+  }
+};
+
+}
+
+namespace PVTPackage
+{
 class PhasePropertiesHelper
 {
 public:
@@ -238,12 +345,10 @@ public:
       // Small hack to put the enum as a key
       std::string const & ptKey = json( pt ).get< std::string >();
 
-//      const auto phaseModelAtPt = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( props.PhaseModels.at( pt ) );
-//      output[PHASE_MODELS][ptKey] = phaseModelAtPt ;
-//      props.PhaseMoleFraction[ pt ] = j[PHASE_MOLE_FRACTION][ptKey].get< ScalarPropertyAndDerivatives< double > >();
+      CubicEoSPhaseModel phaseModelAtPt = j[PHASE_MODELS][ptKey].get< CubicEoSPhaseModel >();
+      props.PhaseModels[ pt ] = std::make_shared< CubicEoSPhaseModel >( phaseModelAtPt );
       props.PhaseMoleFraction[ pt ] = j[PHASE_MOLE_FRACTION][ptKey];
       props.PhasesProperties[ pt ] = j[PHASE_PROPERTIES][ptKey];
-//      output[PHASE_PROPERTIES][ptKey] = props.PhasesProperties.at( pt ) ;
     }
 
   }

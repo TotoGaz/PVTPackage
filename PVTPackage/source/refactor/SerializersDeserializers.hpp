@@ -32,9 +32,6 @@ static void to_json( nlohmann::json & j, const std::shared_ptr< T > & opt )
 
 }
 
-// FIXME ComponentProperties is not part of PVTPackage namespace...
-void to_json( nlohmann::json & j, const ComponentProperties & properties );
-
 namespace PVTPackage
 {
 

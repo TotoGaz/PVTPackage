@@ -19,10 +19,13 @@ void Dump( const Flash * flash,
   if( const CompositionalFlash * f = dynamic_cast<const CompositionalFlash *>( flash ) )
   {
     // FIXME the phase models already hold component properties: is it mandatory?
-    nlohmann::json compJson{ { "COMP", f->getComponentProperties() } };
+//    nlohmann::json compJson{ { "COMP", f->getComponentProperties() } };
 
-    std::cout << std::setprecision( std::numeric_limits< double >::max_digits10 )
-              << compJson << std::endl;
+//    std::cout << std::setprecision( std::numeric_limits< double >::max_digits10 )
+//              << compJson << std::endl;
+
+
+    f->getComponentProperties(); // FIXME non used variable.
 
     nlohmann::json propsJson{ { "PROPERTIES", multiphaseProperties } };
 
