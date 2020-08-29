@@ -3,6 +3,9 @@
 
 #include "MultiphaseSystem/MultiphaseSystemProperties.hpp"
 
+#include "MultiphaseSystem/PhaseModel/CubicEOS/CubicEoSPhaseModel.hpp"
+#include "MultiphaseSystem/PhaseSplitModel/NegativeTwoPhaseFlash.hpp"
+
 #include <gtest/gtest.h>
 
 #include <nlohmann/json.hpp>
@@ -18,7 +21,22 @@ TEST( PVTPackageRefactor, first )
 )"_json;
   json const & refProperties = j1["PROPERTIES"];
 
-  PVTPackage::MultiphaseSystemProperties msp = refProperties.get< PVTPackage::MultiphaseSystemProperties >();
+  // TODO refMsp should be some reimpl of PVTPackage::MultiphaseSystemProperties, not the original impl that will change.
+  PVTPackage::MultiphaseSystemProperties refMsp = refProperties.get< PVTPackage::MultiphaseSystemProperties >();
+
+  // TODO Check that all ComponentProperties are the same.
+  std::shared_ptr< PVTPackage::CubicEoSPhaseModel > pm = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( refMsp.PhaseModels.at( refMsp.PhaseTypes[0] ) );
+  const PVTPackage::ComponentProperties & componentProperties = pm->get_ComponentsProperties();
+
+  PVTPackage::MultiphaseSystemProperties msp( refMsp.PhaseTypes, refMsp.Feed.size() );
+  msp.Temperature = refMsp.Temperature ;
+  msp.Pressure = refMsp.Pressure ;
+  msp.Feed = refMsp.Feed ;
+
+  msp.PhaseModels = refMsp.PhaseModels;
+
+  PVTPackage::NegativeTwoPhaseFlash flash( componentProperties ) ;
+  flash.ComputeEquilibrium( msp );
 
   j1.size();
 
