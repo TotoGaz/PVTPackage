@@ -1,5 +1,5 @@
 // This include is necessary for nlohmann::json to find the proper serializers
-#include "SerializersDeserializers.hpp"
+#include "refactor/serializers/SerializersDeserializers.hpp"
 
 #include "MultiphaseSystem/MultiphaseSystemProperties.hpp"
 

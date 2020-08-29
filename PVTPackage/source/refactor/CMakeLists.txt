@@ -13,13 +13,23 @@ endif()
 #set(PVTPackage_dump_INCLUDE_DIRS ${PROJECT_INC_DIR} CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
 
 set( PVTPackage_dump_headers
-     SerializersDeserializers.hpp
      DebugComponentProperties.hpp
+     serializers/ComponentProperties.hpp
+     serializers/Enums.hpp
+     serializers/MultiphaseSystemProperties.hpp
+     serializers/PhaseModels.hpp
+     serializers/PhaseProperties.hpp
+     serializers/PropertyAndDerivatives.hpp
+     serializers/SerializersDeserializers.hpp
 )
 
 set( PVTPackage_dump_sources
-     SerializersDeserializers.cpp
      DebugComponentProperties.cpp
+     serializers/ComponentProperties.cpp
+     serializers/MultiphaseSystemProperties.cpp
+     serializers/PhaseModels.cpp
+     serializers/PhaseProperties.cpp
+     serializers/PropertyAndDerivatives.cpp
 )
 
 set(PVTPackage_dump_target PVTPackageDump)
