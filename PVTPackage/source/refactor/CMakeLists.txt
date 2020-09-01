@@ -14,6 +14,11 @@ endif()
 
 set( PVTPackage_dump_headers
      DebugComponentProperties.hpp
+     passiveDataStructures/MultiphaseSystemProperties.hpp
+     passiveDataStructures/PhaseModel.hpp
+     passiveDataStructures/PhaseProperties.hpp
+     passiveDataStructures/PropertyAndDerivatives.hpp
+     passiveDataStructures/PVTEnums.hpp
      serializers/ComponentProperties.hpp
      serializers/Enums.hpp
      serializers/MultiphaseSystemProperties.hpp

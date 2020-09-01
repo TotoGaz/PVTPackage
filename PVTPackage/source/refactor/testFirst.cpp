@@ -1,17 +1,19 @@
 // This include is necessary for nlohmann::json to find the proper serializers
 #include "refactor/serializers/SerializersDeserializers.hpp"
 
-#include "MultiphaseSystem/MultiphaseSystemProperties.hpp"
+//#include "MultiphaseSystem/MultiphaseSystemProperties.hpp"
+//
+//#include "MultiphaseSystem/PhaseModel/CubicEOS/CubicEoSPhaseModel.hpp"
+//#include "MultiphaseSystem/PhaseSplitModel/NegativeTwoPhaseFlash.hpp"
 
-#include "MultiphaseSystem/PhaseModel/CubicEOS/CubicEoSPhaseModel.hpp"
-#include "MultiphaseSystem/PhaseSplitModel/NegativeTwoPhaseFlash.hpp"
+#include "refactor/passiveDataStructures/MultiphaseSystemProperties.hpp"
+#include "refactor/serializers/MultiphaseSystemProperties.hpp"
 
 #include <gtest/gtest.h>
 
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
-
 
 TEST( PVTPackageRefactor, first )
 {
@@ -22,21 +24,25 @@ TEST( PVTPackageRefactor, first )
   json const & refProperties = j1["PROPERTIES"];
 
   // TODO refMsp should be some reimpl of PVTPackage::MultiphaseSystemProperties, not the original impl that will change.
-  PVTPackage::MultiphaseSystemProperties refMsp = refProperties.get< PVTPackage::MultiphaseSystemProperties >();
+  PVTPackage::pds::MultiphaseSystemProperties refMsp = refProperties.get< PVTPackage::pds::MultiphaseSystemProperties >();
 
   // TODO Check that all ComponentProperties are the same.
-  std::shared_ptr< PVTPackage::CubicEoSPhaseModel > pm = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( refMsp.PhaseModels.at( refMsp.PhaseTypes[0] ) );
-  const PVTPackage::ComponentProperties & componentProperties = pm->get_ComponentsProperties();
+  std::shared_ptr< PVTPackage::pds::CubicEoSPhaseModel > pm = std::dynamic_pointer_cast< PVTPackage::pds::CubicEoSPhaseModel >( refMsp.PhaseModels.at( refMsp.PhaseTypes[0] ) );
+//  const PVTPackage::ComponentProperties & componentProperties = pm->get_ComponentsProperties();
+  const PVTPackage::pds::ComponentProperties & componentProperties = pm->m_ComponentsProperties;
+  componentProperties.Label.size();
 
-  PVTPackage::MultiphaseSystemProperties msp( refMsp.PhaseTypes, refMsp.Feed.size() );
-  msp.Temperature = refMsp.Temperature ;
-  msp.Pressure = refMsp.Pressure ;
-  msp.Feed = refMsp.Feed ;
 
-  msp.PhaseModels = refMsp.PhaseModels;
 
-  PVTPackage::NegativeTwoPhaseFlash flash( componentProperties ) ;
-  flash.ComputeEquilibrium( msp );
+//  PVTPackage::MultiphaseSystemProperties msp( refMsp.PhaseTypes, refMsp.Feed.size() );
+//  msp.Temperature = refMsp.Temperature ;
+//  msp.Pressure = refMsp.Pressure ;
+//  msp.Feed = refMsp.Feed ;
+//
+//  msp.PhaseModels = refMsp.PhaseModels;
+//
+//  PVTPackage::NegativeTwoPhaseFlash flash( componentProperties ) ;
+//  flash.ComputeEquilibrium( msp );
 
   j1.size();
 

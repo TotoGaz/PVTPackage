@@ -5,6 +5,11 @@
 #include "PhaseProperties.hpp"
 #include "PhaseModels.hpp"
 
+#include "refactor/passiveDataStructures/PhaseProperties.hpp"
+#include "refactor/passiveDataStructures/MultiphaseSystemProperties.hpp"
+
+#include "refactor/serializers/PhaseProperties.hpp"
+
 #include "MultiphaseSystem/MultiphaseSystemProperties.hpp"
 
 #include <nlohmann/json.hpp>
@@ -60,7 +65,7 @@ public:
   }
 
   static void from_json( const json & j,
-                         MultiphaseSystemProperties & props )
+                         pds::MultiphaseSystemProperties & props )
   {
     j.at(TEMPERATURE).get_to(props.Temperature);
     j.at(PRESSURE).get_to(props.Pressure);
@@ -69,14 +74,14 @@ public:
     j.at(PHASE_STATE).get_to(props.PhaseState);
     j.at(PHASE_TYPES).get_to(props.PhaseTypes);
 
-    for( const PHASE_TYPE & pt: props.PhaseTypes )
+    for( const pds::PHASE_TYPE & pt: props.PhaseTypes )
     {
 
       // Small hack to put the enum as a key
       std::string const & ptKey = json( pt ).get< std::string >();
 
-      CubicEoSPhaseModel phaseModelAtPt = j[PHASE_MODELS][ptKey].get< CubicEoSPhaseModel >();
-      props.PhaseModels[ pt ] = std::make_shared< CubicEoSPhaseModel >( phaseModelAtPt );
+      pds::CubicEoSPhaseModel phaseModelAtPt = j[PHASE_MODELS][ptKey].get< pds::CubicEoSPhaseModel >();
+      props.PhaseModels[ pt ] = std::make_shared< pds::CubicEoSPhaseModel >( phaseModelAtPt );
       props.PhaseMoleFraction[ pt ] = j[PHASE_MOLE_FRACTION][ptKey];
       props.PhasesProperties[ pt ] = j[PHASE_PROPERTIES][ptKey];
     }
@@ -108,10 +113,15 @@ void to_json( json & j,
   MultiphaseSystemPropertiesHelper::to_json( j, props );
 }
 
+namespace pds
+{
+
 void from_json( const json & j,
-                MultiphaseSystemProperties & props )
+                pds::MultiphaseSystemProperties & props )
 {
   MultiphaseSystemPropertiesHelper::from_json( j, props );
 }
+
+} // end of namespace pds
 
 } // end of namespace PVTPackage

@@ -1,7 +1,11 @@
 #include "PhaseModels.hpp"
 
-#include "Enums.hpp"
-#include "ComponentProperties.hpp"
+#include "refactor/passiveDataStructures/PVTEnums.hpp"
+#include "refactor/passiveDataStructures/ComponentProperties.hpp"
+#include "refactor/passiveDataStructures/PhaseModel.hpp"
+
+#include "refactor/serializers/Enums.hpp"
+#include "refactor/serializers/ComponentProperties.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -18,13 +22,14 @@ void CubicEoSPhaseModelHelper::to_json( json & j,
             { COMPONENT_PROPERTIES, model.get_ComponentsProperties() } };
 }
 
-CubicEoSPhaseModel CubicEoSPhaseModelHelper::CubicEoSPhaseModelHelper::from_json( const json & j )
+pds::CubicEoSPhaseModel CubicEoSPhaseModelHelper::CubicEoSPhaseModelHelper::from_json( const json & j )
 {
-  const ComponentProperties componentProperties = j.at( COMPONENT_PROPERTIES ).get< ComponentProperties >();
-  const EOS_TYPE eos = j.at( EOS ).get< EOS_TYPE >();
-  const PHASE_TYPE phaseType = j.at( PHASE_TYPE_ ).get< PHASE_TYPE >();
+  pds::CubicEoSPhaseModel model;
 
-  const CubicEoSPhaseModel model( componentProperties, eos, phaseType );
+  j.at( COMPONENT_PROPERTIES ).get_to( model.m_ComponentsProperties );
+  j.at( EOS ).get_to( model.m_EOSType );
+  j.at( PHASE_TYPE_ ).get_to( model.m_PhaseType );
+
   return model;
 }
 

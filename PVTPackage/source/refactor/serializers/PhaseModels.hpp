@@ -1,6 +1,8 @@
 #ifndef PVTPACKAGE_PHASEMODELS_HPP
 #define PVTPACKAGE_PHASEMODELS_HPP
 
+#include "refactor/passiveDataStructures/PhaseModel.hpp"
+
 #include "MultiphaseSystem/PhaseModel/CubicEOS/CubicEoSPhaseModel.hpp"
 
 #include <nlohmann/json.hpp>
@@ -13,7 +15,7 @@ public:
   static void to_json( nlohmann::json & j,
                        const CubicEoSPhaseModel & model );
 
-  static CubicEoSPhaseModel from_json( const nlohmann::json & j );
+  static pds::CubicEoSPhaseModel from_json( const nlohmann::json & j );
 
 private:
   static constexpr auto EOS = "EOS";
@@ -30,15 +32,19 @@ namespace nlohmann
 template<>
 struct adl_serializer< PVTPackage::CubicEoSPhaseModel >
 {
-  static PVTPackage::CubicEoSPhaseModel from_json( const json & j )
-  {
-    return PVTPackage::CubicEoSPhaseModelHelper::from_json( j );
-  }
-
   static void to_json( json & j,
                        const PVTPackage::CubicEoSPhaseModel & p )
   {
     PVTPackage::CubicEoSPhaseModelHelper::to_json( j, p );
+  }
+};
+
+template<>
+struct adl_serializer< PVTPackage::pds::CubicEoSPhaseModel >
+{
+  static PVTPackage::pds::CubicEoSPhaseModel from_json( const json & j )
+  {
+    return PVTPackage::CubicEoSPhaseModelHelper::from_json( j );
   }
 };
 

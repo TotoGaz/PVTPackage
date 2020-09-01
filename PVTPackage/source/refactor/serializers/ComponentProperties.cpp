@@ -20,19 +20,15 @@ void ComponentPropertiesHelper::to_json( json & j,
             { WATER_INDEX,  properties.WaterIndex } };
 }
 
-ComponentProperties ComponentPropertiesHelper::from_json( const json & j )
+void ComponentPropertiesHelper::from_json( const json & j, pds::ComponentProperties & p )
 {
-  const size_t NComponents = j.at( N_COMPONENTS );
-  const std::vector< std::string > Label = j.at( LABELS ).get< std::vector< std::string > >();
-  const std::vector< double > Mw = j.at( MW ).get< std::vector< double > >();
-  const std::vector< double > Pc = j.at( PC ).get< std::vector< double > >();
-  const std::vector< double > Tc = j.at( TC ).get< std::vector< double > >();
-  const std::vector< double > Omega = j.at( OMEGA ).get< std::vector< double > >();
-  const size_t WaterIndex = j.at( WATER_INDEX );
-
-  ComponentProperties p( NComponents, Label, Mw, Tc, Pc, Omega );
-  p.WaterIndex = WaterIndex;
-  return p;
+  j.at( N_COMPONENTS ).get_to( p.NComponents );
+  j.at( LABELS ).get_to( p.Label );
+  j.at( MW ).get_to( p.Mw );
+  j.at( PC ).get_to( p.Pc );
+  j.at( TC ).get_to( p.Tc );
+  j.at( OMEGA ).get_to( p.Omega );
+  j.at( WATER_INDEX ).get_to( p.WaterIndex );
 }
 
 decltype( ComponentPropertiesHelper::N_COMPONENTS ) ComponentPropertiesHelper::N_COMPONENTS;
@@ -42,5 +38,21 @@ decltype( ComponentPropertiesHelper::TC ) ComponentPropertiesHelper::TC;
 decltype( ComponentPropertiesHelper::PC ) ComponentPropertiesHelper::PC;
 decltype( ComponentPropertiesHelper::OMEGA ) ComponentPropertiesHelper::OMEGA;
 decltype( ComponentPropertiesHelper::WATER_INDEX ) ComponentPropertiesHelper::WATER_INDEX;
+
+void to_json( nlohmann::json & j,
+              const ComponentProperties & p )
+{
+  ComponentPropertiesHelper::to_json( j, p );
+}
+
+namespace pds
+{
+
+void from_json( const nlohmann::json & j, pds::ComponentProperties & p )
+{
+  ComponentPropertiesHelper::from_json( j, p );
+}
+
+}
 
 } // namespace PVTPackage

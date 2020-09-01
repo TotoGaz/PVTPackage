@@ -1,6 +1,7 @@
 #include "PhaseProperties.hpp"
 
-#include "PropertyAndDerivatives.hpp"
+#include "refactor/passiveDataStructures/PropertyAndDerivatives.hpp"
+#include "refactor/serializers/PropertyAndDerivatives.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -29,7 +30,7 @@ public:
   }
 
   static void from_json( const json & j,
-                         PhaseProperties & phaseProperties )
+                         pds::PhaseProperties & phaseProperties )
   {
     j.at(MOLECULAR_WEIGHT).get_to(phaseProperties.MolecularWeight);
     j.at(COMPRESSIBILITY_FACTOR).get_to(phaseProperties.CompressibilityFactor);
@@ -72,10 +73,15 @@ void to_json( json & j,
   PhasePropertiesHelper::to_json( j, phaseProperties );
 }
 
+namespace pds
+{
+
 void from_json( const json & j,
-                PhaseProperties & phaseProperties )
+                pds::PhaseProperties & phaseProperties )
 {
   PhasePropertiesHelper::from_json( j, phaseProperties );
+}
+
 }
 
 }

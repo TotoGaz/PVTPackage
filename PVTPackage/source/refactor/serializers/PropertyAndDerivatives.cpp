@@ -21,7 +21,7 @@ public:
   }
 
   static void from_json( const json & j,
-                         ScalarPropertyAndDerivatives< double > & s )
+                         pds::ScalarPropertyAndDerivatives< double > & s )
   {
     s.value = j[VALUE].get< double >();
     s.dP = j[DP].get< double >();
@@ -39,7 +39,7 @@ public:
   }
 
   static void from_json( const json & j,
-                         VectorPropertyAndDerivatives< double > & s )
+                         pds::VectorPropertyAndDerivatives< double > & s )
   {
     s.value = j[VALUE].get< std::vector< double > >();
     s.dP = j[DP].get< std::vector< double > >();
@@ -65,22 +65,27 @@ void to_json( json & j,
   ScalarVectorPropertyAndDerivativesHelper::to_json( j, s );
 }
 
-void from_json( const nlohmann::json & j,
-                ScalarPropertyAndDerivatives< double > & s )
-{
-  ScalarVectorPropertyAndDerivativesHelper::from_json( j, s );
-}
-
 void to_json( json & j,
               const VectorPropertyAndDerivatives< double > & v )
 {
   ScalarVectorPropertyAndDerivativesHelper::to_json( j, v );
 }
 
+namespace pds
+{
+
 void from_json( const nlohmann::json & j,
-                VectorPropertyAndDerivatives< double > & s )
+                pds::ScalarPropertyAndDerivatives< double > & s )
 {
   ScalarVectorPropertyAndDerivativesHelper::from_json( j, s );
+}
+
+void from_json( const nlohmann::json & j,
+                pds::VectorPropertyAndDerivatives< double > & s )
+{
+  ScalarVectorPropertyAndDerivativesHelper::from_json( j, s );
+}
+
 }
 
 }
