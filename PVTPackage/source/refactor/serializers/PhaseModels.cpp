@@ -2,7 +2,7 @@
 
 #include "refactor/JsonKeys.hpp"
 
-#include "refactor/serializers/Enums.hpp"
+#include "refactor/serializers/PVTEnums.hpp"
 #include "refactor/serializers/ComponentProperties.hpp"
 
 #include <nlohmann/json.hpp>

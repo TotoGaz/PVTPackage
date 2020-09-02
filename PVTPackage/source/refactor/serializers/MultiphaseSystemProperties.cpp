@@ -1,6 +1,6 @@
 #include "refactor/serializers/MultiphaseSystemProperties.hpp"
 
-#include "refactor/serializers/Enums.hpp"
+#include "refactor/serializers/PVTEnums.hpp"
 #include "refactor/serializers/PropertyAndDerivatives.hpp"
 #include "refactor/serializers/PhaseProperties.hpp"
 #include "refactor/serializers/PhaseModels.hpp"

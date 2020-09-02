@@ -27,7 +27,7 @@ set( PVTPackage_dump_headers
      deserializers/PropertyAndDerivatives.hpp
      deserializers/PVTEnums.hpp
      serializers/ComponentProperties.hpp
-     serializers/Enums.hpp
+     serializers/PVTEnums.hpp
      serializers/MultiphaseSystemProperties.hpp
      serializers/PhaseModels.hpp
      serializers/PhaseProperties.hpp
