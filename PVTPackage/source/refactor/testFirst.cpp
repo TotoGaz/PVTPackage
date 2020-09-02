@@ -89,7 +89,7 @@ std::shared_ptr< PVTPackage::PhaseModel > convert( const std::shared_ptr< PVTPac
     // TODO is this enough?
     return output;
   }
-  std::cerr << "Not fully implemented | PVTPackage::PhaseModel convert( const PVTPackage::pds::PhaseModel & input )" << std::endl;
+  std::cerr << "REFACTOR - Not fully implemented | PVTPackage::PhaseModel convert( const PVTPackage::pds::PhaseModel & input )" << std::endl;
   exit(1);
 }
 

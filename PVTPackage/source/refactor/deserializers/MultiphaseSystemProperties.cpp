@@ -30,10 +30,10 @@ void from_json( const json & j,
 
   for( const pds::PHASE_TYPE & pt: props.PhaseTypes )
   {
-
     // Small hack to put the enum as a key
     std::string const & ptKey = json( pt ).get< std::string >();
 
+    // TODO REFACTOR check this cast
     pds::CubicEoSPhaseModel phaseModelAtPt = j[MultiphaseSystemPropertiesKeys::PHASE_MODELS][ptKey].get< pds::CubicEoSPhaseModel >();
     props.PhaseModels[ pt ] = std::make_shared< pds::CubicEoSPhaseModel >( phaseModelAtPt );
     props.PhaseMoleFraction[ pt ] = j[MultiphaseSystemPropertiesKeys::PHASE_MOLE_FRACTION][ptKey];

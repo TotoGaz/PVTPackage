@@ -28,12 +28,6 @@ class PhaseModel;
 
 struct MultiphaseSystemProperties
 {
-  /**
-   * @brief Default for refactor only
-   * FIXME REFACTOR
-   */
-  MultiphaseSystemProperties(){}
-
   MultiphaseSystemProperties(std::vector<PHASE_TYPE> phase_types, size_t ncomponents)
   :	Temperature(0),
     Pressure(0),

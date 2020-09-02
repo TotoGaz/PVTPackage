@@ -48,6 +48,7 @@ void to_json( nlohmann::json & output,
     // Small hack to put the enum as a key
     std::string const & ptKey = nlohmann::json( pt ).get< std::string >();
 
+    // TODO REFACTOR check this cast
     const auto phaseModelAtPt = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( props.PhaseModels.at( pt ) );
     output[MultiphaseSystemPropertiesKeys::PHASE_MODELS][ptKey] = phaseModelAtPt ;
     output[MultiphaseSystemPropertiesKeys::PHASE_MOLE_FRACTION][ptKey] = props.PhaseMoleFraction.at( pt ) ;

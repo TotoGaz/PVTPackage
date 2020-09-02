@@ -29,8 +29,12 @@ void Dump( const Flash * flash,
 
     nlohmann::json propsJson{ { "PROPERTIES", multiphaseProperties } };
 
-    std::cout << std::setprecision( std::numeric_limits< double >::max_digits10 )
+    std::cerr << std::setprecision( std::numeric_limits< double >::max_digits10 )
               << propsJson << std::endl;
+  }
+  else
+  {
+    std::cerr << "REFACTOR - Not a CompositionalFlash, in void Dump( const Flash * flash, const MultiphaseSystemProperties & multiphaseProperties )" << std::endl;
   }
 }
 
