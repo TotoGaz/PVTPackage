@@ -60,6 +60,13 @@ struct ComponentPropertiesKeys
   static constexpr auto WATER_INDEX = "WATER_INDEX";
 };
 
+struct PhaseModelsKeys
+{
+  static constexpr auto EOS = "EOS";
+  static constexpr auto PHASE_TYPE_ = "PHASE_TYPE";
+  static constexpr auto COMPONENT_PROPERTIES = "COMPONENT_PROPERTIES";
+};
+
 } // end of namespace PVTPackage
 
 #endif //GEOSX_JSONKEYS_HPP

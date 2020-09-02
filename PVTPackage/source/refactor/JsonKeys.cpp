@@ -44,4 +44,8 @@ decltype( ComponentPropertiesKeys::PC ) ComponentPropertiesKeys::PC;
 decltype( ComponentPropertiesKeys::OMEGA ) ComponentPropertiesKeys::OMEGA;
 decltype( ComponentPropertiesKeys::WATER_INDEX ) ComponentPropertiesKeys::WATER_INDEX;
 
+decltype( PhaseModelsKeys::EOS ) PhaseModelsKeys::EOS;
+decltype( PhaseModelsKeys::PHASE_TYPE_ ) PhaseModelsKeys::PHASE_TYPE_;
+decltype( PhaseModelsKeys::COMPONENT_PROPERTIES ) PhaseModelsKeys::COMPONENT_PROPERTIES;
+
 } // end of namespace PVTPackage
