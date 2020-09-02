@@ -14,11 +14,13 @@ endif()
 
 set( PVTPackage_dump_headers
      DebugComponentProperties.hpp
+     JsonKeys.hpp
      passiveDataStructures/MultiphaseSystemProperties.hpp
      passiveDataStructures/PhaseModel.hpp
      passiveDataStructures/PhaseProperties.hpp
      passiveDataStructures/PropertyAndDerivatives.hpp
      passiveDataStructures/PVTEnums.hpp
+     deserializers/PropertyAndDerivatives.hpp
      serializers/ComponentProperties.hpp
      serializers/Enums.hpp
      serializers/MultiphaseSystemProperties.hpp
@@ -30,6 +32,8 @@ set( PVTPackage_dump_headers
 
 set( PVTPackage_dump_sources
      DebugComponentProperties.cpp
+     JsonKeys.cpp
+     deserializers/PropertyAndDerivatives.cpp
      serializers/ComponentProperties.cpp
      serializers/MultiphaseSystemProperties.cpp
      serializers/PhaseModels.cpp

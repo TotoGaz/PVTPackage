@@ -9,6 +9,7 @@
 #include "refactor/passiveDataStructures/MultiphaseSystemProperties.hpp"
 
 #include "refactor/serializers/PhaseProperties.hpp"
+#include "refactor/deserializers/PropertyAndDerivatives.hpp"
 
 #include "MultiphaseSystem/MultiphaseSystemProperties.hpp"
 

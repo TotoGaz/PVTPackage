@@ -1,4 +1,6 @@
-#include "PropertyAndDerivatives.hpp"
+#include "refactor/serializers/PropertyAndDerivatives.hpp"
+
+#include "refactor/JsonKeys.hpp"
 
 #include "MultiphaseSystem/PropertyAndDerivatives.hpp"
 
@@ -8,84 +10,22 @@ namespace PVTPackage {
 
 using json = nlohmann::json;
 
-class ScalarVectorPropertyAndDerivativesHelper
-{
-public:
-  static void to_json( json & j,
-                       const ScalarPropertyAndDerivatives< double > & s )
-  {
-    j = json{ { VALUE, s.value },
-              { DP,    s.dP },
-              { DT,    s.dT },
-              { DZ,    s.dz } };
-  }
-
-  static void from_json( const json & j,
-                         pds::ScalarPropertyAndDerivatives< double > & s )
-  {
-    s.value = j[VALUE].get< double >();
-    s.dP = j[DP].get< double >();
-    s.dT = j[DT].get< double >();
-    s.dz = j[DZ].get< std::vector< double > >();
-  }
-
-  static void to_json( json & j,
-                       const VectorPropertyAndDerivatives< double > & s )
-  {
-    j = json{ { VALUE, s.value },
-              { DP,    s.dP },
-              { DT,    s.dT },
-              { DZ,    s.dz } };
-  }
-
-  static void from_json( const json & j,
-                         pds::VectorPropertyAndDerivatives< double > & s )
-  {
-    s.value = j[VALUE].get< std::vector< double > >();
-    s.dP = j[DP].get< std::vector< double > >();
-    s.dT = j[DT].get< std::vector< double > >();
-    s.dz = j[DZ].get< std::vector< std::vector< double > > >();
-  }
-
-private:
-  static constexpr auto VALUE = "value";
-  static constexpr auto DP = "dP";
-  static constexpr auto DT = "dT";
-  static constexpr auto DZ = "dz";
-};
-
-decltype( ScalarVectorPropertyAndDerivativesHelper::VALUE ) ScalarVectorPropertyAndDerivativesHelper::VALUE;
-decltype( ScalarVectorPropertyAndDerivativesHelper::DP ) ScalarVectorPropertyAndDerivativesHelper::DP;
-decltype( ScalarVectorPropertyAndDerivativesHelper::DT ) ScalarVectorPropertyAndDerivativesHelper::DT;
-decltype( ScalarVectorPropertyAndDerivativesHelper::DZ ) ScalarVectorPropertyAndDerivativesHelper::DZ;
-
 void to_json( json & j,
               const ScalarPropertyAndDerivatives< double > & s )
 {
-  ScalarVectorPropertyAndDerivativesHelper::to_json( j, s );
+  j = json{ { ScalarVectorPropertyAndDerivativesHelper::VALUE, s.value },
+            { ScalarVectorPropertyAndDerivativesHelper::DP,    s.dP },
+            { ScalarVectorPropertyAndDerivativesHelper::DT,    s.dT },
+            { ScalarVectorPropertyAndDerivativesHelper::DZ,    s.dz } };
 }
 
 void to_json( json & j,
               const VectorPropertyAndDerivatives< double > & v )
 {
-  ScalarVectorPropertyAndDerivativesHelper::to_json( j, v );
+  j = json{ { ScalarVectorPropertyAndDerivativesHelper::VALUE, v.value },
+            { ScalarVectorPropertyAndDerivativesHelper::DP,    v.dP },
+            { ScalarVectorPropertyAndDerivativesHelper::DT,    v.dT },
+            { ScalarVectorPropertyAndDerivativesHelper::DZ,    v.dz } };
 }
 
-namespace pds
-{
-
-void from_json( const nlohmann::json & j,
-                pds::ScalarPropertyAndDerivatives< double > & s )
-{
-  ScalarVectorPropertyAndDerivativesHelper::from_json( j, s );
-}
-
-void from_json( const nlohmann::json & j,
-                pds::VectorPropertyAndDerivatives< double > & s )
-{
-  ScalarVectorPropertyAndDerivativesHelper::from_json( j, s );
-}
-
-}
-
-}
+} // end of namespace PVTPackage
