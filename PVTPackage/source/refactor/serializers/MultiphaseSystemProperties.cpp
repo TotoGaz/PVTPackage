@@ -10,6 +10,7 @@
 
 #include "refactor/serializers/PhaseProperties.hpp"
 #include "refactor/deserializers/PropertyAndDerivatives.hpp"
+#include "refactor/deserializers/PhaseProperties.hpp"
 
 #include "MultiphaseSystem/MultiphaseSystemProperties.hpp"
 

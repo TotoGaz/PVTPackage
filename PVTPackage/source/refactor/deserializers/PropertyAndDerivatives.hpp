@@ -1,5 +1,5 @@
-#ifndef GEOSX_PROPERTYANDDERIVATIVES_HPP
-#define GEOSX_PROPERTYANDDERIVATIVES_HPP
+#ifndef PVTPACKAGE_DESERIALIZERS_PROPERTYANDDERIVATIVES_HPP
+#define PVTPACKAGE_DESERIALIZERS_PROPERTYANDDERIVATIVES_HPP
 
 #include "refactor/passiveDataStructures/PropertyAndDerivatives.hpp"
 
@@ -8,10 +8,13 @@
 namespace PVTPackage {
 namespace pds {
 
-void from_json( const nlohmann::json & j, pds::ScalarPropertyAndDerivatives< double > & s );
-void from_json( const nlohmann::json & j, pds::VectorPropertyAndDerivatives< double > & v );
+void from_json( const nlohmann::json & j,
+                pds::ScalarPropertyAndDerivatives< double > & s );
+
+void from_json( const nlohmann::json & j,
+                pds::VectorPropertyAndDerivatives< double > & v );
 
 } // end of namespace pds
 } // end of namespace PVTPackage
 
-#endif //GEOSX_PROPERTYANDDERIVATIVES_HPP
+#endif // PVTPACKAGE_DESERIALIZERS_PROPERTYANDDERIVATIVES_HPP

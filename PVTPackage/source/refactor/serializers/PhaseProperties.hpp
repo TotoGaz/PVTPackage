@@ -11,12 +11,6 @@ namespace PVTPackage {
 
 void to_json( nlohmann::json & j, const PhaseProperties & phaseProperties );
 
-namespace pds {
-
-void from_json( const nlohmann::json & j,
-                pds::PhaseProperties & phaseProperties );
-
-} // end of namespace pds
 } // end of namespace PVTPackage
 
 #endif //PVTPACKAGE_PHASEPROPERTIES_HPP
