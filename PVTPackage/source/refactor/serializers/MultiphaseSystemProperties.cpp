@@ -12,6 +12,8 @@
 #include "refactor/deserializers/PropertyAndDerivatives.hpp"
 #include "refactor/deserializers/PhaseProperties.hpp"
 
+#include "refactor/deserializers/PVTEnums.hpp"
+
 #include "MultiphaseSystem/MultiphaseSystemProperties.hpp"
 
 #include <nlohmann/json.hpp>

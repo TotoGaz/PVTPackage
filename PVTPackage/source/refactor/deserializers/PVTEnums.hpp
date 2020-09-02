@@ -1,0 +1,42 @@
+#ifndef PVTPACKAGE_DESERIALIZERS_PVTENUMS_HPP
+#define PVTPACKAGE_DESERIALIZERS_PVTENUMS_HPP
+
+#include "refactor/JsonKeys.hpp"
+
+#include "refactor/passiveDataStructures/PVTEnums.hpp"
+
+#include <nlohmann/json.hpp>
+
+namespace PVTPackage
+{
+namespace pds
+{
+
+NLOHMANN_JSON_SERIALIZE_ENUM( pds::PHASE_STATE, {
+  { pds::PHASE_STATE::UNKNOWN, EnumKeys::PHASE_STATE_UNKNOWN },
+  { pds::PHASE_STATE::GAS, EnumKeys::PHASE_STATE_GAS },
+  { pds::PHASE_STATE::OIL, EnumKeys::PHASE_STATE_OIL },
+  { pds::PHASE_STATE::WATER, EnumKeys::PHASE_STATE_WATER },
+  { pds::PHASE_STATE::OIL_GAS, EnumKeys::PHASE_STATE_OIL_GAS },
+  { pds::PHASE_STATE::GAS_WATER, EnumKeys::PHASE_STATE_GAS_WATER },
+  { pds::PHASE_STATE::OIL_WATER, EnumKeys::PHASE_STATE_OIL_WATER },
+  { pds::PHASE_STATE::OIL_GAS_WATER, EnumKeys::PHASE_STATE_OIL_GAS_WATER }
+} )
+
+NLOHMANN_JSON_SERIALIZE_ENUM( pds::PHASE_TYPE, {
+  { pds::PHASE_TYPE::UNKNOWN, EnumKeys::PHASE_TYPE_UNKNOWN },
+  { pds::PHASE_TYPE::LIQUID_WATER_RICH, EnumKeys::PHASE_TYPE_LIQUID_WATER_RICH },
+  { pds::PHASE_TYPE::OIL, EnumKeys::PHASE_TYPE_OIL },
+  { pds::PHASE_TYPE::GAS, EnumKeys::PHASE_TYPE_GAS }
+} )
+
+NLOHMANN_JSON_SERIALIZE_ENUM( pds::EOS_TYPE, {
+  { pds::EOS_TYPE::UNKNOWN, EnumKeys::EOS_TYPE_UNKNOWN },
+  { pds::EOS_TYPE::REDLICH_KWONG_SOAVE, EnumKeys::EOS_TYPE_REDLICH_KWONG_SOAVE },
+  { pds::EOS_TYPE::PENG_ROBINSON, EnumKeys::EOS_TYPE_PENG_ROBINSON }
+} )
+
+} // end of namespace pds
+} // end of namespace PVTPackage
+
+#endif //PVTPACKAGE_DESERIALIZERS_PVTENUMS_HPP

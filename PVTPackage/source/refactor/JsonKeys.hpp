@@ -28,6 +28,38 @@ struct PhasePropertiesHelper
   static constexpr auto COMPRESSIBILITY = "COMPRESSIBILITY";
 };
 
+struct EnumKeys
+{
+  static constexpr auto PHASE_STATE_UNKNOWN = "UNKNOWN";
+  static constexpr auto PHASE_STATE_GAS = "GAS";
+  static constexpr auto PHASE_STATE_OIL = "OIL";
+  static constexpr auto PHASE_STATE_WATER = "WATER";
+  static constexpr auto PHASE_STATE_OIL_GAS = "OIL_GAS";
+  static constexpr auto PHASE_STATE_GAS_WATER = "GAS_WATER";
+  static constexpr auto PHASE_STATE_OIL_WATER = "OIL_WATER";
+  static constexpr auto PHASE_STATE_OIL_GAS_WATER = "OIL_GAS_WATER";
+
+  static constexpr auto PHASE_TYPE_UNKNOWN = "UNKNOWN";
+  static constexpr auto PHASE_TYPE_LIQUID_WATER_RICH = "LIQUID_WATER_RICH";
+  static constexpr auto PHASE_TYPE_OIL = "OIL";
+  static constexpr auto PHASE_TYPE_GAS = "GAS";
+
+  static constexpr auto EOS_TYPE_UNKNOWN = "UNKNOWN";
+  static constexpr auto EOS_TYPE_REDLICH_KWONG_SOAVE = "REDLICH_KWONG_SOAVE";
+  static constexpr auto EOS_TYPE_PENG_ROBINSON = "PENG_ROBINSON";
+};
+
+struct ComponentPropertiesKeys
+{
+  static constexpr auto N_COMPONENTS = "n_components";
+  static constexpr auto LABELS = "labels";
+  static constexpr auto MW = "mw";
+  static constexpr auto TC = "tc";
+  static constexpr auto PC = "pc";
+  static constexpr auto OMEGA = "omega";
+  static constexpr auto WATER_INDEX = "WATER_INDEX";
+};
+
 } // end of namespace PVTPackage
 
 #endif //GEOSX_JSONKEYS_HPP

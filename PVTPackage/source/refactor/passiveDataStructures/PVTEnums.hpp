@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include "refactor/JsonKeys.hpp"
+
 #include <nlohmann/json.hpp>
 
 #include <unordered_map>
@@ -59,32 +61,6 @@ struct EnumClassHash
     return static_cast<int>(t);
   }
 };
-
-// TODO This is supposed to be the same as serialisation.
-NLOHMANN_JSON_SERIALIZE_ENUM( pds::PHASE_STATE, {
-  { pds::PHASE_STATE::UNKNOWN, "UNKNOWN" },
-  { pds::PHASE_STATE::GAS, "GAS" },
-  { pds::PHASE_STATE::OIL, "OIL" },
-  { pds::PHASE_STATE::WATER, "WATER" },
-  { pds::PHASE_STATE::OIL_GAS, "OIL_GAS" },
-  { pds::PHASE_STATE::GAS_WATER, "GAS_WATER" },
-  { pds::PHASE_STATE::OIL_WATER, "OIL_WATER" },
-  { pds::PHASE_STATE::OIL_GAS_WATER, "OIL_GAS_WATER" }
-} )
-
-NLOHMANN_JSON_SERIALIZE_ENUM( pds::PHASE_TYPE, {
-  { pds::PHASE_TYPE::UNKNOWN, "UNKNOWN" },
-  { pds::PHASE_TYPE::LIQUID_WATER_RICH, "LIQUID_WATER_RICH" },
-  { pds::PHASE_TYPE::OIL, "OIL" },
-  { pds::PHASE_TYPE::GAS, "GAS" }
-} )
-
-NLOHMANN_JSON_SERIALIZE_ENUM( pds::EOS_TYPE, {
-  { pds::EOS_TYPE::UNKNOWN, "UNKNOWN" },
-  { pds::EOS_TYPE::REDLICH_KWONG_SOAVE, "REDLICH_KWONG_SOAVE" },
-  { pds::EOS_TYPE::PENG_ROBINSON, "PENG_ROBINSON" }
-} )
-
 
 ////Phase State
 //const std::unordered_map<std::vector<bool>, PHASE_STATE> PhaseStateMap =

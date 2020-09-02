@@ -18,4 +18,30 @@ decltype( PhasePropertiesHelper::VISCOSITY ) PhasePropertiesHelper::VISCOSITY;
 decltype( PhasePropertiesHelper::MASS_ENTHALPY ) PhasePropertiesHelper::MASS_ENTHALPY;
 decltype( PhasePropertiesHelper::COMPRESSIBILITY ) PhasePropertiesHelper::COMPRESSIBILITY;
 
+decltype( EnumKeys::PHASE_STATE_UNKNOWN ) EnumKeys::PHASE_STATE_UNKNOWN;
+decltype( EnumKeys::PHASE_STATE_GAS ) EnumKeys::PHASE_STATE_GAS;
+decltype( EnumKeys::PHASE_STATE_OIL ) EnumKeys::PHASE_STATE_OIL;
+decltype( EnumKeys::PHASE_STATE_WATER ) EnumKeys::PHASE_STATE_WATER;
+decltype( EnumKeys::PHASE_STATE_OIL_GAS ) EnumKeys::PHASE_STATE_OIL_GAS;
+decltype( EnumKeys::PHASE_STATE_GAS_WATER ) EnumKeys::PHASE_STATE_GAS_WATER;
+decltype( EnumKeys::PHASE_STATE_OIL_WATER ) EnumKeys::PHASE_STATE_OIL_WATER;
+decltype( EnumKeys::PHASE_STATE_OIL_GAS_WATER ) EnumKeys::PHASE_STATE_OIL_GAS_WATER;
+
+decltype( EnumKeys::PHASE_TYPE_UNKNOWN ) EnumKeys::PHASE_TYPE_UNKNOWN;
+decltype( EnumKeys::PHASE_TYPE_LIQUID_WATER_RICH ) EnumKeys::PHASE_TYPE_LIQUID_WATER_RICH;
+decltype( EnumKeys::PHASE_TYPE_OIL ) EnumKeys::PHASE_TYPE_OIL;
+decltype( EnumKeys::PHASE_TYPE_GAS ) EnumKeys::PHASE_TYPE_GAS;
+
+decltype( EnumKeys::EOS_TYPE_UNKNOWN ) EnumKeys::EOS_TYPE_UNKNOWN;
+decltype( EnumKeys::EOS_TYPE_REDLICH_KWONG_SOAVE ) EnumKeys::EOS_TYPE_REDLICH_KWONG_SOAVE;
+decltype( EnumKeys::EOS_TYPE_PENG_ROBINSON ) EnumKeys::EOS_TYPE_PENG_ROBINSON;
+
+decltype( ComponentPropertiesKeys::N_COMPONENTS ) ComponentPropertiesKeys::N_COMPONENTS;
+decltype( ComponentPropertiesKeys::LABELS ) ComponentPropertiesKeys::LABELS;
+decltype( ComponentPropertiesKeys::MW ) ComponentPropertiesKeys::MW;
+decltype( ComponentPropertiesKeys::TC ) ComponentPropertiesKeys::TC;
+decltype( ComponentPropertiesKeys::PC ) ComponentPropertiesKeys::PC;
+decltype( ComponentPropertiesKeys::OMEGA ) ComponentPropertiesKeys::OMEGA;
+decltype( ComponentPropertiesKeys::WATER_INDEX ) ComponentPropertiesKeys::WATER_INDEX;
+
 } // end of namespace PVTPackage

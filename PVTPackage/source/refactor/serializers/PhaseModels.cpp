@@ -4,6 +4,9 @@
 #include "refactor/passiveDataStructures/ComponentProperties.hpp"
 #include "refactor/passiveDataStructures/PhaseModel.hpp"
 
+#include "refactor/deserializers/PVTEnums.hpp"
+#include "refactor/deserializers/ComponentProperties.hpp"
+
 #include "refactor/serializers/Enums.hpp"
 #include "refactor/serializers/ComponentProperties.hpp"
 
