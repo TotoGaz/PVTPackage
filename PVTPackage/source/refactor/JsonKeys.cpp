@@ -48,4 +48,13 @@ decltype( PhaseModelsKeys::EOS ) PhaseModelsKeys::EOS;
 decltype( PhaseModelsKeys::PHASE_TYPE_ ) PhaseModelsKeys::PHASE_TYPE_;
 decltype( PhaseModelsKeys::COMPONENT_PROPERTIES ) PhaseModelsKeys::COMPONENT_PROPERTIES;
 
+decltype( MultiphaseSystemPropertiesKeys::TEMPERATURE ) MultiphaseSystemPropertiesKeys::TEMPERATURE;
+decltype( MultiphaseSystemPropertiesKeys::PRESSURE ) MultiphaseSystemPropertiesKeys::PRESSURE;
+decltype( MultiphaseSystemPropertiesKeys::FEED ) MultiphaseSystemPropertiesKeys::FEED;
+decltype( MultiphaseSystemPropertiesKeys::PHASE_STATE ) MultiphaseSystemPropertiesKeys::PHASE_STATE;
+decltype( MultiphaseSystemPropertiesKeys::PHASE_TYPES ) MultiphaseSystemPropertiesKeys::PHASE_TYPES;
+decltype( MultiphaseSystemPropertiesKeys::PHASE_MODELS ) MultiphaseSystemPropertiesKeys::PHASE_MODELS;
+decltype( MultiphaseSystemPropertiesKeys::PHASE_MOLE_FRACTION ) MultiphaseSystemPropertiesKeys::PHASE_MOLE_FRACTION;
+decltype( MultiphaseSystemPropertiesKeys::PHASE_PROPERTIES ) MultiphaseSystemPropertiesKeys::PHASE_PROPERTIES;
+
 } // end of namespace PVTPackage

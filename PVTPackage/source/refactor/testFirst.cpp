@@ -1,7 +1,7 @@
 #include "refactor/passiveDataStructures/MultiphaseSystemProperties.hpp"
 
 // This include is necessary for nlohmann::json to find the proper serializers
-#include "refactor/serializers/MultiphaseSystemProperties.hpp"
+#include "refactor/deserializers/MultiphaseSystemProperties.hpp"
 
 #include "MultiphaseSystem/PhaseModel/CubicEOS/CubicEoSPhaseModel.hpp"
 #include "MultiphaseSystem/PhaseSplitModel/NegativeTwoPhaseFlash.hpp"

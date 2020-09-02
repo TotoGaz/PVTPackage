@@ -67,6 +67,20 @@ struct PhaseModelsKeys
   static constexpr auto COMPONENT_PROPERTIES = "COMPONENT_PROPERTIES";
 };
 
+struct MultiphaseSystemPropertiesKeys
+{
+  static constexpr auto TEMPERATURE = "TEMPERATURE";
+  static constexpr auto PRESSURE = "PRESSURE";
+  static constexpr auto FEED = "FEED";
+
+  static constexpr auto PHASE_STATE = "PHASE_STATE";
+  static constexpr auto PHASE_TYPES = "PHASE_TYPES";
+
+  static constexpr auto PHASE_MODELS = "PHASE_MODELS";
+  static constexpr auto PHASE_MOLE_FRACTION = "PHASE_MOLE_FRACTION";
+  static constexpr auto PHASE_PROPERTIES = "PHASE_PROPERTIES";
+};
+
 } // end of namespace PVTPackage
 
 #endif //GEOSX_JSONKEYS_HPP
