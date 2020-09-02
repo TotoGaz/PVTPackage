@@ -3,8 +3,8 @@
 #include "refactor/JsonKeys.hpp"
 
 #include "refactor/passiveDataStructures/PropertyAndDerivatives.hpp"
+
 #include "refactor/serializers/PropertyAndDerivatives.hpp"
-#include "refactor/deserializers/PropertyAndDerivatives.hpp"
 
 #include <nlohmann/json.hpp>
 
