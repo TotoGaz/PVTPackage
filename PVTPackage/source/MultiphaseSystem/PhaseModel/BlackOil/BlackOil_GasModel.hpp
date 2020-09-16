@@ -77,6 +77,48 @@ protected:
   void CheckTableConsistency();
   void RefineTable(size_t nlevel);
 
+public:
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getSurfaceMassDensity() const
+  { return m_SurfaceMassDensity; }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getSurfaceMoleDensity() const
+  { return m_SurfaceMoleDensity; }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getSurfaceMolecularWeight() const
+  { return m_SurfaceMolecularWeight; }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  PVTGdata const & getPvtg() const
+  { return m_PVTG; }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getMinPressure() const
+  { return min_Pressure; }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getMaxPressure() const
+  { return max_Pressure; }
 };
 
 }

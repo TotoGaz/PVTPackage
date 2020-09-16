@@ -51,6 +51,34 @@ protected:
   double m_SurfaceMoleDensity;
   double m_SurfaceMolecularWeight;
 
+public:
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getSurfaceMassDensity() const
+  { return m_SurfaceMassDensity; }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getSurfaceMoleDensity() const
+  { return m_SurfaceMoleDensity; }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getSurfaceMolecularWeight() const
+  { return m_SurfaceMolecularWeight; }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  PVTWdata const & getPvtw() const
+  { return m_PVTW; }
 };
 
 }

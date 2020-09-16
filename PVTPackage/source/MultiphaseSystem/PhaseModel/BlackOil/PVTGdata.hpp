@@ -41,6 +41,24 @@ private:
   double MaxRelativeRv;
   double MinRelativeRv;
 
+public:
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getMaxRelativeRv() const
+  {
+    return MaxRelativeRv;
+  }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getMinRelativeRv() const
+  {
+    return MinRelativeRv;
+  }
 };
 
 }

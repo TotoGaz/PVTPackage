@@ -34,8 +34,8 @@ void from_json( const json & j,
     std::string const & ptKey = json( pt ).get< std::string >();
 
     // TODO REFACTOR check this cast
-    pds::CubicEoSPhaseModel phaseModelAtPt = j[MultiphaseSystemPropertiesKeys::PHASE_MODELS][ptKey].get< pds::CubicEoSPhaseModel >();
-    props.PhaseModels[ pt ] = std::make_shared< pds::CubicEoSPhaseModel >( phaseModelAtPt );
+    auto phaseModelAtPt = j[MultiphaseSystemPropertiesKeys::PHASE_MODELS][ptKey].get< std::shared_ptr< pds::PhaseModel > >();
+    props.PhaseModels[ pt ] = phaseModelAtPt;
     props.PhaseMoleFraction[ pt ] = j[MultiphaseSystemPropertiesKeys::PHASE_MOLE_FRACTION][ptKey];
     props.PhasesProperties[ pt ] = j[MultiphaseSystemPropertiesKeys::PHASE_PROPERTIES][ptKey];
   }

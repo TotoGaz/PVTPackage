@@ -49,8 +49,8 @@ void to_json( nlohmann::json & output,
     std::string const & ptKey = nlohmann::json( pt ).get< std::string >();
 
     // TODO REFACTOR check this cast
-    const auto phaseModelAtPt = std::dynamic_pointer_cast< PVTPackage::CubicEoSPhaseModel >( props.PhaseModels.at( pt ) );
-    output[MultiphaseSystemPropertiesKeys::PHASE_MODELS][ptKey] = phaseModelAtPt ;
+    const std::shared_ptr< PhaseModel > & pm = props.PhaseModels.at( pt );
+    output[MultiphaseSystemPropertiesKeys::PHASE_MODELS][ptKey] = pm ;
     output[MultiphaseSystemPropertiesKeys::PHASE_MOLE_FRACTION][ptKey] = props.PhaseMoleFraction.at( pt ) ;
     output[MultiphaseSystemPropertiesKeys::PHASE_PROPERTIES][ptKey] = props.PhasesProperties.at( pt ) ;
   }
