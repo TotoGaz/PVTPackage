@@ -4,7 +4,13 @@
 #include "refactor/deserializers/MultiphaseSystemProperties.hpp"
 
 #include "MultiphaseSystem/PhaseModel/CubicEOS/CubicEoSPhaseModel.hpp"
+#include "MultiphaseSystem/PhaseModel/BlackOil/BlackOil_GasModel.hpp"
+#include "MultiphaseSystem/PhaseModel/BlackOil/BlackOil_OilModel.hpp"
+#include "MultiphaseSystem/PhaseModel/BlackOil/BlackOil_WaterModel.hpp"
+
 #include "MultiphaseSystem/PhaseSplitModel/NegativeTwoPhaseFlash.hpp"
+#include "MultiphaseSystem/PhaseSplitModel/BlackOilFlash.hpp"
+
 #include "MultiphaseSystem/MultiphaseSystemProperties.hpp"
 
 #include <gtest/gtest.h>
@@ -76,11 +82,66 @@ PVTPackage::ComponentProperties convert( const PVTPackage::pds::ComponentPropert
   return PVTPackage::ComponentProperties{ input.NComponents, input.Label, input.Mw, input.Tc, input.Pc, input.Omega };
 }
 
+PVTPackage::PVTGdata convert( const PVTPackage::pds::PVTGdata & input )
+{
+  PVTPackage::PVTGdata output;
+
+  output.setRv(input.Rv);
+  output.setDewPressure(input.DewPressure);
+
+  output.setNSaturatedPoints(input.NSaturatedPoints);
+  output.setSaturatedBg(input.SaturatedBg);
+  output.setSaturatedViscosity(input.SaturatedViscosity);
+
+  output.setUndersaturatedRv(input.UndersaturatedRv);
+  output.setUndersaturatedBg(input.UndersaturatedBg);
+  output.setUndersaturatedViscosity(input.UndersaturatedViscosity);
+
+  output.setMaxRelativeRv(input.MaxRelativeRv);
+  output.setMinRelativeRv(input.MinRelativeRv);
+
+  return output;
+}
+
+PVTPackage::PVTWdata convert( const PVTPackage::pds::PVTWdata & input )
+{
+  PVTPackage::PVTWdata output;
+
+  output.setReferencePressure(input.ReferencePressure);
+  output.setBw(input.Bw);
+  output.setCompressibility(input.Compressibility);
+  output.setViscosity(input.Viscosity);
+
+  return output;
+}
+
+PVTPackage::PVTOdata convert( const PVTPackage::pds::PVTOdata & input )
+{
+  PVTPackage::PVTOdata output;
+
+  output.setRs(input.Rs);
+  output.setBubblePressure(input.BubblePressure);
+
+  output.setNSaturatedPoints(input.NSaturatedPoints);
+  output.setSaturatedBo(input.SaturatedBo);
+  output.setSaturatedViscosity(input.SaturatedViscosity);
+
+  output.setUndersaturatedPressure(input.UndersaturatedPressure);
+  output.setUndersaturatedBo(input.UndersaturatedBo);
+  output.setUndersaturatedViscosity(input.UndersaturatedViscosity);
+
+  output.setMaxRelativePressure(input.MaxRelativePressure);
+  output.setMinRelativePressure(input.MinRelativePressure);
+
+
+  return output;
+}
 std::shared_ptr< PVTPackage::PhaseModel > convert( const std::shared_ptr< PVTPackage::pds::PhaseModel > input )
 {
   using namespace PVTPackage;
 
-  if (auto pm = std::dynamic_pointer_cast< const pds::CubicEoSPhaseModel >( input )){
+  if (auto pm = std::dynamic_pointer_cast< const pds::CubicEoSPhaseModel >( input ))
+  {
     auto output = std::make_shared< CubicEoSPhaseModel >(
                                   convert( pm->m_ComponentsProperties ),
                                   convert( pm->m_EOSType ),
@@ -89,6 +150,35 @@ std::shared_ptr< PVTPackage::PhaseModel > convert( const std::shared_ptr< PVTPac
     // TODO is this enough?
     return output;
   }
+
+  if (auto pm = std::dynamic_pointer_cast< const pds::BlackOilGasModel >( input ))
+  {
+    auto output = std::make_shared< BlackOil_GasModel >(
+      convert( pm->m_PVTG ), pm->min_Pressure, pm->max_Pressure, pm->m_SurfaceMassDensity, pm->m_SurfaceMoleDensity,
+      pm->m_SurfaceMolecularWeight
+    );
+
+    return output;
+  }
+
+  if (auto pm = std::dynamic_pointer_cast< const pds::BlackOilOilModel >( input ))
+  {
+    auto output = std::make_shared< BlackOil_OilModel >(
+      convert( pm->m_PVTO ), pm->min_Pressure, pm->max_Pressure, pm->m_SurfaceMassDensity, pm->m_SurfaceMoleDensity, pm->m_SurfaceMolecularWeight
+    );
+
+    return output;
+  }
+
+  if (auto pm = std::dynamic_pointer_cast< const pds::BlackOilWaterModel >( input ))
+  {
+    auto output = std::make_shared< BlackOil_WaterModel >(
+      convert( pm->m_PVTW ), pm->m_SurfaceMassDensity, pm->m_SurfaceMoleDensity, pm->m_SurfaceMolecularWeight
+    );
+
+    return output;
+  }
+
   std::cerr << "REFACTOR - Not fully implemented | PVTPackage::PhaseModel convert( const PVTPackage::pds::PhaseModel & input )" << std::endl;
   exit(1);
 }
@@ -240,4 +330,17 @@ TEST( PVTPackageRefactor, blackOil )
 
   PVTPackage::pds::MultiphaseSystemProperties refMsp = refProperties.get< PVTPackage::pds::MultiphaseSystemProperties >();
   // TODO componentProperties must be serialized aside the MSP
+  PVTPackage::BlackOilFlash blackOilFlash;
+
+  PVTPackage::MultiphaseSystemProperties msp( convert( refMsp.PhaseTypes ), refMsp.Feed.size() );
+  msp.Temperature = refMsp.Temperature ;
+  msp.Pressure = refMsp.Pressure ;
+  msp.Feed = refMsp.Feed ;
+
+  msp.PhaseModels = convert( refMsp.PhaseModels );
+  // the PhaseMoleFraction and PhasesProperties seem to be the results, so no need to copy.
+
+  blackOilFlash.ComputeEquilibrium( msp );
+
+  compare(msp, refMsp);
 }

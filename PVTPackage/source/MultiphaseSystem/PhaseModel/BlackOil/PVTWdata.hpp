@@ -28,7 +28,39 @@ struct PVTWdata
   double Bw;
   double Compressibility;
   double Viscosity;
-
+public:
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setReferencePressure( double referencePressure )
+  {
+    ReferencePressure = referencePressure;
+  }
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setBw( double bw )
+  {
+    Bw = bw;
+  }
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setCompressibility( double compressibility )
+  {
+    Compressibility = compressibility;
+  }
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setViscosity( double viscosity )
+  {
+    Viscosity = viscosity;
+  }
 };
 
 }

@@ -34,6 +34,20 @@ public:
   BlackOil_GasModel(std::vector<std::vector<double>> PVTG, double gas_surface_mass_density, double gas_surface_mw);
   ~BlackOil_GasModel() override = default;
 
+  /**
+   * @brief Paramter constructor for refactor only
+   * FIXME REFACTOR
+   */
+  BlackOil_GasModel(const PVTGdata & PVTG, double minPressure, double maxPressure,
+                    double surfaceMassDensity, double surfaceMoleDensity, double surfaceMolecularWeight):
+                    m_PVTG(PVTG), min_Pressure(minPressure), max_Pressure(maxPressure),
+                    m_SurfaceMassDensity(surfaceMassDensity), m_SurfaceMoleDensity(surfaceMoleDensity),
+                    m_SurfaceMolecularWeight(surfaceMolecularWeight)
+  {
+    //Left blank
+  }
+
+
   //Getter
   double GetSurfaceMassDensity() { return m_SurfaceMassDensity; }
   double GetSurfaceMoleDensity() { return m_SurfaceMoleDensity; }

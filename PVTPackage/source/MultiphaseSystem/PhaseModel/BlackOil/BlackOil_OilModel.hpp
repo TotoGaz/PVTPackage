@@ -29,6 +29,24 @@ class BlackOil_OilModel final : public PhaseModel
 {
 public:
 
+  /**
+   * @brief Paramter constructor for refactor only
+   * FIXME REFACTOR
+   */
+   BlackOil_OilModel( PVTOdata const & pvto,
+                     double minPressure,
+                     double maxPressure,
+                     double surfaceMassDensity,
+                     double surfaceMoleDensity,
+                     double surfaceMolecularWeight )
+    : m_PVTO( pvto ),
+      min_Pressure( minPressure ),
+      max_Pressure( maxPressure ),
+      m_SurfaceMassDensity( surfaceMassDensity ),
+      m_SurfaceMoleDensity( surfaceMoleDensity ),
+      m_SurfaceMolecularWeight( surfaceMolecularWeight )
+  { }
+
   BlackOil_OilModel(std::vector<std::vector<double>> PVTO, double oil_surface_mass_density, double oil_surface_mw);
 
   ~BlackOil_OilModel() override = default;

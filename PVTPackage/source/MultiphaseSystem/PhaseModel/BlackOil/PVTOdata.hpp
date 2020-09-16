@@ -59,6 +59,96 @@ public:
   {
     return MaxRelativePressure;
   }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setRs( std::vector< double > const & rs )
+  {
+    Rs = rs;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setBubblePressure( std::vector< double > const & bubblePressure )
+  {
+    BubblePressure = bubblePressure;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setNSaturatedPoints( size_t nSaturatedPoints )
+  {
+    NSaturatedPoints = nSaturatedPoints;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setSaturatedBo( std::vector< double > const & saturatedBo )
+  {
+    SaturatedBo = saturatedBo;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setSaturatedViscosity( std::vector< double > const & saturatedViscosity )
+  {
+    SaturatedViscosity = saturatedViscosity;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setUndersaturatedPressure( std::vector< std::vector< double>> const & undersaturatedPressure )
+  {
+    UndersaturatedPressure = undersaturatedPressure;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setUndersaturatedBo( std::vector< std::vector< double>> const & undersaturatedBo )
+  {
+    UndersaturatedBo = undersaturatedBo;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setUndersaturatedViscosity( std::vector< std::vector< double>> const & undersaturatedViscosity )
+  {
+    UndersaturatedViscosity = undersaturatedViscosity;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setMaxRelativePressure( double maxRelativePressure )
+  {
+    MaxRelativePressure = maxRelativePressure;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setMinRelativePressure( double minRelativePressure )
+  {
+    MinRelativePressure = minRelativePressure;
+  }
 };
 
 }

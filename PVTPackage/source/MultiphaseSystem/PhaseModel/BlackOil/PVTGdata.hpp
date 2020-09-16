@@ -59,6 +59,97 @@ public:
   {
     return MinRelativeRv;
   }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setRv( std::vector< double > const & rv )
+  {
+    Rv = rv;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setDewPressure( std::vector< double > const & dewPressure )
+  {
+    DewPressure = dewPressure;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setNSaturatedPoints( size_t nSaturatedPoints )
+  {
+    NSaturatedPoints = nSaturatedPoints;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setSaturatedBg( std::vector< double > const & saturatedBg )
+  {
+    SaturatedBg = saturatedBg;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setSaturatedViscosity( std::vector< double > const & saturatedViscosity )
+  {
+    SaturatedViscosity = saturatedViscosity;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setUndersaturatedRv( std::vector< std::vector< double>> const & undersaturatedRv )
+  {
+    UndersaturatedRv = undersaturatedRv;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setUndersaturatedBg( std::vector< std::vector< double>> const & undersaturatedBg )
+  {
+    UndersaturatedBg = undersaturatedBg;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setUndersaturatedViscosity( std::vector< std::vector< double>> const & undersaturatedViscosity )
+  {
+    UndersaturatedViscosity = undersaturatedViscosity;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setMaxRelativeRv( double maxRelativeRv )
+  {
+    MaxRelativeRv = maxRelativeRv;
+  }
+
+  /**
+   * @brief Setter for refactor only
+   * FIXME REFACTOR
+   */
+  void setMinRelativeRv( double minRelativeRv )
+  {
+    MinRelativeRv = minRelativeRv;
+  }
+
 };
 
 }

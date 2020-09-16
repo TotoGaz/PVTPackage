@@ -25,6 +25,23 @@ class BlackOil_WaterModel final : public PhaseModel
 {
 public:
 
+  /**
+   * @brief Paramter constructor for refactor only
+   * FIXME REFACTOR
+   */
+  BlackOil_WaterModel( const PVTWdata & PVTW,
+                       double surfaceMassDensity,
+                       double surfaceMoleDensity,
+                       double surfaceMolecularWeight )
+    :
+    m_PVTW( PVTW ),
+    m_SurfaceMassDensity( surfaceMassDensity ),
+    m_SurfaceMoleDensity( surfaceMoleDensity ),
+    m_SurfaceMolecularWeight( surfaceMolecularWeight )
+  {
+    // Left blank
+  }
+
   BlackOil_WaterModel(std::vector<double> PVTW, double water_surface_mass_density, double water_surface_mw);
 
   ~BlackOil_WaterModel() override = default;
