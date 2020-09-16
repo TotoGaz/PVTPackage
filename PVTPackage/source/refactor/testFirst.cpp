@@ -88,19 +88,19 @@ PVTPackage::PVTGdata convert( const PVTPackage::pds::PVTGdata & input )
 {
   PVTPackage::PVTGdata output;
 
-  output.setRv(input.Rv);
-  output.setDewPressure(input.DewPressure);
+  output.Rv = input.Rv;
+  output.DewPressure = input.DewPressure;
 
-  output.setNSaturatedPoints(input.NSaturatedPoints);
-  output.setSaturatedBg(input.SaturatedBg);
-  output.setSaturatedViscosity(input.SaturatedViscosity);
+  output.NSaturatedPoints = input.NSaturatedPoints;
+  output.SaturatedBg = input.SaturatedBg;
+  output.SaturatedViscosity = input.SaturatedViscosity;
 
-  output.setUndersaturatedRv(input.UndersaturatedRv);
-  output.setUndersaturatedBg(input.UndersaturatedBg);
-  output.setUndersaturatedViscosity(input.UndersaturatedViscosity);
+  output.UndersaturatedRv = input.UndersaturatedRv;
+  output.UndersaturatedBg = input.UndersaturatedBg;
+  output.UndersaturatedViscosity = input.UndersaturatedViscosity;
 
-  output.setMaxRelativeRv(input.MaxRelativeRv);
-  output.setMinRelativeRv(input.MinRelativeRv);
+  output.setMaxRelativeRv( input.MaxRelativeRv );
+  output.setMinRelativeRv( input.MinRelativeRv );
 
   return output;
 }
@@ -109,10 +109,10 @@ PVTPackage::PVTWdata convert( const PVTPackage::pds::PVTWdata & input )
 {
   PVTPackage::PVTWdata output;
 
-  output.setReferencePressure(input.ReferencePressure);
-  output.setBw(input.Bw);
-  output.setCompressibility(input.Compressibility);
-  output.setViscosity(input.Viscosity);
+  output.ReferencePressure = input.ReferencePressure;
+  output.Bw = input.Bw;
+  output.Compressibility = input.Compressibility;
+  output.Viscosity = input.Viscosity;
 
   return output;
 }
@@ -121,20 +121,19 @@ PVTPackage::PVTOdata convert( const PVTPackage::pds::PVTOdata & input )
 {
   PVTPackage::PVTOdata output;
 
-  output.setRs(input.Rs);
-  output.setBubblePressure(input.BubblePressure);
+  output.Rs = input.Rs;
+  output.BubblePressure = input.BubblePressure;
 
-  output.setNSaturatedPoints(input.NSaturatedPoints);
-  output.setSaturatedBo(input.SaturatedBo);
-  output.setSaturatedViscosity(input.SaturatedViscosity);
+  output.NSaturatedPoints = input.NSaturatedPoints;
+  output.SaturatedBo = input.SaturatedBo;
+  output.SaturatedViscosity = input.SaturatedViscosity;
 
-  output.setUndersaturatedPressure(input.UndersaturatedPressure);
-  output.setUndersaturatedBo(input.UndersaturatedBo);
-  output.setUndersaturatedViscosity(input.UndersaturatedViscosity);
+  output.UndersaturatedPressure = input.UndersaturatedPressure;
+  output.UndersaturatedBo = input.UndersaturatedBo;
+  output.UndersaturatedViscosity = input.UndersaturatedViscosity;
 
-  output.setMaxRelativePressure(input.MaxRelativePressure);
-  output.setMinRelativePressure(input.MinRelativePressure);
-
+  output.setMaxRelativePressure( input.MaxRelativePressure );
+  output.setMinRelativePressure( input.MinRelativePressure );
 
   return output;
 }

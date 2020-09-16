@@ -3,8 +3,6 @@
 
 #include "MultiphaseSystem/PhaseModel/PhaseProperties.hpp"
 
-#include "refactor/passiveDataStructures/PhaseProperties.hpp"
-
 #include <nlohmann/json.hpp>
 
 namespace PVTPackage {

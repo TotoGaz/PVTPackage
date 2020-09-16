@@ -48,7 +48,6 @@ void to_json( nlohmann::json & output,
     // Small hack to put the enum as a key
     std::string const & ptKey = nlohmann::json( pt ).get< std::string >();
 
-    // TODO REFACTOR check this cast
     const std::shared_ptr< PhaseModel > & pm = props.PhaseModels.at( pt );
     output[MultiphaseSystemPropertiesKeys::PHASE_MODELS][ptKey] = pm ;
     output[MultiphaseSystemPropertiesKeys::PHASE_MOLE_FRACTION][ptKey] = props.PhaseMoleFraction.at( pt ) ;

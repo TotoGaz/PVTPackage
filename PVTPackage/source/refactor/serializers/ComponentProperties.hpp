@@ -13,5 +13,4 @@ void to_json( nlohmann::json & j,
 
 }
 
-
 #endif //PVTPACKAGE_COMPONENTPROPERTIES_HPP
