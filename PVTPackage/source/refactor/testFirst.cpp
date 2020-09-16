@@ -7,9 +7,11 @@
 #include "MultiphaseSystem/PhaseModel/BlackOil/BlackOil_GasModel.hpp"
 #include "MultiphaseSystem/PhaseModel/BlackOil/BlackOil_OilModel.hpp"
 #include "MultiphaseSystem/PhaseModel/BlackOil/BlackOil_WaterModel.hpp"
+#include "MultiphaseSystem/PhaseModel/BlackOil/DeadOil_PhaseModel.hpp"
 
 #include "MultiphaseSystem/PhaseSplitModel/NegativeTwoPhaseFlash.hpp"
 #include "MultiphaseSystem/PhaseSplitModel/BlackOilFlash.hpp"
+#include "MultiphaseSystem/PhaseSplitModel/DeadOilFlash.hpp"
 
 #include "MultiphaseSystem/MultiphaseSystemProperties.hpp"
 
@@ -136,6 +138,18 @@ PVTPackage::PVTOdata convert( const PVTPackage::pds::PVTOdata & input )
 
   return output;
 }
+PVTPackage::PVDdata convert( const PVTPackage::pds::PVDdata & input )
+{
+  PVTPackage::PVDdata output ;
+
+  output.Pressure = input.Pressure;
+  output.NPoints = input.NPoints;
+  output.B = input.B;
+  output.Viscosity = input.Viscosity;
+
+  return output;
+}
+
 std::shared_ptr< PVTPackage::PhaseModel > convert( const std::shared_ptr< PVTPackage::pds::PhaseModel > input )
 {
   using namespace PVTPackage;
@@ -174,6 +188,15 @@ std::shared_ptr< PVTPackage::PhaseModel > convert( const std::shared_ptr< PVTPac
   {
     auto output = std::make_shared< BlackOil_WaterModel >(
       convert( pm->m_PVTW ), pm->m_SurfaceMassDensity, pm->m_SurfaceMoleDensity, pm->m_SurfaceMolecularWeight
+    );
+
+    return output;
+  }
+
+  if (auto pm = std::dynamic_pointer_cast< const pds::DeadOilPhaseModel >( input ))
+  {
+    auto output = std::make_shared< DeadOil_PhaseModel >(
+      convert( pm->m_type ), convert( pm->m_PVD ), pm->min_Pressure, pm->max_Pressure, pm->m_SurfaceMassDensity, pm->m_SurfaceMoleDensity, pm->m_SurfaceMolecularWeight
     );
 
     return output;
@@ -330,17 +353,41 @@ TEST( PVTPackageRefactor, blackOil )
 
   PVTPackage::pds::MultiphaseSystemProperties refMsp = refProperties.get< PVTPackage::pds::MultiphaseSystemProperties >();
   // TODO componentProperties must be serialized aside the MSP
-  PVTPackage::BlackOilFlash blackOilFlash;
 
   PVTPackage::MultiphaseSystemProperties msp( convert( refMsp.PhaseTypes ), refMsp.Feed.size() );
   msp.Temperature = refMsp.Temperature ;
   msp.Pressure = refMsp.Pressure ;
   msp.Feed = refMsp.Feed ;
-
   msp.PhaseModels = convert( refMsp.PhaseModels );
   // the PhaseMoleFraction and PhasesProperties seem to be the results, so no need to copy.
 
+  PVTPackage::BlackOilFlash blackOilFlash;
   blackOilFlash.ComputeEquilibrium( msp );
 
   compare(msp, refMsp);
+}
+
+TEST( PVTPackageRefactor, deadOil )
+{
+  // This is deadOil
+  json j1 = R"(
+  {"PROPERTIES":{"FEED":[0.016563146842587414,0.3540372637603059,0.6293995893971067],"PHASE_MODELS":{"GAS":{"TYPE":"PHASE_MODEL_TYPE_DEAD_OIL","VALUE":{"MAX_PRESSURE":53000000.0,"MIN_PRESSURE":101325.0,"PHASE_TYPE":"GAS","PVD_DATA":{"B":[0.04234,0.02046,0.01328,0.00977,0.00773,0.006426,0.005541,0.004919,0.004471,0.004194,0.004031,0.00391,0.003868],"N_POINTS":13,"PRESSURE":[101325.0,3000000.0,6000000.0,9000000.0,12000000.0,15000000.0,18000000.0,21000000.0,24000000.0,27000000.0,29500000.0,31000000.0,33000000.0,53000000.0],"VISCOSITY":[1.344e-05,1.42e-05,1.526e-05,1.66e-05,1.818e-05,1.994e-05,2.181e-05,2.37e-05,2.559e-05,2.714e-05,2.806e-05,2.832e-05,2.935e-05]},"SURFACE_MASS_DENSITY":0.9907,"SURFACE_MOLECULAR_WEIGHT":0.016,"SURFACE_MOLE_DENSITY":61.91875}},"LIQUID_WATER_RICH":{"TYPE":"PHASE_MODEL_TYPE_BLACK_OIL_WATER","VALUE":{"PVTW_DATA":{"BW":1.03,"COMPRESSIBILITY":4.1e-10,"REFERENCE_PRESSURE":30600000.1,"VISCOSITY":0.0003},"SURFACE_MASS_DENSITY":1022.0,"SURFACE_MOLECULAR_WEIGHT":0.018,"SURFACE_MOLE_DENSITY":56777.77777777778}},"OIL":{"TYPE":"PHASE_MODEL_TYPE_DEAD_OIL","VALUE":{"MAX_PRESSURE":50000000.7,"MIN_PRESSURE":101325.0,"PHASE_TYPE":"OIL","PVD_DATA":{"B":[1.02,1.03,1.04,1.05,1.07,1.08,1.09],"N_POINTS":7,"PRESSURE":[101325.0,2000000.0,5000000.0,10000000.0,20000000.0,30000000.0,40000000.0,50000000.7],"VISCOSITY":[0.000975,0.00091,0.00083,0.000695,0.000594,0.00051,0.000449]},"SURFACE_MASS_DENSITY":800.0,"SURFACE_MOLECULAR_WEIGHT":0.114,"SURFACE_MOLE_DENSITY":7017.543859649122}}},"PHASE_MOLE_FRACTION":{"GAS":{"dP":0.0,"dT":0.0,"dz":[-0.35403721971934654,0.6459627269585969,-0.3540372641469532],"value":0.3540372637603059},"LIQUID_WATER_RICH":{"dP":0.0,"dT":0.0,"dz":[-0.629399451742349,-0.6293995995393094,0.3706003982008694],"value":0.6293995893971067},"OIL":{"dP":0.0,"dT":0.0,"dz":[0.9834368542044843,-0.01656314714862043,-0.016563147001290936],"value":0.016563146842587414}},"PHASE_PROPERTIES":{"GAS":{"COMPRESSIBILITY":0.0,"COMPRESSIBILITY_FACTOR":{"dP":0.0,"dT":0.0,"dz":[0.0,0.0,0.0],"value":0.0},"LN_FUGACITY_COEFFICIENTS":{"dP":[0.0,0.0,0.0],"dT":[0.0,0.0,0.0],"dz":[[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]],"value":[0.0,0.0,0.0]},"MASS_DENSITY":{"dP":9.652118110656709e-06,"dT":0.0,"dz":[0.0,0.0,0.0],"value":63.209272649936196},"MASS_ENTHALPY":0.0,"MOLECULAR_WEIGHT":{"dP":0.0,"dT":0.0,"dz":[0.0,0.0,0.0],"value":0.016},"MOLE_COMPOSITION":{"dP":[0.0,0.0,0.0],"dT":[0.0,0.0,0.0],"dz":[[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]],"value":[0.0,1.0,0.0]},"MOLE_DENSITY":{"dP":0.0006032573791503889,"dT":0.0,"dz":[0.0,0.0,0.0],"value":3950.5795406210123},"VISCOSITY":1.4906666666666667e-05},"LIQUID_WATER_RICH":{"COMPRESSIBILITY":0.0,"COMPRESSIBILITY_FACTOR":{"dP":0.0,"dT":0.0,"dz":[0.0,0.0,0.0],"value":0.0},"LN_FUGACITY_COEFFICIENTS":{"dP":[0.0,0.0,0.0],"dT":[0.0,0.0,0.0],"dz":[[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]],"value":[0.0,0.0,0.0]},"MASS_DENSITY":{"dP":4.025665283203113e-07,"dT":0.0,"dz":[0.0,0.0,0.0],"value":981.8729964578481},"MASS_ENTHALPY":0.0,"MOLECULAR_WEIGHT":{"dP":0.0,"dT":0.0,"dz":[0.0,0.0,0.0],"value":0.018},"MOLE_COMPOSITION":{"dP":[0.0,0.0,0.0],"dT":[0.0,0.0,0.0],"dz":[[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]],"value":[0.0,0.0,1.0]},"MOLE_DENSITY":{"dP":2.2364843749999933e-05,"dT":0.0,"dz":[0.0,0.0,0.0],"value":54548.49980321379},"VISCOSITY":0.0003},"OIL":{"COMPRESSIBILITY":0.0,"COMPRESSIBILITY_FACTOR":{"dP":0.0,"dT":0.0,"dz":[0.0,0.0,0.0],"value":0.0},"LN_FUGACITY_COEFFICIENTS":{"dP":[0.0,0.0,0.0],"dT":[0.0,0.0,0.0],"dz":[[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]],"value":[0.0,0.0,0.0]},"MASS_DENSITY":{"dP":-1.4792877197265582e-06,"dT":0.0,"dz":[0.0,0.0,0.0],"value":769.2307692307692},"MASS_ENTHALPY":0.0,"MOLECULAR_WEIGHT":{"dP":3.725290298461903e-16,"dT":0.0,"dz":[0.0,0.0,0.0],"value":0.114},"MOLE_COMPOSITION":{"dP":[0.0,0.0,0.0],"dT":[0.0,0.0,0.0],"dz":[[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]],"value":[1.0,0.0,0.0]},"MOLE_DENSITY":{"dP":-1.2976220703124961e-05,"dT":0.0,"dz":[0.0,0.0,0.0],"value":6747.638326585694},"VISCOSITY":0.00083}},"PHASE_STATE":"OIL_GAS_WATER","PHASE_TYPES":["OIL","GAS","LIQUID_WATER_RICH"],"PRESSURE":5000000.0,"TEMPERATURE":297.15}}
+  )"_json;
+
+  json const & refProperties = j1["PROPERTIES"];
+
+  PVTPackage::pds::MultiphaseSystemProperties refMsp = refProperties.get< PVTPackage::pds::MultiphaseSystemProperties >();
+
+
+  PVTPackage::MultiphaseSystemProperties msp( convert( refMsp.PhaseTypes ), refMsp.Feed.size() );
+  msp.Temperature = refMsp.Temperature ;
+  msp.Pressure = refMsp.Pressure ;
+  msp.Feed = refMsp.Feed ;
+  msp.PhaseModels = convert( refMsp.PhaseModels );
+
+  PVTPackage::DeadOilFlash deadOilFlash;
+  deadOilFlash.ComputeEquilibrium( msp );
+
+  compare(msp, refMsp);
+
 }

@@ -64,11 +64,16 @@ void Dump( const Flash * flash,
   if( const DeadOilFlash * f = dynamic_cast<const DeadOilFlash *>( flash ) )
   {
     PVT_UNUSED_VAR(f);
-    std::cerr << "REFACTOR - DeadOilFlash not implemented, in void Dump( const Flash * flash, const MultiphaseSystemProperties & multiphaseProperties )" << std::endl;
+    std::cerr << "REFACTOR - DeadOilFlash" << std::endl;
+
+    nlohmann::json propsJson{ { "PROPERTIES", multiphaseProperties } };
+
+    std::cerr << std::setprecision( std::numeric_limits< double >::max_digits10 )
+              << propsJson << std::endl;
     return;
   }
 
-  std::cerr << "REFACTOR - Not a CompositionalFlash, in void Dump( const Flash * flash, const MultiphaseSystemProperties & multiphaseProperties )" << std::endl;
+  std::cerr << "REFACTOR - Not supported Flash, in void Dump( const Flash * flash, const MultiphaseSystemProperties & multiphaseProperties )" << std::endl;
 }
 
 } // enf of namespace PVTPackage

@@ -6,11 +6,13 @@
 #include "refactor/serializers/ComponentProperties.hpp"
 
 #include "refactor/serializers/BlackOilModels.hpp"
+#include "refactor/serializers/DeadOilPhaseModel.hpp"
 
 #include "MultiphaseSystem/PhaseModel/CubicEOS/CubicEoSPhaseModel.hpp"
 #include "MultiphaseSystem/PhaseModel/BlackOil/BlackOil_GasModel.hpp"
 #include "MultiphaseSystem/PhaseModel/BlackOil/BlackOil_OilModel.hpp"
 #include "MultiphaseSystem/PhaseModel/BlackOil/BlackOil_WaterModel.hpp"
+#include "MultiphaseSystem/PhaseModel/BlackOil/DeadOil_PhaseModel.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -64,6 +66,16 @@ void to_json( json & j,
   {
     j = json{
       { PhaseModelKeys::TYPE,  PHASE_MODEL_TYPE::BLACK_OIL_WATER },
+      { PhaseModelKeys::VALUE, *m }
+    };
+
+    return;
+  }
+
+  if( const auto * m = dynamic_cast<const DeadOil_PhaseModel *>( &model ) )
+  {
+    j = json{
+      { PhaseModelKeys::TYPE,  PHASE_MODEL_TYPE::DEAD_OIL },
       { PhaseModelKeys::VALUE, *m }
     };
 

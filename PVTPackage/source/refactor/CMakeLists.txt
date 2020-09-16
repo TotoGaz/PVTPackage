@@ -28,6 +28,7 @@ set( PVTPackage_dump_headers
      deserializers/PVTEnums.hpp
      serializers/BlackOilModels.hpp
      serializers/ComponentProperties.hpp
+     serializers/DeadOilPhaseModel.hpp
      serializers/PVTEnums.hpp
      serializers/MultiphaseSystemProperties.hpp
      serializers/PhaseModels.hpp
@@ -46,6 +47,7 @@ set( PVTPackage_dump_sources
      deserializers/PropertyAndDerivatives.cpp
      serializers/BlackOilModels.cpp
      serializers/ComponentProperties.cpp
+     serializers/DeadOilPhaseModel.cpp
      serializers/MultiphaseSystemProperties.cpp
      serializers/PhaseModels.cpp
      serializers/PhaseProperties.cpp

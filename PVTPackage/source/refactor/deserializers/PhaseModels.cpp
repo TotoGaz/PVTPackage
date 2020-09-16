@@ -102,5 +102,28 @@ void from_json( const nlohmann::json & j,
   j.at( BlackOilWaterModelKeys::SURFACE_MOLECULAR_WEIGHT ).get_to( model.m_SurfaceMolecularWeight );
 }
 
+void from_json( const nlohmann::json & j,
+                pds::PVDdata & data )
+{
+  j.at( PVDDataKeys::PRESSURE ).get_to( data.Pressure );
+  j.at( PVDDataKeys::N_POINTS ).get_to( data.NPoints );
+  j.at( PVDDataKeys::B ).get_to( data.B );
+  j.at( PVDDataKeys::VISCOSITY ).get_to( data.Viscosity );
+}
+
+void from_json( const nlohmann::json & j,
+                pds::DeadOilPhaseModel & model )
+{
+  j.at( DeadOilModelKeys::PHASE_TYPE_ ).get_to( model.m_type );
+  j.at( DeadOilModelKeys::PVD_DATA ).get_to( model.m_PVD );
+
+  j.at( DeadOilModelKeys::MIN_PRESSURE ).get_to( model.min_Pressure );
+  j.at( DeadOilModelKeys::MAX_PRESSURE ).get_to( model.max_Pressure );
+
+  j.at( DeadOilModelKeys::SURFACE_MASS_DENSITY ).get_to( model.m_SurfaceMassDensity );
+  j.at( DeadOilModelKeys::SURFACE_MOLE_DENSITY ).get_to( model.m_SurfaceMoleDensity );
+  j.at( DeadOilModelKeys::SURFACE_MOLECULAR_WEIGHT ).get_to( model.m_SurfaceMolecularWeight );
+}
+
 } // end of namespace pds
 } // end of namespace PVTPackage

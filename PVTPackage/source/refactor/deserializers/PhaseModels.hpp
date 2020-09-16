@@ -22,6 +22,9 @@ void from_json( const nlohmann::json & j,
 void from_json( const nlohmann::json & j,
                 pds::BlackOilWaterModel & model );
 
+void from_json( const nlohmann::json & j,
+                pds::DeadOilPhaseModel & model );
+
 } // end of namespace pds
 } // end of namespace PVTPackage
 
@@ -57,7 +60,11 @@ struct adl_serializer< std::shared_ptr< PVTPackage::pds::PhaseModel > >
       const auto model = value.get< pds::BlackOilWaterModel >();
       return std::make_shared< pds::BlackOilWaterModel >(model);
     }
-
+    else if ( type == pds::PHASE_MODEL_TYPE::DEAD_OIL )
+    {
+      const auto model = value.get< pds::DeadOilPhaseModel >();
+      return std::make_shared< pds::DeadOilPhaseModel >(model);
+    }
 
     std::cerr << "REFACTOR - Not implemented in adl_serializer< PVTPackage::pds::PhaseModel >" << std::endl;
     std::shared_ptr< pds::PhaseModel> dummy;

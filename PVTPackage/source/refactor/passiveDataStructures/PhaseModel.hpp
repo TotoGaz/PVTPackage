@@ -106,6 +106,27 @@ public:
   double m_SurfaceMolecularWeight;
 };
 
+class PVDdata
+{
+public:
+  std::vector<double> Pressure;
+  size_t NPoints;
+  std::vector<double> B;
+  std::vector<double> Viscosity;
+};
+
+class DeadOilPhaseModel final : public PhaseModel
+{
+public:
+  PHASE_TYPE m_type;
+  PVDdata m_PVD;
+  double min_Pressure;
+  double max_Pressure;
+  double m_SurfaceMassDensity;
+  double m_SurfaceMoleDensity;
+  double m_SurfaceMolecularWeight;
+};
+
 } // end of namespace pds
 } // end of namespace PVTPackage
 

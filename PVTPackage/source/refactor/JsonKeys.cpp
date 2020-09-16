@@ -40,6 +40,7 @@ decltype( EnumKeys::PHASE_MODEL_TYPE_CUBE_EOS ) EnumKeys::PHASE_MODEL_TYPE_CUBE_
 decltype( EnumKeys::PHASE_MODEL_TYPE_BLACK_OIL_GAS ) EnumKeys::PHASE_MODEL_TYPE_BLACK_OIL_GAS;
 decltype( EnumKeys::PHASE_MODEL_TYPE_BLACK_OIL_OIL ) EnumKeys::PHASE_MODEL_TYPE_BLACK_OIL_OIL;
 decltype( EnumKeys::PHASE_MODEL_TYPE_BLACK_OIL_WATER ) EnumKeys::PHASE_MODEL_TYPE_BLACK_OIL_WATER;
+decltype( EnumKeys::PHASE_MODEL_TYPE_DEAD_OIL ) EnumKeys::PHASE_MODEL_TYPE_DEAD_OIL;
 
 decltype( ComponentPropertiesKeys::N_COMPONENTS ) ComponentPropertiesKeys::N_COMPONENTS;
 decltype( ComponentPropertiesKeys::LABELS ) ComponentPropertiesKeys::LABELS;
@@ -107,6 +108,19 @@ decltype( BlackOilWaterModelKeys::PVTW_DATA ) BlackOilWaterModelKeys::PVTW_DATA;
 decltype( BlackOilWaterModelKeys::SURFACE_MASS_DENSITY ) BlackOilWaterModelKeys::SURFACE_MASS_DENSITY;
 decltype( BlackOilWaterModelKeys::SURFACE_MOLE_DENSITY ) BlackOilWaterModelKeys::SURFACE_MOLE_DENSITY;
 decltype( BlackOilWaterModelKeys::SURFACE_MOLECULAR_WEIGHT ) BlackOilWaterModelKeys::SURFACE_MOLECULAR_WEIGHT;
+
+decltype( PVDDataKeys::PRESSURE ) PVDDataKeys::PRESSURE;
+decltype( PVDDataKeys::N_POINTS ) PVDDataKeys::N_POINTS;
+decltype( PVDDataKeys::B ) PVDDataKeys::B;
+decltype( PVDDataKeys::VISCOSITY ) PVDDataKeys::VISCOSITY;
+
+decltype( DeadOilModelKeys::PHASE_TYPE_ ) DeadOilModelKeys::PHASE_TYPE_;
+decltype( DeadOilModelKeys::PVD_DATA ) DeadOilModelKeys::PVD_DATA;
+decltype( DeadOilModelKeys::MIN_PRESSURE ) DeadOilModelKeys::MIN_PRESSURE;
+decltype( DeadOilModelKeys::MAX_PRESSURE ) DeadOilModelKeys::MAX_PRESSURE;
+decltype( DeadOilModelKeys::SURFACE_MASS_DENSITY ) DeadOilModelKeys::SURFACE_MASS_DENSITY;
+decltype( DeadOilModelKeys::SURFACE_MOLE_DENSITY ) DeadOilModelKeys::SURFACE_MOLE_DENSITY;
+decltype( DeadOilModelKeys::SURFACE_MOLECULAR_WEIGHT ) DeadOilModelKeys::SURFACE_MOLECULAR_WEIGHT;
 
 decltype( PhaseModelKeys::TYPE ) PhaseModelKeys::TYPE;
 decltype( PhaseModelKeys::VALUE ) PhaseModelKeys::VALUE;

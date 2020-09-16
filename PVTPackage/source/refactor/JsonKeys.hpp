@@ -52,6 +52,7 @@ struct EnumKeys
   static constexpr auto PHASE_MODEL_TYPE_BLACK_OIL_GAS = "PHASE_MODEL_TYPE_BLACK_OIL_GAS";
   static constexpr auto PHASE_MODEL_TYPE_BLACK_OIL_OIL = "PHASE_MODEL_TYPE_BLACK_OIL_OIL";
   static constexpr auto PHASE_MODEL_TYPE_BLACK_OIL_WATER = "PHASE_MODEL_TYPE_BLACK_OIL_WATER";
+  static constexpr auto PHASE_MODEL_TYPE_DEAD_OIL = "PHASE_MODEL_TYPE_DEAD_OIL";
 };
 
 struct ComponentPropertiesKeys
@@ -156,6 +157,28 @@ struct BlackOilOilModelKeys
 struct BlackOilWaterModelKeys
 {
   static constexpr auto PVTW_DATA = "PVTW_DATA";
+
+  static constexpr auto SURFACE_MASS_DENSITY = "SURFACE_MASS_DENSITY";
+  static constexpr auto SURFACE_MOLE_DENSITY = "SURFACE_MOLE_DENSITY";
+  static constexpr auto SURFACE_MOLECULAR_WEIGHT = "SURFACE_MOLECULAR_WEIGHT";
+};
+
+struct PVDDataKeys
+{
+  static constexpr auto PRESSURE = "PRESSURE";
+  static constexpr auto N_POINTS = "N_POINTS";
+  static constexpr auto B = "B";
+  static constexpr auto VISCOSITY = "VISCOSITY";
+};
+
+struct DeadOilModelKeys
+{
+  static constexpr auto PHASE_TYPE_ = "PHASE_TYPE";
+
+  static constexpr auto PVD_DATA = "PVD_DATA";
+
+  static constexpr auto MIN_PRESSURE = "MIN_PRESSURE";
+  static constexpr auto MAX_PRESSURE = "MAX_PRESSURE";
 
   static constexpr auto SURFACE_MASS_DENSITY = "SURFACE_MASS_DENSITY";
   static constexpr auto SURFACE_MOLE_DENSITY = "SURFACE_MOLE_DENSITY";

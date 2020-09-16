@@ -28,6 +28,25 @@ namespace PVTPackage
 class DeadOil_PhaseModel final : public PhaseModel
 {
 public:
+  /**
+   * @brief Parametrized constructof for refactor
+   * FIXME REFACTOR
+   */
+  DeadOil_PhaseModel( PHASE_TYPE type,
+                      PVDdata const & pvd,
+                      double minPressure,
+                      double maxPressure,
+                      double surfaceMassDensity,
+                      double surfaceMoleDensity,
+                      double surfaceMolecularWeight )
+    : m_type( type ),
+      m_PVD( pvd ),
+      min_Pressure( minPressure ),
+      max_Pressure( maxPressure ),
+      m_SurfaceMassDensity( surfaceMassDensity ),
+      m_SurfaceMoleDensity( surfaceMoleDensity ),
+      m_SurfaceMolecularWeight( surfaceMolecularWeight )
+  { }
 
   DeadOil_PhaseModel(PHASE_TYPE type, std::vector<std::vector<double>> PVD, double oil_surface_mass_density, double oil_surface_mw);
 
@@ -70,6 +89,69 @@ protected:
   void CreateTable(const std::vector<std::vector<double>>& PVD);
   void CheckTableConsistency();
 
+public:
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  PHASE_TYPE getType() const
+  {
+    return m_type;
+  }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  PVDdata const & getPvd() const
+  {
+    return m_PVD;
+  }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getMinPressure() const
+  {
+    return min_Pressure;
+  }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getMaxPressure() const
+  {
+    return max_Pressure;
+  }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getSurfaceMassDensity() const
+  {
+    return m_SurfaceMassDensity;
+  }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getSurfaceMoleDensity() const
+  {
+    return m_SurfaceMoleDensity;
+  }
+
+  /**
+   * @brief Getter for refactor only
+   * FIXME REFACTOR
+   */
+  double getSurfaceMolecularWeight() const
+  {
+    return m_SurfaceMolecularWeight;
+  }
 };
 
 }
