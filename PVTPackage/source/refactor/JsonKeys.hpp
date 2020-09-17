@@ -194,6 +194,28 @@ struct PhaseModelKeys
   static constexpr auto VALUE = "VALUE";
 };
 
+struct FlashKeys
+{
+  static constexpr auto TYPE = "TYPE";
+  static constexpr auto VALUE = "VALUE";
+
+  static constexpr auto BLACK_OIL = "BLACK_OIL";
+  static constexpr auto DEAD_OIL = "DEAD_OIL";
+  static constexpr auto FREE_WATER = "FREE_WATER";
+  static constexpr auto NEGATIVE_TWO_PHASE = "NEGATIVE_TWO_PHASE";
+  static constexpr auto TRIVIAL = "TRIVIAL";
+};
+
+struct FreeWaterFlashKeys
+{
+  static constexpr auto WATER_INDEX = "WATER_INDEX";
+};
+
+struct CompositionalFlashKeys
+{
+  static constexpr auto COMPONENT_PROPERTIES = "COMPONENT_PROPERTIES";
+};
+
 } // end of namespace refactor
 } // end of namespace PVTPackage
 

@@ -127,5 +127,17 @@ decltype( DeadOilModelKeys::SURFACE_MOLECULAR_WEIGHT ) DeadOilModelKeys::SURFACE
 decltype( PhaseModelKeys::TYPE ) PhaseModelKeys::TYPE;
 decltype( PhaseModelKeys::VALUE ) PhaseModelKeys::VALUE;
 
+decltype( FlashKeys::TYPE ) FlashKeys::TYPE;
+decltype( FlashKeys::VALUE ) FlashKeys::VALUE;
+decltype( FlashKeys::BLACK_OIL ) FlashKeys::BLACK_OIL;
+decltype( FlashKeys::DEAD_OIL ) FlashKeys::DEAD_OIL;
+decltype( FlashKeys::FREE_WATER ) FlashKeys::FREE_WATER;
+decltype( FlashKeys::NEGATIVE_TWO_PHASE ) FlashKeys::NEGATIVE_TWO_PHASE;
+decltype( FlashKeys::TRIVIAL ) FlashKeys::TRIVIAL;
+
+decltype( FreeWaterFlashKeys::WATER_INDEX ) FreeWaterFlashKeys::WATER_INDEX;
+
+decltype( CompositionalFlashKeys::COMPONENT_PROPERTIES ) CompositionalFlashKeys::COMPONENT_PROPERTIES;
+
 } // end of namespace refactor
 } // end of namespace PVTPackage

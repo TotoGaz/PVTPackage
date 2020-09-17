@@ -64,7 +64,15 @@ namespace PVTPackage
 	protected:
 
 		size_t m_WaterIndex;
-
-	};
+  public:
+	  /**
+	   * @brief Getter for refactor purpose
+	   * FIXME REFACTOR
+	   */
+    size_t getWaterIndex() const
+    {
+      return m_WaterIndex;
+    }
+  };
 
 }

@@ -30,6 +30,7 @@ set( PVTPackage_dump_headers
      serializers/ComponentProperties.hpp
      serializers/CubicEoSPhaseModel.hpp
      serializers/DeadOilPhaseModel.hpp
+     serializers/Flash.hpp
      serializers/PVTEnums.hpp
      serializers/MultiphaseSystemProperties.hpp
      serializers/PhaseModels.hpp
@@ -50,6 +51,7 @@ set( PVTPackage_dump_sources
      serializers/ComponentProperties.cpp
      serializers/CubicEoSPhaseModel.cpp
      serializers/DeadOilPhaseModel.cpp
+     serializers/Flash.cpp
      serializers/MultiphaseSystemProperties.cpp
      serializers/PhaseModels.cpp
      serializers/PhaseProperties.cpp
