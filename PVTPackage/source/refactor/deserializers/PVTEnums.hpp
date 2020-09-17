@@ -46,6 +46,19 @@ NLOHMANN_JSON_SERIALIZE_ENUM( pds::PHASE_MODEL_TYPE, {
   { pds::PHASE_MODEL_TYPE::DEAD_OIL, EnumKeys::PHASE_MODEL_TYPE_DEAD_OIL }
 } )
 
+enum class FLASH_TYPE : int
+{
+  BLACK_OIL, DEAD_OIL, FREE_WATER, NEGATIVE_TWO_PHASE, TRIVIAL
+};
+
+NLOHMANN_JSON_SERIALIZE_ENUM( FLASH_TYPE, {
+  { FLASH_TYPE::BLACK_OIL, refactor::FlashKeys::BLACK_OIL },
+  { FLASH_TYPE::DEAD_OIL, refactor::FlashKeys::DEAD_OIL },
+  { FLASH_TYPE::FREE_WATER, refactor::FlashKeys::FREE_WATER },
+  { FLASH_TYPE::NEGATIVE_TWO_PHASE, refactor::FlashKeys::NEGATIVE_TWO_PHASE },
+  { FLASH_TYPE::TRIVIAL, refactor::FlashKeys::TRIVIAL }
+} )
+
 } // end of namespace pds
 } // end of namespace refactor
 } // end of namespace PVTPackage
