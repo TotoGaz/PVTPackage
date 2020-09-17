@@ -21,6 +21,7 @@ set( PVTPackage_dump_headers
      passiveDataStructures/PropertyAndDerivatives.hpp
      passiveDataStructures/PVTEnums.hpp
      deserializers/ComponentProperties.hpp
+     deserializers/Flash.hpp
      deserializers/MultiphaseSystemProperties.hpp
      deserializers/PhaseModels.hpp
      deserializers/PhaseProperties.hpp
@@ -43,6 +44,7 @@ set( PVTPackage_dump_sources
      DebugComponentProperties.cpp
      JsonKeys.cpp
      deserializers/ComponentProperties.cpp
+     deserializers/Flash.cpp
      deserializers/MultiphaseSystemProperties.cpp
      deserializers/PhaseModels.cpp
      deserializers/PhaseProperties.cpp
