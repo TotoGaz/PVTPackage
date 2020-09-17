@@ -5,6 +5,7 @@
 
 #include <nlohmann/json.hpp>
 
+// TODO this file is weird: serializers and deserializers in the same time?
 namespace PVTPackage
 {
 

@@ -25,6 +25,8 @@
 
 namespace PVTPackage
 {
+namespace refactor
+{
 namespace pds
 {
 
@@ -78,6 +80,7 @@ struct EnumClassHash
 //  };
 //}
 
+} // end of namespace refactor
 } // end of namespace pds
 } // end of namespace PVTPackage
 

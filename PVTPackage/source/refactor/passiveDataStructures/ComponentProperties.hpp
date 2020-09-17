@@ -20,6 +20,7 @@
 #include  <string>
 
 namespace PVTPackage {
+namespace refactor {
 namespace pds {
 
 struct ComponentProperties
@@ -36,6 +37,7 @@ struct ComponentProperties
 };
 
 } // end of namespace pds
+} // end of namespace refactor
 } // end of namespace PVTPackage
 
 #endif //PVTPACKAGE_PDS_COMPONENTPROPERTIES_HPP

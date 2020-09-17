@@ -14,16 +14,18 @@ namespace PVTPackage
 void to_json( json & j,
               const PhaseProperties & phaseProperties )
 {
+  using namespace PVTPackage::refactor;
+
   j = json{
-    { PhasePropertiesHelper::MOLECULAR_WEIGHT,         phaseProperties.MolecularWeight },
-    { PhasePropertiesHelper::COMPRESSIBILITY_FACTOR,   phaseProperties.CompressibilityFactor },
-    { PhasePropertiesHelper::MOLE_COMPOSITION,         phaseProperties.MoleComposition },
-    { PhasePropertiesHelper::LN_FUGACITY_COEFFICIENTS, phaseProperties.LnFugacityCoefficients },
-    { PhasePropertiesHelper::MOLE_DENSITY,             phaseProperties.MoleDensity },
-    { PhasePropertiesHelper::MASS_DENSITY,             phaseProperties.MassDensity },
-    { PhasePropertiesHelper::VISCOSITY,                phaseProperties.Viscosity },
-    { PhasePropertiesHelper::MASS_ENTHALPY,            phaseProperties.MassEnthalpy },
-    { PhasePropertiesHelper::COMPRESSIBILITY,          phaseProperties.Compressibility }
+    { PhasePropertiesKeys::MOLECULAR_WEIGHT,         phaseProperties.MolecularWeight },
+    { PhasePropertiesKeys::COMPRESSIBILITY_FACTOR,   phaseProperties.CompressibilityFactor },
+    { PhasePropertiesKeys::MOLE_COMPOSITION,         phaseProperties.MoleComposition },
+    { PhasePropertiesKeys::LN_FUGACITY_COEFFICIENTS, phaseProperties.LnFugacityCoefficients },
+    { PhasePropertiesKeys::MOLE_DENSITY,             phaseProperties.MoleDensity },
+    { PhasePropertiesKeys::MASS_DENSITY,             phaseProperties.MassDensity },
+    { PhasePropertiesKeys::VISCOSITY,                phaseProperties.Viscosity },
+    { PhasePropertiesKeys::MASS_ENTHALPY,            phaseProperties.MassEnthalpy },
+    { PhasePropertiesKeys::COMPRESSIBILITY,          phaseProperties.Compressibility }
   };
 }
 

@@ -7,6 +7,8 @@
 
 namespace PVTPackage
 {
+namespace refactor
+{
 namespace pds
 {
 
@@ -14,6 +16,7 @@ void from_json( const nlohmann::json & j,
                 pds::MultiphaseSystemProperties & props );
 
 } // end of namespace pds
+} // end of namespace refactor
 } // end of namespace PVTPackage
 
 #endif // PVTPACKAGE_DESERIALIZERS_MULTIPHASESYSTEMPROPERTIES_HPP

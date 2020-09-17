@@ -22,69 +22,70 @@
 
 using json = nlohmann::json;
 
-PVTPackage::PHASE_STATE convert( const PVTPackage::pds::PHASE_STATE & input ){
-  using namespace PVTPackage;
-
-  const std::map< pds::PHASE_STATE, PHASE_STATE > m{
-    { pds::PHASE_STATE::UNKNOWN,       PHASE_STATE::UNKNOWN },
-    { pds::PHASE_STATE::GAS,           PHASE_STATE::GAS },
-    { pds::PHASE_STATE::OIL,           PHASE_STATE::OIL },
-    { pds::PHASE_STATE::WATER,         PHASE_STATE::WATER },
-    { pds::PHASE_STATE::OIL_GAS,       PHASE_STATE::OIL_GAS },
-    { pds::PHASE_STATE::GAS_WATER,     PHASE_STATE::GAS_WATER },
-    { pds::PHASE_STATE::OIL_WATER,     PHASE_STATE::OIL_WATER },
-    { pds::PHASE_STATE::OIL_GAS_WATER, PHASE_STATE::OIL_GAS_WATER }
-  };
-
-  return m.at( input );
-}
-
-PVTPackage::PHASE_TYPE convert( const PVTPackage::pds::PHASE_TYPE & input ){
-  using namespace PVTPackage;
-
-  const std::map< pds::PHASE_TYPE, PHASE_TYPE > m{
-    { pds::PHASE_TYPE::LIQUID_WATER_RICH, PHASE_TYPE::LIQUID_WATER_RICH },
-    { pds::PHASE_TYPE::OIL,               PHASE_TYPE::OIL },
-    { pds::PHASE_TYPE::GAS,               PHASE_TYPE::GAS },
-    { pds::PHASE_TYPE::UNKNOWN,           PHASE_TYPE::UNKNOWN }
-  };
-
-  return m.at( input );
-}
-
-PVTPackage::EOS_TYPE convert( const PVTPackage::pds::EOS_TYPE & input ){
-  using namespace PVTPackage;
-
-  const std::map< pds::EOS_TYPE, EOS_TYPE > m{
-    { pds::EOS_TYPE::REDLICH_KWONG_SOAVE, EOS_TYPE::REDLICH_KWONG_SOAVE },
-    { pds::EOS_TYPE::PENG_ROBINSON,       EOS_TYPE::PENG_ROBINSON },
-    { pds::EOS_TYPE::UNKNOWN,             EOS_TYPE::UNKNOWN }
-  };
-
-  return m.at( input );
-}
-
-std::vector< PVTPackage::PHASE_TYPE > convert( const std::vector< PVTPackage::pds::PHASE_TYPE > & input )
+namespace PVTPackage
 {
-  using namespace PVTPackage;
+namespace refactor
+{
 
+PHASE_STATE convert( const pds::PHASE_STATE & input )
+{
+  const std::map< pds::PHASE_STATE, PHASE_STATE > m{
+    { pds::PHASE_STATE::UNKNOWN,       PVTPackage::PHASE_STATE::UNKNOWN },
+    { pds::PHASE_STATE::GAS,           PVTPackage::PHASE_STATE::GAS },
+    { pds::PHASE_STATE::OIL,           PVTPackage::PHASE_STATE::OIL },
+    { pds::PHASE_STATE::WATER,         PVTPackage::PHASE_STATE::WATER },
+    { pds::PHASE_STATE::OIL_GAS,       PVTPackage::PHASE_STATE::OIL_GAS },
+    { pds::PHASE_STATE::GAS_WATER,     PVTPackage::PHASE_STATE::GAS_WATER },
+    { pds::PHASE_STATE::OIL_WATER,     PVTPackage::PHASE_STATE::OIL_WATER },
+    { pds::PHASE_STATE::OIL_GAS_WATER, PVTPackage::PHASE_STATE::OIL_GAS_WATER }
+  };
+
+  return m.at( input );
+}
+
+PVTPackage::PHASE_TYPE convert( const pds::PHASE_TYPE & input )
+{
+  const std::map< pds::PHASE_TYPE, PHASE_TYPE > m{
+    { pds::PHASE_TYPE::LIQUID_WATER_RICH, PVTPackage::PHASE_TYPE::LIQUID_WATER_RICH },
+    { pds::PHASE_TYPE::OIL,               PVTPackage::PHASE_TYPE::OIL },
+    { pds::PHASE_TYPE::GAS,               PVTPackage::PHASE_TYPE::GAS },
+    { pds::PHASE_TYPE::UNKNOWN,           PVTPackage::PHASE_TYPE::UNKNOWN }
+  };
+
+  return m.at( input );
+}
+
+PVTPackage::EOS_TYPE convert( const pds::EOS_TYPE & input )
+{
+  const std::map< pds::EOS_TYPE, EOS_TYPE > m{
+    { pds::EOS_TYPE::REDLICH_KWONG_SOAVE, PVTPackage::EOS_TYPE::REDLICH_KWONG_SOAVE },
+    { pds::EOS_TYPE::PENG_ROBINSON,       PVTPackage::EOS_TYPE::PENG_ROBINSON },
+    { pds::EOS_TYPE::UNKNOWN,             PVTPackage::EOS_TYPE::UNKNOWN }
+  };
+
+  return m.at( input );
+}
+
+std::vector< PVTPackage::PHASE_TYPE > convert( const std::vector< pds::PHASE_TYPE > & input )
+{
   // FIXME I cannot give raw function to std::transform
-  auto f = []( const pds::PHASE_TYPE & i ) {
+  auto f = []( const pds::PHASE_TYPE & i )
+  {
     return convert( i );
   };
 
-  std::vector< PHASE_TYPE > output( input.size() );
+  std::vector< PVTPackage::PHASE_TYPE > output( input.size() );
   std::transform( input.cbegin(), input.cend(), output.begin(), f );
 
   return output;
 }
 
-PVTPackage::ComponentProperties convert( const PVTPackage::pds::ComponentProperties & input )
+PVTPackage::ComponentProperties convert( const pds::ComponentProperties & input )
 {
   return PVTPackage::ComponentProperties{ input.NComponents, input.Label, input.Mw, input.Tc, input.Pc, input.Omega };
 }
 
-PVTPackage::PVTGdata convert( const PVTPackage::pds::PVTGdata & input )
+PVTPackage::PVTGdata convert( const pds::PVTGdata & input )
 {
   PVTPackage::PVTGdata output;
 
@@ -105,7 +106,7 @@ PVTPackage::PVTGdata convert( const PVTPackage::pds::PVTGdata & input )
   return output;
 }
 
-PVTPackage::PVTWdata convert( const PVTPackage::pds::PVTWdata & input )
+PVTPackage::PVTWdata convert( const pds::PVTWdata & input )
 {
   PVTPackage::PVTWdata output;
 
@@ -117,7 +118,7 @@ PVTPackage::PVTWdata convert( const PVTPackage::pds::PVTWdata & input )
   return output;
 }
 
-PVTPackage::PVTOdata convert( const PVTPackage::pds::PVTOdata & input )
+PVTPackage::PVTOdata convert( const pds::PVTOdata & input )
 {
   PVTPackage::PVTOdata output;
 
@@ -137,9 +138,10 @@ PVTPackage::PVTOdata convert( const PVTPackage::pds::PVTOdata & input )
 
   return output;
 }
-PVTPackage::PVDdata convert( const PVTPackage::pds::PVDdata & input )
+
+PVTPackage::PVDdata convert( const pds::PVDdata & input )
 {
-  PVTPackage::PVDdata output ;
+  PVTPackage::PVDdata output;
 
   output.Pressure = input.Pressure;
   output.NPoints = input.NPoints;
@@ -149,24 +151,23 @@ PVTPackage::PVDdata convert( const PVTPackage::pds::PVDdata & input )
   return output;
 }
 
-std::shared_ptr< PVTPackage::PhaseModel > convert( const std::shared_ptr< PVTPackage::pds::PhaseModel > input )
+std::shared_ptr< PVTPackage::PhaseModel > convert( const std::shared_ptr< pds::PhaseModel > input )
 {
   using namespace PVTPackage;
 
-  if (auto pm = std::dynamic_pointer_cast< const pds::CubicEoSPhaseModel >( input ))
+  if( auto pm = std::dynamic_pointer_cast< const pds::CubicEoSPhaseModel >( input ) )
   {
-    auto output = std::make_shared< CubicEoSPhaseModel >(
-                                  convert( pm->m_ComponentsProperties ),
-                                  convert( pm->m_EOSType ),
-                                  convert( pm->m_PhaseType )
-                                  );
-    // TODO is this enough?
+    auto output = std::make_shared< PVTPackage::CubicEoSPhaseModel >(
+      convert( pm->m_ComponentsProperties ),
+      convert( pm->m_EOSType ),
+      convert( pm->m_PhaseType )
+    );
     return output;
   }
 
-  if (auto pm = std::dynamic_pointer_cast< const pds::BlackOilGasModel >( input ))
+  if( auto pm = std::dynamic_pointer_cast< const pds::BlackOilGasModel >( input ) )
   {
-    auto output = std::make_shared< BlackOil_GasModel >(
+    auto output = std::make_shared< PVTPackage::BlackOil_GasModel >(
       convert( pm->m_PVTG ), pm->min_Pressure, pm->max_Pressure, pm->m_SurfaceMassDensity, pm->m_SurfaceMoleDensity,
       pm->m_SurfaceMolecularWeight
     );
@@ -174,47 +175,53 @@ std::shared_ptr< PVTPackage::PhaseModel > convert( const std::shared_ptr< PVTPac
     return output;
   }
 
-  if (auto pm = std::dynamic_pointer_cast< const pds::BlackOilOilModel >( input ))
+  if( auto pm = std::dynamic_pointer_cast< const pds::BlackOilOilModel >( input ) )
   {
-    auto output = std::make_shared< BlackOil_OilModel >(
-      convert( pm->m_PVTO ), pm->min_Pressure, pm->max_Pressure, pm->m_SurfaceMassDensity, pm->m_SurfaceMoleDensity, pm->m_SurfaceMolecularWeight
+    auto output = std::make_shared< PVTPackage::BlackOil_OilModel >(
+      convert( pm->m_PVTO ), pm->min_Pressure, pm->max_Pressure, pm->m_SurfaceMassDensity, pm->m_SurfaceMoleDensity,
+      pm->m_SurfaceMolecularWeight
     );
 
     return output;
   }
 
-  if (auto pm = std::dynamic_pointer_cast< const pds::BlackOilWaterModel >( input ))
+  if( auto pm = std::dynamic_pointer_cast< const pds::BlackOilWaterModel >( input ) )
   {
-    auto output = std::make_shared< BlackOil_WaterModel >(
+    auto output = std::make_shared< PVTPackage::BlackOil_WaterModel >(
       convert( pm->m_PVTW ), pm->m_SurfaceMassDensity, pm->m_SurfaceMoleDensity, pm->m_SurfaceMolecularWeight
     );
 
     return output;
   }
 
-  if (auto pm = std::dynamic_pointer_cast< const pds::DeadOilPhaseModel >( input ))
+  if( auto pm = std::dynamic_pointer_cast< const pds::DeadOilPhaseModel >( input ) )
   {
-    auto output = std::make_shared< DeadOil_PhaseModel >(
-      convert( pm->m_type ), convert( pm->m_PVD ), pm->min_Pressure, pm->max_Pressure, pm->m_SurfaceMassDensity, pm->m_SurfaceMoleDensity, pm->m_SurfaceMolecularWeight
+    auto output = std::make_shared< PVTPackage::DeadOil_PhaseModel >(
+      convert( pm->m_type ), convert( pm->m_PVD ), pm->min_Pressure, pm->max_Pressure, pm->m_SurfaceMassDensity,
+      pm->m_SurfaceMoleDensity, pm->m_SurfaceMolecularWeight
     );
 
     return output;
   }
 
-  std::cerr << "REFACTOR - Not fully implemented | PVTPackage::PhaseModel convert( const PVTPackage::pds::PhaseModel & input )" << std::endl;
-  exit(1);
+  std::cerr
+    << "REFACTOR - Not fully implemented | PVTPackage::PhaseModel convert( const PVTPackage::pds::PhaseModel & input )"
+    << std::endl;
+  exit( 1 );
 }
 
 template< typename T >
 void compare( const PVTPackage::ScalarPropertyAndDerivatives< T > & actual,
-              const PVTPackage::pds::ScalarPropertyAndDerivatives< T > & expected, double eps )
+              const pds::ScalarPropertyAndDerivatives< T > & expected,
+              double eps )
 {
   ASSERT_NEAR( actual.value, expected.value, eps );
   ASSERT_NEAR( actual.dT, expected.dT, eps );
   ASSERT_NEAR( actual.dP, expected.dP, eps );
 
   ASSERT_EQ( actual.dz.size(), expected.dz.size() );
-  auto f = [eps]( double a, double b )
+  auto f = [eps]( double a,
+                  double b )
   {
     return std::abs( a - b ) < eps;
   };
@@ -224,9 +231,11 @@ void compare( const PVTPackage::ScalarPropertyAndDerivatives< T > & actual,
 
 template< typename T >
 void compare( const PVTPackage::VectorPropertyAndDerivatives< T > & actual,
-              const PVTPackage::pds::VectorPropertyAndDerivatives< T > & expected, double eps )
+              const pds::VectorPropertyAndDerivatives< T > & expected,
+              double eps )
 {
-  auto f = [eps]( double a, double b )
+  auto f = [eps]( double a,
+                  double b )
   {
     return std::abs( a - b ) < eps;
   };
@@ -253,7 +262,7 @@ void compare( const PVTPackage::VectorPropertyAndDerivatives< T > & actual,
   ASSERT_EQ( actual.dz.size(), expected.dz.size() );
 }
 
-using PdsPhaseType2PhaseModel = std::unordered_map< PVTPackage::pds::PHASE_TYPE, std::shared_ptr< PVTPackage::pds::PhaseModel >, PVTPackage::pds::EnumClassHash >;
+using PdsPhaseType2PhaseModel = std::unordered_map< pds::PHASE_TYPE, std::shared_ptr< pds::PhaseModel >, pds::EnumClassHash >;
 using PhaseType2PhaseModel = std::unordered_map< PVTPackage::PHASE_TYPE, std::shared_ptr< PVTPackage::PhaseModel >, PVTPackage::EnumClassHash >;
 
 PhaseType2PhaseModel convert( const PdsPhaseType2PhaseModel & input )
@@ -262,20 +271,19 @@ PhaseType2PhaseModel convert( const PdsPhaseType2PhaseModel & input )
 
   PhaseType2PhaseModel output;
 
-  for ( const auto & phaseType2PhaseModel: input ) {
+  for( const auto & phaseType2PhaseModel: input )
+  {
     const PHASE_TYPE phaseType = convert( phaseType2PhaseModel.first );
     const std::shared_ptr< PhaseModel > phaseModel = convert( phaseType2PhaseModel.second );
-    output.insert( {phaseType, phaseModel} );
+    output.insert( { phaseType, phaseModel } );
   }
 
   return output;
 }
 
 void compare( const PVTPackage::MultiphaseSystemProperties & actual,
-              const PVTPackage::pds::MultiphaseSystemProperties & expected )
+              const pds::MultiphaseSystemProperties & expected )
 {
-  using namespace PVTPackage;
-
   ASSERT_NEAR( actual.Temperature, expected.Temperature, 1.e-10 );
   ASSERT_NEAR( actual.Pressure, expected.Pressure, 1.e-10 );
   ASSERT_EQ( actual.PhaseState, convert( expected.PhaseState ) );
@@ -301,7 +309,8 @@ void compare( const PVTPackage::MultiphaseSystemProperties & actual,
   {
     const pds::PHASE_TYPE & pt = phaseType2PhaseMoleFraction.first;
     const pds::ScalarPropertyAndDerivatives< double > & expectedPhaseMoleFraction = phaseType2PhaseMoleFraction.second;
-    const ScalarPropertyAndDerivatives< double > & actualPhaseMoleFraction = actual.PhaseMoleFraction.at( convert( pt ) );
+    const PVTPackage::ScalarPropertyAndDerivatives< double >
+      & actualPhaseMoleFraction = actual.PhaseMoleFraction.at( convert( pt ) );
 
     ASSERT_NEAR( expectedPhaseMoleFraction.value, actualPhaseMoleFraction.value, 1.e-10 );
   }
@@ -319,17 +328,19 @@ TEST( PVTPackageRefactor, cubeEoS )
 
   json const & refProperties = j1["PROPERTIES"];
 
-  PVTPackage::pds::MultiphaseSystemProperties refMsp = refProperties.get< PVTPackage::pds::MultiphaseSystemProperties >();
+  pds::MultiphaseSystemProperties
+    refMsp = refProperties.get< pds::MultiphaseSystemProperties >();
 
   // TODO Check that all ComponentProperties are the same.
-  std::shared_ptr< PVTPackage::pds::CubicEoSPhaseModel > pm = std::dynamic_pointer_cast< PVTPackage::pds::CubicEoSPhaseModel >( refMsp.PhaseModels.at( refMsp.PhaseTypes[0] ) );
-  const PVTPackage::pds::ComponentProperties & componentProperties = pm->m_ComponentsProperties;
+  std::shared_ptr< pds::CubicEoSPhaseModel > pm =
+    std::dynamic_pointer_cast< pds::CubicEoSPhaseModel >( refMsp.PhaseModels.at( refMsp.PhaseTypes[0] ) );
+  const pds::ComponentProperties & componentProperties = pm->m_ComponentsProperties;
   componentProperties.Label.size();
 
   PVTPackage::MultiphaseSystemProperties msp( convert( refMsp.PhaseTypes ), refMsp.Feed.size() );
-  msp.Temperature = refMsp.Temperature ;
-  msp.Pressure = refMsp.Pressure ;
-  msp.Feed = refMsp.Feed ;
+  msp.Temperature = refMsp.Temperature;
+  msp.Pressure = refMsp.Pressure;
+  msp.Feed = refMsp.Feed;
 
   msp.PhaseModels = convert( refMsp.PhaseModels );
   // the PhaseMoleFraction and PhasesProperties seem to be the results, so no need to copy.
@@ -350,20 +361,21 @@ TEST( PVTPackageRefactor, blackOil )
 
   json const & refProperties = j1["PROPERTIES"];
 
-  PVTPackage::pds::MultiphaseSystemProperties refMsp = refProperties.get< PVTPackage::pds::MultiphaseSystemProperties >();
+  pds::MultiphaseSystemProperties
+    refMsp = refProperties.get< pds::MultiphaseSystemProperties >();
   // TODO componentProperties must be serialized aside the MSP
 
   PVTPackage::MultiphaseSystemProperties msp( convert( refMsp.PhaseTypes ), refMsp.Feed.size() );
-  msp.Temperature = refMsp.Temperature ;
-  msp.Pressure = refMsp.Pressure ;
-  msp.Feed = refMsp.Feed ;
+  msp.Temperature = refMsp.Temperature;
+  msp.Pressure = refMsp.Pressure;
+  msp.Feed = refMsp.Feed;
   msp.PhaseModels = convert( refMsp.PhaseModels );
   // the PhaseMoleFraction and PhasesProperties seem to be the results, so no need to copy.
 
   PVTPackage::BlackOilFlash blackOilFlash;
   blackOilFlash.ComputeEquilibrium( msp );
 
-  compare(msp, refMsp);
+  compare( msp, refMsp );
 }
 
 TEST( PVTPackageRefactor, deadOil )
@@ -375,18 +387,22 @@ TEST( PVTPackageRefactor, deadOil )
 
   json const & refProperties = j1["PROPERTIES"];
 
-  PVTPackage::pds::MultiphaseSystemProperties refMsp = refProperties.get< PVTPackage::pds::MultiphaseSystemProperties >();
+  pds::MultiphaseSystemProperties
+    refMsp = refProperties.get< pds::MultiphaseSystemProperties >();
 
 
   PVTPackage::MultiphaseSystemProperties msp( convert( refMsp.PhaseTypes ), refMsp.Feed.size() );
-  msp.Temperature = refMsp.Temperature ;
-  msp.Pressure = refMsp.Pressure ;
-  msp.Feed = refMsp.Feed ;
+  msp.Temperature = refMsp.Temperature;
+  msp.Pressure = refMsp.Pressure;
+  msp.Feed = refMsp.Feed;
   msp.PhaseModels = convert( refMsp.PhaseModels );
 
   PVTPackage::DeadOilFlash deadOilFlash;
   deadOilFlash.ComputeEquilibrium( msp );
 
-  compare(msp, refMsp);
+  compare( msp, refMsp );
 
 }
+
+} // end of namespace refactor
+} // end of namespace PVTPackage

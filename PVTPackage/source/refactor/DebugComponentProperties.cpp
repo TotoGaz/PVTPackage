@@ -14,6 +14,8 @@
 
 namespace PVTPackage
 {
+namespace refactor
+{
 
 // TODO REFACTOR REMOVE
 /// Used to silence unused variable warnings, cuda doesn't respect casting to void.
@@ -76,4 +78,5 @@ void Dump( const Flash * flash,
   std::cerr << "REFACTOR - Not supported Flash, in void Dump( const Flash * flash, const MultiphaseSystemProperties & multiphaseProperties )" << std::endl;
 }
 
+} // enf of namespace refactor
 } // enf of namespace PVTPackage

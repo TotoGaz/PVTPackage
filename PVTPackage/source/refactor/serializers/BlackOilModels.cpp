@@ -16,6 +16,8 @@ using json = nlohmann::json;
 void to_json( json & j,
               const PVTGdata & data )
 {
+  using namespace PVTPackage::refactor;
+
   j = json{
     { PVTGDataKeys::RV,                       data.Rv },
     { PVTGDataKeys::DEW_PRESSURE,             data.DewPressure },
@@ -33,6 +35,8 @@ void to_json( json & j,
 void to_json( json & j,
               const PVTOdata & data )
 {
+  using namespace PVTPackage::refactor;
+
   j = json{
     { PVTODataKeys::RS,                       data.Rs },
     { PVTODataKeys::BUBBLE_PRESSURE,          data.BubblePressure },
@@ -50,6 +54,8 @@ void to_json( json & j,
 void to_json( json & j,
               const PVTWdata & data )
 {
+  using namespace PVTPackage::refactor;
+
   j = json{
     { PVTWDataKeys::REFERENCE_PRESSURE, data.ReferencePressure },
     { PVTWDataKeys::BW,                 data.Bw },
@@ -61,6 +67,8 @@ void to_json( json & j,
 void to_json( json & j,
               const BlackOil_GasModel & model )
 {
+  using namespace PVTPackage::refactor;
+
   j = json{
     { BlackOilGasModelKeys::PVTG_DATA,                model.getPvtg() },
     { BlackOilGasModelKeys::MIN_PRESSURE,             model.getMinPressure() },
@@ -74,6 +82,8 @@ void to_json( json & j,
 void to_json( json & j,
               const BlackOil_OilModel & model )
 {
+  using namespace PVTPackage::refactor;
+
   j = json{
     { BlackOilOilModelKeys::PVTO_DATA,                model.getPvto() },
     { BlackOilOilModelKeys::MIN_PRESSURE,             model.getMinPressure() },
@@ -87,6 +97,8 @@ void to_json( json & j,
 void to_json( nlohmann::json & j,
               const BlackOil_WaterModel & model )
 {
+  using namespace PVTPackage::refactor;
+
   j = json{
     { BlackOilWaterModelKeys::PVTW_DATA,                model.getPvtw() },
     { BlackOilWaterModelKeys::SURFACE_MASS_DENSITY,     model.getSurfaceMassDensity() },

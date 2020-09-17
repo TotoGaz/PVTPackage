@@ -2,21 +2,23 @@
 
 namespace PVTPackage
 {
+namespace refactor
+{
 
-decltype( ScalarVectorPropertyAndDerivativesHelper::VALUE ) ScalarVectorPropertyAndDerivativesHelper::VALUE;
-decltype( ScalarVectorPropertyAndDerivativesHelper::DP ) ScalarVectorPropertyAndDerivativesHelper::DP;
-decltype( ScalarVectorPropertyAndDerivativesHelper::DT ) ScalarVectorPropertyAndDerivativesHelper::DT;
-decltype( ScalarVectorPropertyAndDerivativesHelper::DZ ) ScalarVectorPropertyAndDerivativesHelper::DZ;
+decltype( ScalarVectorPropertyAndDerivativesKeys::VALUE ) ScalarVectorPropertyAndDerivativesKeys::VALUE;
+decltype( ScalarVectorPropertyAndDerivativesKeys::DP ) ScalarVectorPropertyAndDerivativesKeys::DP;
+decltype( ScalarVectorPropertyAndDerivativesKeys::DT ) ScalarVectorPropertyAndDerivativesKeys::DT;
+decltype( ScalarVectorPropertyAndDerivativesKeys::DZ ) ScalarVectorPropertyAndDerivativesKeys::DZ;
 
-decltype( PhasePropertiesHelper::MOLECULAR_WEIGHT ) PhasePropertiesHelper::MOLECULAR_WEIGHT;
-decltype( PhasePropertiesHelper::COMPRESSIBILITY_FACTOR ) PhasePropertiesHelper::COMPRESSIBILITY_FACTOR;
-decltype( PhasePropertiesHelper::MOLE_COMPOSITION ) PhasePropertiesHelper::MOLE_COMPOSITION;
-decltype( PhasePropertiesHelper::LN_FUGACITY_COEFFICIENTS ) PhasePropertiesHelper::LN_FUGACITY_COEFFICIENTS;
-decltype( PhasePropertiesHelper::MOLE_DENSITY ) PhasePropertiesHelper::MOLE_DENSITY;
-decltype( PhasePropertiesHelper::MASS_DENSITY) PhasePropertiesHelper::MASS_DENSITY;
-decltype( PhasePropertiesHelper::VISCOSITY ) PhasePropertiesHelper::VISCOSITY;
-decltype( PhasePropertiesHelper::MASS_ENTHALPY ) PhasePropertiesHelper::MASS_ENTHALPY;
-decltype( PhasePropertiesHelper::COMPRESSIBILITY ) PhasePropertiesHelper::COMPRESSIBILITY;
+decltype( PhasePropertiesKeys::MOLECULAR_WEIGHT ) PhasePropertiesKeys::MOLECULAR_WEIGHT;
+decltype( PhasePropertiesKeys::COMPRESSIBILITY_FACTOR ) PhasePropertiesKeys::COMPRESSIBILITY_FACTOR;
+decltype( PhasePropertiesKeys::MOLE_COMPOSITION ) PhasePropertiesKeys::MOLE_COMPOSITION;
+decltype( PhasePropertiesKeys::LN_FUGACITY_COEFFICIENTS ) PhasePropertiesKeys::LN_FUGACITY_COEFFICIENTS;
+decltype( PhasePropertiesKeys::MOLE_DENSITY ) PhasePropertiesKeys::MOLE_DENSITY;
+decltype( PhasePropertiesKeys::MASS_DENSITY) PhasePropertiesKeys::MASS_DENSITY;
+decltype( PhasePropertiesKeys::VISCOSITY ) PhasePropertiesKeys::VISCOSITY;
+decltype( PhasePropertiesKeys::MASS_ENTHALPY ) PhasePropertiesKeys::MASS_ENTHALPY;
+decltype( PhasePropertiesKeys::COMPRESSIBILITY ) PhasePropertiesKeys::COMPRESSIBILITY;
 
 decltype( EnumKeys::PHASE_STATE_UNKNOWN ) EnumKeys::PHASE_STATE_UNKNOWN;
 decltype( EnumKeys::PHASE_STATE_GAS ) EnumKeys::PHASE_STATE_GAS;
@@ -125,4 +127,5 @@ decltype( DeadOilModelKeys::SURFACE_MOLECULAR_WEIGHT ) DeadOilModelKeys::SURFACE
 decltype( PhaseModelKeys::TYPE ) PhaseModelKeys::TYPE;
 decltype( PhaseModelKeys::VALUE ) PhaseModelKeys::VALUE;
 
+} // end of namespace refactor
 } // end of namespace PVTPackage

@@ -6,11 +6,13 @@
 #include <nlohmann/json.hpp>
 
 namespace PVTPackage {
+namespace refactor {
 namespace pds {
 
 void from_json( const nlohmann::json & j,
                 pds::PhaseProperties & phaseProperties );
 
+} // end of namespace refactor
 } // end of namespace pds
 } // end of namespace PVTPackage
 

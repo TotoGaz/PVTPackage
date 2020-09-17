@@ -18,6 +18,8 @@
 
 namespace PVTPackage
 {
+namespace refactor
+{
 namespace pds
 {
 
@@ -39,5 +41,6 @@ struct VectorPropertyAndDerivatives
   std::vector <std::vector< T>> dz;
 };
 
+} // end of namespace refactor
 } // end of namespace pds
 } // end of namespace PVTPackage

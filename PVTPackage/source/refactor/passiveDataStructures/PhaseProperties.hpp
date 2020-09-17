@@ -21,6 +21,8 @@
 
 namespace PVTPackage
 {
+namespace refactor
+{
 namespace pds
 {
 
@@ -38,6 +40,7 @@ struct PhaseProperties
 };
 
 } // end of namespace pds
+} // end of namespace refactor
 } // end of namespace PVTPackage
 
 #endif //PVTPACKAGE_PDS_PHASEPROPERTIES_HPP

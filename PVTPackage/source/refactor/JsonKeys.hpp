@@ -4,7 +4,10 @@
 namespace PVTPackage
 {
 
-struct ScalarVectorPropertyAndDerivativesHelper
+namespace refactor
+{
+
+struct ScalarVectorPropertyAndDerivativesKeys
 {
   static constexpr auto VALUE = "value";
   static constexpr auto DP = "dP";
@@ -12,7 +15,7 @@ struct ScalarVectorPropertyAndDerivativesHelper
   static constexpr auto DZ = "dz";
 };
 
-struct PhasePropertiesHelper
+struct PhasePropertiesKeys
 {
   static constexpr auto MOLECULAR_WEIGHT = "MOLECULAR_WEIGHT";
 
@@ -191,6 +194,7 @@ struct PhaseModelKeys
   static constexpr auto VALUE = "VALUE";
 };
 
+} // end of namespace refactor
 } // end of namespace PVTPackage
 
 #endif //GEOSX_JSONKEYS_HPP

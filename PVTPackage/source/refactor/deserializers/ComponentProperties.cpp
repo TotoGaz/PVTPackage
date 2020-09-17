@@ -6,6 +6,8 @@
 
 namespace PVTPackage
 {
+namespace refactor
+{
 namespace pds
 {
 
@@ -19,5 +21,6 @@ void from_json( const nlohmann::json & j, pds::ComponentProperties & p )
   j.at( ComponentPropertiesKeys::OMEGA ).get_to( p.Omega );
   j.at( ComponentPropertiesKeys::WATER_INDEX ).get_to( p.WaterIndex );}
 
+} // end of namespace pds
+} // end of namespace refactor
 } // end of namespace PVTPackage
-} // namespace PVTPackage

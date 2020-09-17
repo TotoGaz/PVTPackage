@@ -15,6 +15,8 @@ namespace PVTPackage
 void to_json( json & j,
               const CubicEoSPhaseModel & model )
 {
+  using namespace PVTPackage::refactor;
+
   j = json{ { CubeEoSPhaseModelsKeys::EOS,                  model.getEosType() },
             { CubeEoSPhaseModelsKeys::PHASE_TYPE_,          model.getPhaseType() },
             { CubeEoSPhaseModelsKeys::COMPONENT_PROPERTIES, model.get_ComponentsProperties() } };

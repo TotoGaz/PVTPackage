@@ -12,21 +12,23 @@
 using json = nlohmann::json;
 
 namespace PVTPackage {
+namespace refactor {
 namespace pds {
 
 void from_json( const json & j,
                 pds::PhaseProperties & phaseProperties )
 {
-  j.at(PhasePropertiesHelper::MOLECULAR_WEIGHT).get_to(phaseProperties.MolecularWeight);
-  j.at(PhasePropertiesHelper::COMPRESSIBILITY_FACTOR).get_to(phaseProperties.CompressibilityFactor);
-  j.at(PhasePropertiesHelper::MOLE_COMPOSITION).get_to(phaseProperties.MoleComposition);
-  j.at(PhasePropertiesHelper::LN_FUGACITY_COEFFICIENTS).get_to(phaseProperties.LnFugacityCoefficients);
-  j.at(PhasePropertiesHelper::MOLE_DENSITY).get_to(phaseProperties.MoleDensity);
-  j.at(PhasePropertiesHelper::MASS_DENSITY).get_to(phaseProperties.MassDensity);
-  j.at(PhasePropertiesHelper::VISCOSITY).get_to(phaseProperties.Viscosity);
-  j.at(PhasePropertiesHelper::MASS_ENTHALPY).get_to(phaseProperties.MassEnthalpy);
-  j.at(PhasePropertiesHelper::COMPRESSIBILITY).get_to(phaseProperties.Compressibility);
+  j.at( PhasePropertiesKeys::MOLECULAR_WEIGHT).get_to( phaseProperties.MolecularWeight);
+  j.at( PhasePropertiesKeys::COMPRESSIBILITY_FACTOR).get_to( phaseProperties.CompressibilityFactor);
+  j.at( PhasePropertiesKeys::MOLE_COMPOSITION).get_to( phaseProperties.MoleComposition);
+  j.at( PhasePropertiesKeys::LN_FUGACITY_COEFFICIENTS).get_to( phaseProperties.LnFugacityCoefficients);
+  j.at( PhasePropertiesKeys::MOLE_DENSITY).get_to( phaseProperties.MoleDensity);
+  j.at( PhasePropertiesKeys::MASS_DENSITY).get_to( phaseProperties.MassDensity);
+  j.at( PhasePropertiesKeys::VISCOSITY).get_to( phaseProperties.Viscosity);
+  j.at( PhasePropertiesKeys::MASS_ENTHALPY).get_to( phaseProperties.MassEnthalpy);
+  j.at( PhasePropertiesKeys::COMPRESSIBILITY).get_to( phaseProperties.Compressibility);
 }
 
+} // end of namespace refactor
 } // end of namespace pds
 } // end of namespace PVTPackage

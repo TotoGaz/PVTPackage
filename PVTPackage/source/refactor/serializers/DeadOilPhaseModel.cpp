@@ -12,6 +12,8 @@ using json = nlohmann::json;
 void to_json( json & j,
               const PVDdata & data )
 {
+  using namespace PVTPackage::refactor;
+
   j = json{
     { PVDDataKeys::PRESSURE, data.Pressure },
     { PVDDataKeys::N_POINTS, data.NPoints },
@@ -23,6 +25,8 @@ void to_json( json & j,
 void to_json( json & j,
               const DeadOil_PhaseModel & model )
 {
+  using namespace PVTPackage::refactor;
+
   j = json{
     { DeadOilModelKeys::PHASE_TYPE_,              model.getType() },
     { DeadOilModelKeys::PVD_DATA,                 model.getPvd() },

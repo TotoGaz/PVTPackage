@@ -6,10 +6,13 @@
 
 namespace PVTPackage
 {
+namespace refactor
+{
 
 void Dump( const Flash * flash,
            const MultiphaseSystemProperties & multiphaseProperties );
 
+} // end of namespace refactor
 } // end of namespace PVTPackage
 
 #endif //GEOSX_PVTPACKAGE_DEBUGCOMPONENTPROPERTIES_HPP

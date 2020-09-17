@@ -12,6 +12,7 @@
 using json = nlohmann::json;
 
 namespace PVTPackage {
+namespace refactor {
 namespace pds {
 
 void from_json( const nlohmann::json & j,
@@ -126,4 +127,5 @@ void from_json( const nlohmann::json & j,
 }
 
 } // end of namespace pds
+} // end of namespace refactor
 } // end of namespace PVTPackage

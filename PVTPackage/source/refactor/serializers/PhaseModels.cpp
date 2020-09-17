@@ -27,8 +27,8 @@ void to_json( json & j,
   if( const auto * m = dynamic_cast<const CubicEoSPhaseModel *>( &model ) )
   {
     j = json{
-      { PhaseModelKeys::TYPE,  PHASE_MODEL_TYPE::CUBE_EOS },
-      { PhaseModelKeys::VALUE, *m }
+      { refactor::PhaseModelKeys::TYPE,  PHASE_MODEL_TYPE::CUBE_EOS },
+      { refactor::PhaseModelKeys::VALUE, *m }
     };
 
     return;
@@ -37,8 +37,8 @@ void to_json( json & j,
   if( const auto * m = dynamic_cast<const BlackOil_GasModel *>( &model ) )
   {
     j = json{
-      { PhaseModelKeys::TYPE,  PHASE_MODEL_TYPE::BLACK_OIL_GAS },
-      { PhaseModelKeys::VALUE, *m }
+      { refactor::PhaseModelKeys::TYPE,  PHASE_MODEL_TYPE::BLACK_OIL_GAS },
+      { refactor::PhaseModelKeys::VALUE, *m }
     };
 
     return;
@@ -47,8 +47,8 @@ void to_json( json & j,
   if( const auto * m = dynamic_cast<const BlackOil_OilModel *>( &model ) )
   {
     j = json{
-      { PhaseModelKeys::TYPE,  PHASE_MODEL_TYPE::BLACK_OIL_OIL },
-      { PhaseModelKeys::VALUE, *m }
+      { refactor::PhaseModelKeys::TYPE,  PHASE_MODEL_TYPE::BLACK_OIL_OIL },
+      { refactor::PhaseModelKeys::VALUE, *m }
     };
 
     return;
@@ -57,8 +57,8 @@ void to_json( json & j,
   if( const auto * m = dynamic_cast<const BlackOil_WaterModel *>( &model ) )
   {
     j = json{
-      { PhaseModelKeys::TYPE,  PHASE_MODEL_TYPE::BLACK_OIL_WATER },
-      { PhaseModelKeys::VALUE, *m }
+      { refactor::PhaseModelKeys::TYPE,  PHASE_MODEL_TYPE::BLACK_OIL_WATER },
+      { refactor::PhaseModelKeys::VALUE, *m }
     };
 
     return;
@@ -67,8 +67,8 @@ void to_json( json & j,
   if( const auto * m = dynamic_cast<const DeadOil_PhaseModel *>( &model ) )
   {
     j = json{
-      { PhaseModelKeys::TYPE,  PHASE_MODEL_TYPE::DEAD_OIL },
-      { PhaseModelKeys::VALUE, *m }
+      { refactor::PhaseModelKeys::TYPE,  PHASE_MODEL_TYPE::DEAD_OIL },
+      { refactor::PhaseModelKeys::VALUE, *m }
     };
 
     return;

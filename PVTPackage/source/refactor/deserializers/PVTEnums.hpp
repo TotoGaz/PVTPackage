@@ -9,6 +9,8 @@
 
 namespace PVTPackage
 {
+namespace refactor
+{
 namespace pds
 {
 
@@ -45,6 +47,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM( pds::PHASE_MODEL_TYPE, {
 } )
 
 } // end of namespace pds
+} // end of namespace refactor
 } // end of namespace PVTPackage
 
 #endif //PVTPACKAGE_DESERIALIZERS_PVTENUMS_HPP

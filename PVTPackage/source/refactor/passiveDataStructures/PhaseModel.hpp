@@ -8,6 +8,8 @@
 
 namespace PVTPackage
 {
+namespace refactor
+{
 namespace pds
 {
 
@@ -128,6 +130,7 @@ public:
 };
 
 } // end of namespace pds
+} // end of namespace refactor
 } // end of namespace PVTPackage
 
 #endif //PVTPACKAGE_PDS_PHASEMODEL_HPP

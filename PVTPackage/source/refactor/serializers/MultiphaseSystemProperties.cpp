@@ -36,12 +36,12 @@ namespace PVTPackage
 void to_json( nlohmann::json & output,
               const MultiphaseSystemProperties & props )
 {
-  output[MultiphaseSystemPropertiesKeys::TEMPERATURE] = props.Temperature;
-  output[MultiphaseSystemPropertiesKeys::PRESSURE] = props.Pressure;
-  output[MultiphaseSystemPropertiesKeys::FEED] = props.Feed;
+  output[refactor::MultiphaseSystemPropertiesKeys::TEMPERATURE] = props.Temperature;
+  output[refactor::MultiphaseSystemPropertiesKeys::PRESSURE] = props.Pressure;
+  output[refactor::MultiphaseSystemPropertiesKeys::FEED] = props.Feed;
 
-  output[MultiphaseSystemPropertiesKeys::PHASE_STATE] = props.PhaseState;
-  output[MultiphaseSystemPropertiesKeys::PHASE_TYPES] = props.PhaseTypes;
+  output[refactor::MultiphaseSystemPropertiesKeys::PHASE_STATE] = props.PhaseState;
+  output[refactor::MultiphaseSystemPropertiesKeys::PHASE_TYPES] = props.PhaseTypes;
 
   for( const PHASE_TYPE & pt: props.PhaseTypes )
   {
@@ -49,9 +49,9 @@ void to_json( nlohmann::json & output,
     std::string const & ptKey = nlohmann::json( pt ).get< std::string >();
 
     const std::shared_ptr< PhaseModel > & pm = props.PhaseModels.at( pt );
-    output[MultiphaseSystemPropertiesKeys::PHASE_MODELS][ptKey] = pm ;
-    output[MultiphaseSystemPropertiesKeys::PHASE_MOLE_FRACTION][ptKey] = props.PhaseMoleFraction.at( pt ) ;
-    output[MultiphaseSystemPropertiesKeys::PHASE_PROPERTIES][ptKey] = props.PhasesProperties.at( pt ) ;
+    output[refactor::MultiphaseSystemPropertiesKeys::PHASE_MODELS][ptKey] = pm ;
+    output[refactor::MultiphaseSystemPropertiesKeys::PHASE_MOLE_FRACTION][ptKey] = props.PhaseMoleFraction.at( pt ) ;
+    output[refactor::MultiphaseSystemPropertiesKeys::PHASE_PROPERTIES][ptKey] = props.PhasesProperties.at( pt ) ;
   }
 }
 

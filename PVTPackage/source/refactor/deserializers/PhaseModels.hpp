@@ -8,6 +8,7 @@
 #include <iostream>
 
 namespace PVTPackage {
+namespace refactor {
 namespace pds {
 
 void from_json( const nlohmann::json & j,
@@ -26,16 +27,17 @@ void from_json( const nlohmann::json & j,
                 pds::DeadOilPhaseModel & model );
 
 } // end of namespace pds
+} // end of namespace refactor
 } // end of namespace PVTPackage
 
 namespace nlohmann {
 
 template<>
-struct adl_serializer< std::shared_ptr< PVTPackage::pds::PhaseModel > >
+struct adl_serializer< std::shared_ptr< PVTPackage::refactor::pds::PhaseModel > >
 {
-  static std::shared_ptr< PVTPackage::pds::PhaseModel > from_json( const json & j )
+  static std::shared_ptr< PVTPackage::refactor::pds::PhaseModel > from_json( const json & j )
   {
-    using namespace PVTPackage;
+    using namespace PVTPackage::refactor;
 
     const auto type = j.at( PhaseModelKeys::TYPE ).get< pds::PHASE_MODEL_TYPE >();
     const json value = j.at( PhaseModelKeys::VALUE );
