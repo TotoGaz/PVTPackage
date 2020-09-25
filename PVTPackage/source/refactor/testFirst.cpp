@@ -12,9 +12,11 @@
 #include "MultiphaseSystem/PhaseModel/BlackOil/BlackOil_WaterModel.hpp"
 #include "MultiphaseSystem/PhaseModel/BlackOil/DeadOil_PhaseModel.hpp"
 
-#include "MultiphaseSystem/PhaseSplitModel/NegativeTwoPhaseFlash.hpp"
 #include "MultiphaseSystem/PhaseSplitModel/BlackOilFlash.hpp"
 #include "MultiphaseSystem/PhaseSplitModel/DeadOilFlash.hpp"
+#include "MultiphaseSystem/PhaseSplitModel/FreeWaterFlash.hpp"
+#include "MultiphaseSystem/PhaseSplitModel/NegativeTwoPhaseFlash.hpp"
+#include "MultiphaseSystem/PhaseSplitModel/TrivialFlash.hpp"
 
 #include "MultiphaseSystem/MultiphaseSystemProperties.hpp"
 
@@ -348,6 +350,20 @@ void validate( const std::string & json_string )
     PVTPackage::NegativeTwoPhaseFlash flash( convert( refFlash.componentsProperties ) );
     flash.ComputeEquilibrium( msp );
   }
+  else if( flashType == pds::FLASH_TYPE::FREE_WATER )
+  {
+    auto const refFlash = jsonFlash[FlashKeys::VALUE].get< pds::FreeWaterFlash >();
+
+    PVTPackage::FreeWaterFlash flash( convert( refFlash.componentsProperties ) );
+    flash.ComputeEquilibrium( msp );
+  }
+  else if( flashType == pds::FLASH_TYPE::TRIVIAL )
+  {
+    auto const refFlash = jsonFlash[FlashKeys::VALUE].get< pds::TrivialFlash >();
+
+    PVTPackage::TrivialFlash flash( convert( refFlash.componentsProperties ) );
+    flash.ComputeEquilibrium( msp );
+  }
   else if( flashType == pds::FLASH_TYPE::DEAD_OIL )
   {
     PVTPackage::DeadOilFlash deadOilFlash;
@@ -358,6 +374,11 @@ void validate( const std::string & json_string )
     PVTPackage::BlackOilFlash blackOilFlash;
     blackOilFlash.ComputeEquilibrium( msp );
   }
+  else
+  {
+    std::cerr << "Not implemented in void validate( const std::string & json_string )" << std::endl;
+    ASSERT_EQ( true, false );
+  }
 
   compare( msp, refMsp );
 }
@@ -367,6 +388,8 @@ TEST( PVTPackageRefactor, final )
   // FIXME Is there a simple way to use data providers with gtest?
   const std::vector< std::string > fileNames = {
     "pvt_data.txt",
+    "4comp_2ph_1d.log.err",
+    "dead_oil_wells_2d.log.err",
     "compositional_multiphase_wells_1d.log.err",
     "compositional_multiphase_wells_2d.log.err",
     "deadoil_3ph_staircase_3d-10000.log.err",
