@@ -37,7 +37,6 @@ set( PVTPackage_dump_headers
      serializers/PhaseModels.hpp
      serializers/PhaseProperties.hpp
      serializers/PropertyAndDerivatives.hpp
-     serializers/SerializersDeserializers.hpp
 )
 
 set( PVTPackage_dump_sources
